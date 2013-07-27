@@ -2,3 +2,5 @@
 *.buildpath
 *.settings
 *.DS_Store
+*.log
+*.tpl.php
