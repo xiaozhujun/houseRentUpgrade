@@ -1,0 +1,90 @@
+@CHARSET "UTF-8";
+#mainBodyDiv
+{
+	width: 100%;
+	margin-top:5px;
+	padding:0;
+}
+
+#mainContentDiv
+{
+	margin-left:200px;
+	min-height:550px;
+	width:auto;
+	
+	border-color: gray;
+	border-style: solid;
+	border-width: 1px;
+	
+	margin-left:208px;
+}
+
+
+
+#houseTypeDiv
+{
+	width:100%;
+	float:left;
+	margin-top:20px;
+}
+
+#typeHead
+{
+	width:100%;
+	float:left;
+	
+	border-bottom: solid 1px #ccc;
+}
+
+.houseType
+{
+	padding:8px 20px;
+	border:solid 1px #ccc;
+	margin-bottom:-1px;
+	margin-right:-1px;
+	float:left;
+	cursor: pointer;
+}
+
+.houseTypeSelected
+{
+	background-color: #999;
+}
+
+.houseType:HOVER
+{
+	background-color: #eee;
+}
+
+#houseList
+{
+	width:100%;
+	flaot:left;
+}
+
+#friendHouse
+{
+	width:100%;
+	float:left;
+}
+
+#recommendHouse
+{
+	width:100%;
+	float:left;
+}
+
+.degreeTitle
+{
+	width:100%;
+	float:left;
+	margin-top:20px;
+	color: #333333;
+    font-family: Arial;
+    font-size: 18px;
+}
+
+#searchBtn
+{
+	margin-left:5px;
+}

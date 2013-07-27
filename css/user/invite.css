@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+#inviteBodyContainer
+{
+	font-size: 18px;
+	font-family:宋体;
+	
+	margin: 0px auto;
+	height: 324px;
+	width: 570px;
+}
+
+.selectDiv
+{
+	float: left;
+	padding-left: 15px;
+}
