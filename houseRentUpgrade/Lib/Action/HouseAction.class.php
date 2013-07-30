@@ -9,7 +9,6 @@ import("@.Model.OneDuFriendModel");
 import('Common.HousePublish',APP_PATH,'.php');
 import('Common.Util',APP_PATH,'.php');
 import('Common.Misc',APP_PATH,'.php');
-import("@.ORG.UploadFile");
 
 /*
  * 房源相关的操作，发布房源，查询房源
@@ -351,37 +350,27 @@ class HouseAction extends Action {
 	//上传房间照片
 	function upload()
 	{
-		echo 2;
-		$upload = new UploadFile();// 实例化上传类
-		echo 3;
-		$upload->maxSize  = 3145728 ;// 设置附件上传大小
-		$upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg');// 设置附件上传类型
-		$upload->savePath =  './Public/Uploads/';// 设置附件上传目录
-		/**
-		echo 0;
-		import("@.ORG.UploadFile");
-		echo 1;
-		$config=array(
-				'allowExts'=>array('jpg','gif','png'),
-				'savePath'=>'./Public/upload/',
-				'saveRule'=>'time',
-		);
-		echo 2;
-		$upload = new UploadFile($config);
-		**/
-		echo 3;
-		if(!$upload->upload()){
-			echo 4;
-			$this->error($upload->getErrorMsg());
-			echo "上传失败!";
+		echo $_SERVER['DOCUMENT_ROOT'];
+		if (!empty($_FILES)) {
+	            import("@.ORG.UploadFile");
+	            $config=array(
+	                'allowExts'=>array('jpg','gif','png'),
+	                'savePath'=>'./Public/upload/',
+	                'saveRule'=>'time',
+	            );
+	            $upload = new UploadFile($config);
+	            $upload->thumb=true;
+	            $upload->thumbMaxHeight=100;
+	            $upload->thumbMaxWidth=100;
+	            if (!$upload->upload()) {
+	                $this->error($upload->getErrorMsg());
+	            } else {
+	                $info = $upload->getUploadFileInfo();
+					$filename = $info[0]['savename'];
+	            }
+			}
+			
+			$this->ajaxReturn($filename);
 		}
-		else 
-		{
-			//取得成功上传的文件信息
-			$info = $upload->getUploadFileInfo();
-			echo $info[0]['savename'];
-		}
-		
-	}
 	
 }

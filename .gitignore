@@ -4,3 +4,5 @@
 *.DS_Store
 *.log
 *.tpl.php
+Public/*
+Runtime/*

@@ -199,10 +199,7 @@
    		</div>
    </div>
 </div>
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fa712b75dc1788d09dbf388a019b92836' type='text/javascript'%3E%3C/script%3E"));
-</script>
+
 </body>  
 </html>  
   
