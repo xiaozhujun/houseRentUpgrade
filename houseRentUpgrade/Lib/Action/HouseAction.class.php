@@ -350,7 +350,9 @@ class HouseAction extends Action {
 	//上传房间照片
 	function upload()
 	{
-		echo $_SERVER['DOCUMENT_ROOT'];
+		$data = array();
+		$data["success"] =true;
+		
 		if (!empty($_FILES)) {
 	            import("@.ORG.UploadFile");
 	            $config=array(
@@ -363,14 +365,18 @@ class HouseAction extends Action {
 	            $upload->thumbMaxHeight=100;
 	            $upload->thumbMaxWidth=100;
 	            if (!$upload->upload()) {
-	                $this->error($upload->getErrorMsg());
+	            	$data["msg"] = $upload->getErrorMsg();
+	            	$this->ajaxReturn($data);
+	            	return;
 	            } else {
 	                $info = $upload->getUploadFileInfo();
-					$filename = $info[0]['savename'];
+					$filename = "/Public/upload/".$info[0]['savename'];
 	            }
 			}
-			
-			$this->ajaxReturn($filename);
+			$data = array();
+			$data["success"] =true;
+			$data["fileUrl"] = $filename;
+			$this->ajaxReturn($data);
 		}
 	
 }
