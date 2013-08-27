@@ -80,14 +80,14 @@
 						data.community = $('#community').val();
 						data.contactPerson = $('#contact_person').val();
 						data.contactPhone = $('#contact_phone').val();
-						data.contactQQ = $('#contact_qq').val();
+						//data.contactQQ = $('#contact_qq').val();
 						
-						data.contactWeixin = $('#contact_weixin').val();
-						data.contactEmail = $('#contact_email').val();
-						data.decoration = $('#decoration').val();
-						data.furniture = $('#furniture').val();
-						data.request = $('#request').val();
-						data.remark = $('#remark').val();
+						//data.contactWeixin = $('#contact_weixin').val();
+						//data.contactEmail = $('#contact_email').val();
+						//data.decoration = $('#decoration').val();
+						//data.furniture = $('#furniture').val();
+						//data.request = $('#request').val();
+						//data.remark = $('#remark').val();
 						data.detailDescription = $('#detail_description').val();
 						$.post($.URL.house.publishhouse,data,callback,"json");
 					}
@@ -226,6 +226,7 @@
     	<div class='labelDiv'>联系电话：</div>  
   		<div class='inputDiv'><input value='18211177261' type="text" id="contact_phone"></div>
     </div>
+    <!-- 
     <div class='rowDiv'>  
     	<div class='labelDiv'>联系qq：</div>  
   		<div class='inputDiv'><input value='346012526' type="text" id="contact_qq" onchange="checkdigital(this)"></div>
@@ -254,6 +255,7 @@
     	<div class='labelDiv'>备注：</div>  
   		<div class='inputDiv'><input value='无' type="text" id="remark"></div>
     </div>
+     -->
 	<div class='htmlEditorDiv'>
     	<div class='labelDiv'>房屋详细描述：</div>  
   		<div class='inputDiv'>

@@ -70,6 +70,7 @@ class HouseAction extends Action {
 		
 		$this->ajaxReturn($data);
 	}
+	
 	/*
 	 * 提交发布房源信息
 	 */
@@ -86,12 +87,17 @@ class HouseAction extends Action {
 		if($houseInfo->create ())
 		{
 			$houseInfo->userId=$_SESSION['userId'];
-			//houseType($user,$_POST['room'],$_POST['parlor'],$_POST['washroom']);
-			//floorInfo($user,$_POST['currentfloor'],$_POST['maxfloor']);
 			$houseInfo->createTime=intNow();
 			$houseInfo->viewCount=0;
 			
-			if($houseInfo->add()){
+			$houseId = $houseInfo->add();
+			$housePhotos = getPhotos();
+			deleteSessionKey($key);
+			$housePhoto = new HousePhotoModel();
+			$housePhoto->addPhotoToHouse($houseId, currentUserId(), $housePhotos);
+			
+			
+			if($houseId){
 				$data['code']=0;
 				$data['msg']="";
 			}else{
@@ -108,9 +114,9 @@ class HouseAction extends Action {
 		$this->ajaxReturn($data);
 
 	}
+	
 	/*
 	 * 根据房屋id查询房屋详情页
-	 * 
 	 */
 	function houseInfoAction(){
 		header ( "Content-Type:text/html; charset=utf-8" );
@@ -371,12 +377,21 @@ class HouseAction extends Action {
 	            } else {
 	                $info = $upload->getUploadFileInfo();
 					$filename = "/Public/upload/".$info[0]['savename'];
+					
+					$housePhoto = new HousePhotoModel();
+					$housePhotoData = [];
+					$housePhotoData["userId"] = currentUserId();
+					$housePhotoData["photoURL"] = $filename;
+					$photoId = $housePhoto->add($housePhotoData);
+					addPhotos($photoId);
+					$data["photos"] = getPhotos();
 	            }
 			}
-			$data = array();
 			$data["success"] =true;
 			$data["fileUrl"] = $filename;
 			$this->ajaxReturn($data);
 		}
+		
+		 
 	
 }
