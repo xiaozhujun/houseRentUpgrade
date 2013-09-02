@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/releaseInfo.css">
+</head>
+<body>
+<div id="topbar" class="topbar"></div>
+
+<div id="headerNoSearch" class="header mb10"></div>
+
+
+<div class="releaseMain">
+    <h1>填写房源信息</h1>
+    <form action="#">
+        <table class="releaseTable">
+            <tbody>
+                <tr>
+                    <th>
+                        <em class="red">*</em>出租类型
+                    </th>
+                    <td>
+                        <label class="mr15" for="HireType1">
+                            <input id="HireType1" type="radio" value="2" name="HireType">
+                            整套出租
+                        </label>
+                        <label class="mr15" for="HireType2">
+                            <input id="HireType2" type="radio" value="0" name="HireType">
+                            单间出租
+                        </label>
+                        <label for="HireType3">
+                            <input id="HireType3" type="radio" value="1" name="HireType">
+                            床位出租
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>成交方式
+                    </th>
+                    <td>
+                        <label class="mr15" for="free">
+                            <input id="free" type="radio" value="2" name="moneyType">
+                            无偿出租
+                        </label>
+                        <label class="mr15" for="money">
+                            <input id="money" type="radio" value="0" name="moneyType">
+                            有偿出租
+                        </label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>小区名称
+                    </th>
+                    <td>
+                        <input id="xiaoqu" class="txt" type="text" maxlength="30" value="" style="width:300px;">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>房屋户型
+                    <td>
+                        <input id="jushishuru" class="txt w30" type="text" maxlength="1" value="" name="jushishuru">
+                        <span class="ml5 mr5">室</span>
+                        <input id="huxingting" class="txt w30 action_color" type="text" maxlength="1"
+                        except="null" value="" name="huxingting">
+                        <span class="ml5 mr5">厅</span>
+                        <input id="huxingwei" class="txt w30 action_color" type="text" maxlength="1"
+                        except="null" value="" name="huxingwei">
+                        <span class="ml5 mr5">卫</span>
+                        <input id="area" class="txt w30 ml10" type="text" maxlength="4" except="null"
+                        value="" name="area">
+                        <span class="ml5 mr10">㎡</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>租金
+                    </th>
+                    <td>
+                        <input id="MinPrice" class="txt w70" type="text" maxlength="6" value="面议" name="MinPrice">
+                        <span class="ml5 mr10">元/月</span>
+                        <select name="fukuanfangshi" id="fukuanfangshi">
+                            <option value="0">押一付一</option>
+                            <option value="1">押一付二</option>
+                            <option value="2">押一付三</option>
+                            <option value="3">半年付</option>
+                            <option value="4">年付</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>标题
+                    </th>
+                    <td>
+                        <input id="Title" class="txt w500" type="text" maxlength="30" value="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>房源描述
+                    </th>
+                    <td>
+                        <textarea id="fangyuanmiaoshu" class="w500 h150"></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>上传图片
+                    </th>
+                    <td>
+                        <input type="file" id="tupianshangchuan">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>联系人
+                    </th>
+                    <td>
+                        <input id="linkPerson" class="txt w150" type="text" maxlength="30" value="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <em class="red">*</em>联系电话
+                    </th>
+                    <td>
+                        <input id="linkPerson" class="txt w150" type="text" maxlength="30" value="">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <td>
+                        <span class="fabubtn1 mt20">
+                            <input id="fabu" class="fabu1" type="submit" value="确定并发布">
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+
+
+<div id="footer" class="footer">尾部</div>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/releaseInfo.js"></script>
+</body>
+</html>

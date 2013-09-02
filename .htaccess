@@ -2,5 +2,5 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule (.*\.html)$ $1 [QSA,PT,L]
-RewriteRule !(Public|css|assets|js|mod)/(.*)$ index.php?/$1/$2 [QSA,PT,L]
+RewriteRule !(new|Public|css|assets|js|mod)/(.*)$ index.php?/$1/$2 [QSA,PT,L]
 </IfModule>

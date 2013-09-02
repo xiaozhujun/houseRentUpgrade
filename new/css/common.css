@@ -1,0 +1,380 @@
+.borderbar{
+    border-top: 1px solid #eee;
+    margin:0 10px 10px;
+}
+
+/* topbar  -begin- */
+.topbar{
+    background: url(../images/header_bg.png) repeat-x 0 0 transparent;
+    height: 31px;
+}
+.topbar .content{
+    height: 31px;
+    margin:0 auto;
+}
+.topbar .content .nav a{
+    display: inline-block;
+    zoom:1;
+    padding:0 5px;
+    font:12px/31px "宋体";
+    color:#fff;
+}
+.topbar .content .nav a.cur{
+    background: #186f4d;
+    font:bold 12px/31px "宋体";
+}
+.topbar .content .nav a:hover{
+    text-decoration: underline;
+}
+.topbar .content .login a{
+    font:12px/31px "宋体";
+    color:#fff;
+}
+.topbar .content .login a:hover{
+    text-decoration: underline;
+}
+.topbar .content .user a{
+    font:12px/31px "宋体";
+    color:#fff;
+}
+/* topbar  -end- */
+
+/* header  -begin- */
+.header{
+    background: #fafafa;
+    font: 12px/1.2 "宋体";
+    height: 84px;
+    border:1px solid #eee;
+}
+.header .headerContent{
+    position: relative;
+    width: 990px;
+    margin: 0 auto;
+}
+.header #logo{
+    left: 0;
+    position: absolute;
+    top: 22px;
+}
+.header #searchbar{
+    left: 240px;
+    line-height: 26px;
+    overflow: hidden;
+    position: absolute;
+    top: 20px;
+}
+.header #searchbar .saerkey{
+    float: left;
+    height: 34px;
+    overflow: hidden;
+    padding-left: 9px;
+    box-shadow: 1px 1px 3px #ddddda inset;
+    border: 1px solid #ddddda;
+    background: #fff;
+}
+.header #searchbar .saerkey .key{
+    float: left;
+    height: 34px;
+    line-height: 34px;
+}
+.header #searchbar .keyinput{
+    border-radius: 2px 0 0 2px;
+    background: transparent;
+    border: medium none;
+    display: inline-block;
+    float: left;
+    font-size: 14px;
+    height: 26px;
+    line-height: 26px;
+    overflow: hidden;
+    padding: 4px 2px 6px 0;
+    width: 450px;
+}
+.header #searchbar .submit{
+    border: 1px solid #ddddda;
+    border-left: 0;
+    float: left;
+    height: 34px;
+    overflow: hidden;
+}
+.header #searchbar .submit input{
+    color: #000000;
+    border:0;
+    background: #fafafa;
+    cursor: pointer;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    height: 34px;
+    line-height: 34px;
+    overflow: hidden;
+    text-align: center;
+}
+.header .hot{
+    position: absolute;
+    top:60px;
+    left: 244px;
+}
+.header .hot a{
+    color: #666666;
+    float: left;
+    margin-right: 10px;
+}
+.header .hot a:hover{
+    text-decoration: underline;
+}
+.header #issue{
+    background:url(../images/btn.png) no-repeat 0 0 transparent;
+    display: inline-block;
+    width: 140px;
+    height: 32px;
+    position: absolute;
+    right: 0;
+    top: 21px;
+    font:bold 14px/32px "宋体";
+    text-align: center;
+    color:#fff;
+}
+.header #issue:hover{
+    text-decoration: underline;
+}
+/* header  -end- */
+
+/* footer  -begin- */
+.footer{
+    height:50px;
+    background: #eee;
+    text-align: center;
+    font:12px/50px "宋体";
+    color:#666;
+}
+/* footer  -end- */
+
+#slide{position: relative;}
+#slide .pic{box-shadow:0 2px 2px rgba(0,0,0,0.12);height:120px;overflow:hidden;width:540px;}
+#slide .pic li{float:left;width:540px;}
+#slide .pic li a{display:block;}
+#slide .btns{overflow:hidden;position:absolute;bottom:3px;right:3px;}
+#slide .btns li{background:#999;cursor:pointer;display:inline-block;height:14px;margin:0 0 0 1px;width:14px;float:left;text-align: center;color:#fff;line-height: 15px;}
+#slide .btns li.cur {background:#ff5a00;}
+
+
+
+
+
+
+.borderWrap{
+    border:1px solid #000;
+}
+
+
+/* g_person  -begin- */
+.g_person{
+    color:#666;
+    overflow: hidden;
+}
+.g_person .personPic{
+    display: inline-block;
+    width:42px;
+    height:42px;
+}
+.g_person .personPic img{
+    border-radius: 3px;
+}
+.g_person .top{
+    height:42px;
+}
+.g_person .top .right{
+    margin-left: 53px;
+    height:42px;
+}
+.g_person .top .right strong a{
+    font:bold 12px/18px "宋体";
+    color:#666;
+}
+.g_person .top .right strong a:hover{
+    text-decoration: underline;
+}
+.g_person .top .right p{
+    font:12px/12px "宋体";
+    margin-top:11px;
+}
+.g_person .bottom{
+    font:12px/24px "宋体";
+    margin-top:5px;
+}
+.g_person .link{
+    margin-left: 53px;
+}
+.g_person .link a{
+    color:#666;
+    margin-right:5px;
+}
+.g_person .link a:hover{
+    text-decoration: underline;
+}
+/* g_person  -end- */
+
+
+/* g_houseInfo  -begin- */
+.g_houseInfo{
+    color:#666;
+    overflow: hidden;
+}
+.g_houseInfo .housePic{
+    position: relative;
+    width:105px;
+    height:75px;
+}
+.g_houseInfo .housePic span{
+    position: absolute;
+    bottom:2px;
+    right:2px;
+    display: inline-block;
+    width:30px;
+    background: #000;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+    color:#fff;
+    font:12px/20px "宋体";
+    text-align: center;
+}
+.g_houseInfo .right{
+    margin-left: 115px;
+}
+.g_houseInfo .right .top a{
+    color:#25a774;
+    font:14px/24px "宋体";
+}
+.g_houseInfo .right .top a:hover{
+    text-decoration: underline;
+}
+.g_houseInfo .right .middle{
+    font:12px/24px "宋体";
+    padding-left: 15px;
+    background: url(../images/location.png) no-repeat 1px 6px transparent;
+}
+.g_houseInfo .right .bottom{
+    font:12px/24px "宋体";
+}
+/* g_houseInfo  -end- */
+
+
+/* g_factor  -begin- */
+.g_factor{
+    position: relative;
+    border-bottom: 1px solid #eee;
+}
+.g_factor h4{
+    margin-bottom: 8px;
+}
+.g_factor h4 a{
+    color:#25a774;
+    font:14px/14px "宋体";
+}
+.g_factor .more{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color:#ccc;
+    font:bold 18px/18px "宋体";
+}
+.g_factor .detail a{
+    display: inline-block;
+    zoom:1;
+    padding-right:20px;
+    font:14px/26px "宋体";
+    color:#333;
+}
+.g_factor .detail a:hover{
+    text-decoration: underline;
+}
+/* g_factor  -end- */
+
+.houseInfo{
+    padding-bottom: 5px;
+    border-bottom:1px solid #ddd;
+}
+
+/* g_j  -begin- */
+.g_j{height:80px;}
+.g_j .pic img{
+    border-radius: 4px;
+}
+.g_j .right{
+    margin-left: 90px;
+}
+.g_j .right .name{
+    font:bold 12px/18px "宋体";
+    color:#333;
+}
+.g_j .ring a{
+    line-height: 34px;
+}
+.g_j .add{
+    display: inline-block;
+    width: 75px;
+    background:#7DB213;
+    line-height: 25px;
+    text-align: center;
+    color:#fff;
+}
+/* g_j  -end- */
+
+/* g_r  -begin- */
+.g_r{
+    overflow: hidden;
+    zoom:1;
+    height: 170px;
+}
+.g_r li .pic{
+    display: block;
+    text-align: center;
+}
+.g_r li .pic img{
+    border-radius: 3px;
+}
+.g_r li{
+    float: left;
+    padding-right: 10px;
+    width:62px;
+    margin-bottom: 10px;
+}
+.g_r li strong{
+    display: block;
+    text-align: center;
+}
+.g_r li strong a{
+    color:#333;
+}
+.g_r li .add{
+    background:#7DB213;
+    display: inline-block;
+    width: 62px;
+    line-height: 20px;
+    text-align: center;
+    color:#fff;
+    font-size: 11px;
+}
+/* g_r  -end- */
+
+/* g_rh -begin- */
+.g_rh{
+    margin:10px;
+}
+.g_rh li{
+    text-align: center;
+    padding-bottom: 10px;
+}
+.g_rh li .pic{
+    display: inline-block;
+    zoom:1;
+}
+.g_rh li a{
+    display: block;
+    text-align: left;
+    color:#7DB213;
+    line-height: 24px;
+}
+/* g_rh -end- */
+

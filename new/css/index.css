@@ -1,0 +1,77 @@
+#factor{
+	border:1px solid #ddd;
+}
+
+#slide{
+	width:540px;
+	height:120px;
+}
+
+#topic{
+	background: #eee;
+	width:189px;
+	height:119px;
+}
+#topic li{
+	float: left;
+	margin-left: 1px;
+	margin-top: 1px;
+	width:93px;
+	height:58px;
+	background: #fff;
+}
+#topic li a{
+	display: inline-block;
+	width: 93px;
+	text-align: center;
+	padding-top:36px;
+	color:#707070;
+}
+#topic li.topic1 a{
+	background: url(../images/topic1.png) no-repeat 34px 8px transparent;
+}
+#topic li.topic2 a{
+	background: url(../images/topic2.png) no-repeat 34px 8px transparent;
+}
+#topic li.topic3 a{
+	background: url(../images/topic3.png) no-repeat 34px 8px transparent;
+}
+#topic li.topic4 a{
+	background: url(../images/topic4.png) no-repeat 34px 8px transparent;
+}
+
+#houseNavBar{
+	border:1px solid #ddd;
+	border-right: 0;
+	height:29px;
+	width: 468px;
+	position: relative;
+	z-index: 9;
+}
+#houseNavBar span{
+	font:14px/29px "宋体";
+	color:#333;
+	width:116px;
+	text-align: center;
+	border-right: 1px solid #ddd;
+	background: url(../images/btn.png) no-repeat -200px 0 transparent;
+	cursor: pointer;
+}
+#houseNavBar span:hover{
+	text-decoration: underline;
+}
+#houseNavBar span.cur{
+	font:bold 14px/29px "宋体";
+	color:#25a774;
+	background: #fff;
+	border-bottom: 1px solid #fff;
+}
+
+#houseInfo{
+	position: relative;
+	top: -1px;
+	border:1px solid #ddd;
+}
+#houseInfo .homes{
+	display: none;
+}

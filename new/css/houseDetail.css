@@ -1,0 +1,237 @@
+#houseDetailInfo{
+	border: 1px solid #DDD;
+}
+#houseDetailInfo .detail{
+	padding:15px;
+}
+#houseDetailInfo .detail .bigtitle h3{
+    font:300 18px/30px "微软雅黑",sans-serif;
+}
+#houseDetailInfo .detail .fabutime{
+    color:#aa99bb;
+    padding-left: 15px;
+    margin: 10px auto 20px;
+    line-height: 20px;
+    background: url(../images/time.png) no-repeat 0 4px transparent;
+}
+
+.gallery{
+    height:306px;
+    border:1px solid #ddd;
+}
+ 
+.sumary{}
+.sumary li{
+    overflow: hidden;
+    zoom:1;
+    line-height: 30px;
+    padding-bottom: 5px;
+}
+.sumary .su_tit{
+    float: left;
+    text-align: justify;
+    width: 65px;
+}
+.sumary .su_con {
+    border: 1px solid #FFFFFF;
+    float: left;
+    color:#999;
+    font-size: 12px;
+}
+.sumary .su_con .tel{
+    color:#EE2222;
+    font-size: 16px;
+    font-weight: 800;
+}
+.sumary .stow{
+    display: inline-block;
+    width: 100px;
+    margin-left: 66px;
+    background: #FAFAFA;
+    border:1px solid #ddd;
+    border-radius: 3px;
+    text-align: center;
+}
+.sumary .stow a{
+    color:#333;
+    font-size: 16px;
+    font-weight: 800;
+    padding: 5px 28px;
+}
+.sumary .bigpri{
+    color: #EE2222;
+    font-size: 20px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+.house_describ{}
+.house_describ .top{
+    border-bottom:2px solid #7db213;
+}
+.house_describ .top a{
+    display: inline-block;
+    background: #7db213;
+    width: 100px;
+    line-height: 30px;
+    color:#FFF;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+.house_describ .peizhi{
+    border: 1px solid #F0F0F0;
+    padding: 6px 9px;
+}
+.house_describ .peizhi span{
+    display: inline-block;
+    zoom:1;
+    line-height: 30px;
+    margin-right: 20px;
+    padding-left: 20px;
+    background: url(../images/xuanzhong.png) no-repeat 0 8px transparent;
+}
+.house_describ .wordbox{
+    line-height: 2;
+}
+.house_describ .imgbox{
+    text-align: left;
+}
+.house_describ .imgbox img{
+    margin:10px 0;
+}
+
+.colMenu{
+	border: 1px solid #DDD;
+}
+.colMenu h3{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.bimg_slide{
+    margin:2px;
+    display: table;
+    height: 240px;
+    width: 236px;
+    overflow: hidden;
+}
+.bimg_slide span{
+    display: table-cell;
+    overflow: hidden;
+    vertical-align: middle;
+}
+.bimg_slide span img{
+    max-height: 240px;
+    max-width: 236px;
+}
+.simg_slide{
+    position: relative;
+    border-top: 1px solid #ddd;
+    height: 60px;
+    background:#FDFDFD;
+}
+.simg_slide .btn{
+    display: inline-block;
+    width: 20px;
+    height: 60px;
+}
+.simg_slide .btnl{
+    background:url(../images/direction.png) no-repeat 5px 25px transparent;
+}
+.simg_slide .btnl:hover{
+    background:url(../images/direction.png) no-repeat 5px -163px transparent;
+}
+.simg_slide .btnr{
+    background:url(../images/direction.png) no-repeat -185px 26px;
+}
+.simg_slide .btnr:hover{
+    background:url(../images/direction.png) no-repeat -185px -163px;
+}
+
+.imgcontain{
+    height: 41px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    margin-top: 10px;
+}
+.imgcontain ul{
+    padding-left: 8px;
+}
+.imgcontain li{
+    float: left;
+    border:1px solid #E1E1E1;
+    padding:1px;
+    width: 37px;
+    height: 37px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.imgcontain li:hover{
+    border:1px solid #999;
+}
+.imgcontain li img{
+    padding-top: 4px;
+    text-align: center;
+    vertical-align: middle;
+    width: 37px;
+}
+
+.bigimg_slide{
+    background:#eee;
+}
+.bigimg_slide .bigimgcontain{
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    width: 670px;
+    margin-top: 10px;
+}
+.bigimg_slide ul{
+    padding-left: 8px;
+    height: 144px;
+}
+.bigimg_slide li{
+    float: left;
+    border:1px solid #E1E1E1;
+    padding:1px;
+    width: 154px;
+    height: 140px;
+    display: inline-block;
+    overflow: hidden;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.bigimg_slide li:hover{
+    border:1px solid #999;
+}
+.bigimg_slide li img{
+    padding-top: 15px;
+    text-align: center;
+    vertical-align: middle;
+    width: 154px;
+}
+.bigimg_slide .btn{
+    display: inline-block;
+    width: 20px;
+    height: 164px;
+}
+.bigimg_slide .btnl{
+    background:url(../images/direction.png) no-repeat 5px 73px transparent;
+}
+.bigimg_slide .btnl:hover{
+    background:url(../images/direction.png) no-repeat 5px -115px transparent;
+}
+.bigimg_slide .btnr{
+    background:url(../images/direction.png) no-repeat -185px 78px;
+}
+.bigimg_slide .btnr:hover{
+    background:url(../images/direction.png) no-repeat -185px -111px;
+}
+

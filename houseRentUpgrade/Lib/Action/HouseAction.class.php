@@ -24,7 +24,7 @@ class HouseAction extends Action {
 			$this->assign('user',currentUserName());
 			header ( "Content-Type:text/html; charset=utf-8" );
 		}
-		$this->display ( "search" );
+// 		$this->display ( "search" );
 	}
 	
 	//关键字查询房源
@@ -46,7 +46,7 @@ class HouseAction extends Action {
 	 * 房源列表页面
 	 */
 	function houseList() {
-		header ( "Content-Type:text/html; charset=utf-8" );
+// 		header ( "Content-Type:application/json; charset=utf-8" );
 		$data = array();
 		$houseinfo = new HouseInfoModel();
 		

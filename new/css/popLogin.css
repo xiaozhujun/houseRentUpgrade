@@ -1,0 +1,63 @@
+#popLogin{
+	width: 326px;
+}
+#popLogin .login_main{
+	padding: 0 20px 20px;
+    width: 286px;
+}
+#popLogin .login_main .content_head{
+	color: #333333;
+    overflow: hidden;
+    padding: 30px 0;
+}
+#popLogin .login_main .content_head h1{
+	font: 32px/32px '微软雅黑';
+}
+#popLogin .username input, #popLogin .password input{
+	border: 0 none;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 3px 3px #E3E3E3 inset;
+    font: 14px/35px "新宋体";
+    height: 35px;
+    padding: 0 6px;
+    width: 270px;
+    border:1px solid #E3E3E3;
+}
+#popLogin .iskeep{
+	color: #333333;
+    font: 12px/18px "新宋体";
+    height: 19px;
+}
+#popLogin .iskeep input{
+    float: left;
+}
+#popLogin .enterbtn{
+    border-radius: 5px;
+	background: #25A774;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    height: 34px;
+    line-height: 30px;
+    text-align: center;
+    width: 282px;
+}
+#popLogin .enterbtn:hover{
+    background: #31ac7c;
+}
+#popLogin .outfun{
+	font: 12px/18px "新宋体";
+}
+#popLogin .outfun .doubt{
+	color:#999;
+}
+#popLogin .outfun .apply{
+	color:#2685E8;
+}
+#popLogin .outfun .forget{
+	color:#666;
+	float: right;
+}
+#popLogin .error{
+	color:red;
+}
