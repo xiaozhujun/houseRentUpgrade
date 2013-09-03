@@ -83,3 +83,17 @@
     text-align: center;
     width: 102px;
 }
+
+#register .sex{
+	float: left;
+	width:100%;
+}
+
+#register .sex .sexInput{
+	width:50px;
+}
+
+#verify
+{
+	height:35px;
+}

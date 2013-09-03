@@ -46,14 +46,11 @@ temp.topbar =
 	'<div class="content w990">' + 
     '    <div class="nav fl">' + 
     '        <a class="cur" href="#">北京</a>' + 
-    '        <a href="#">北京</a>' + 
-    '        <a href="#">北京</a>' + 
-    '        <a href="#">北京</a>' + 
     '    </div>' + 
     '    <div id="userLoginActions" class="login fr">' + 
     '        <a href="login.html">登录</a>&nbsp;&nbsp;<a href="register.html">注册</a>' + 
     '    </div>' + 
-    '    <div id="usernameDiv" class="user fr none">欢迎你，<a id="usernameLink" href="#">肖竹君</a></div>' + 
+    '    <div id="usernameDiv" class="user fr none">欢迎您，<a id="usernameLink" href="#">肖竹君</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/logout">安全退出</a></div>' + 
     '</div>'
     ;
 
@@ -81,7 +78,7 @@ temp.header =
     '        <a href="#">出租房源</a>' +
     '        <a href="#">出租房源</a>' +
     '    </div>' +
-    '    <a id="issue" href="#">免费发布房源信息</a>' +
+    '    <a id="issue" href="releaseInfo.html">免费发布房源信息</a>' +
     '</div>'
     ;
 

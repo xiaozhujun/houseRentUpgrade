@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>租客团-登录</title>
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
@@ -17,22 +17,22 @@
         </div>
         <form action="">
             <div class="username mb20">
-                <input type="text" placeholder="用户名" maxlength="100">
+                <input id='emailLoginInput' type="text" placeholder="用户名" maxlength="100">
             </div>
-            <div class="password mb20">
-                <input type="text" placeholder="密码" maxlength="100">
+            <div  class="password mb20">
+                <input id='pwdLoginInput' type="text" placeholder="密码" maxlength="100">
             </div>
             <div class="iskeep mb10">
                 <input type="checkbox">
                 保持登录状态
             </div>
-            <div class="enterbtn mb10">登 录</div>
+            <div id="loginBtn" class="enterbtn mb10">登 录</div>
             <div class="outfun mb10">
                 <span class="doubt">还不是友居客户？</span>
                 <a class="apply" href="register.html">我要注册</a>
                 <a class="forget" href="">忘记密码？</a>
             </div>
-            <div class="error">错误提示</div>
+            <div id="messageDiv" class="error">错误提示</div>
 
         </form>
     </div>
@@ -46,6 +46,32 @@
 <div id="footer" class="footer">尾部</div>
 
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/config.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			$('#loginBtn').click(function(){
+				var data = {};
+				data.email = $('#emailLoginInput').val();
+				data.password = $('#pwdLoginInput').val();
+				$.post($.URL.user.login,data,loginCallback,"json");
+			});
+		});
+		
+		//回调函数
+		//鐧诲綍鍥炶皟鍑芥暟
+	function loginCallback(result)
+	{
+		if(result.success)
+		{
+			location = "/new";
+		}
+		else
+		{
+			$('#messageDiv').html(result.msg);
+		}
+			
+	}
+	</script>
 </body>
 </html>
