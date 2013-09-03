@@ -37,7 +37,6 @@
 		//var houseId=$.jquery.get("id");
 		//alert(houseId);
 		var houseId=decodeURI($.getUrlVar('id'));
-		alert(houseId);
 		$("input").emptyValue();
 		/* $.get(house/info+"?id="+houseId,null,houseinfoCallback,"json"); */
 		$.ajax(
@@ -132,7 +131,6 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 	//房源详细信息回调
 	
 	function houseinfoCallback(data) {
-		alert("haha");
 		$("#housemain").html("");
 		var houseDetailInfo = $("<div class='fl w740 mb20' id='houseDetailInfo'></div>");
 		var detail = $("<div class='detail'></div>");
@@ -174,7 +172,7 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		var zuke = $("<div class='fr w238 mb20 colMenu'><h3 class='m10'>租客信息</h3></div>");
 		var gjm10 = $("<div class='g_j m10'></div>");
 		var picfl = $(" <a class='pic fl' href='#'><img src='images/person_bg.png' alt='' width='80' height='80'></a>");
-		var right = $("<div class='right'><strong><a class='name' href='#'>"+houseuser.name+"</a></strong><p class='ring'><a href='#'>"+company+"</a><a href='#'>"+college+"</a>"
+		var right = $("<div class='right'><strong><a class='name' href='#'>"+data.houseuser.name+"</a></strong><p class='ring'><a href='#'>"+data.company+"</a><a href='#'>"+data.college+"</a>"
 				+ "</p><a class='add' href='#'>+ 加为好友</a></div>");
 		var borderbar = $("<div class='borderbar'></div>");
 		var pr10 = $("<div class='clearfix pl10 pr10'><h3 class='fl'>租客圈内好友</h3><a class='fr' href='#'>换一批</a></div>");

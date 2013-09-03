@@ -322,15 +322,7 @@ $("#factor a").click(function(){
 		if(result.current_count==0){
 			$('#searchResult').html("亲，没有检索到相匹配的房源哦！");
 		}else{
-<<<<<<< HEAD
 			renderingPage(result,"#searchResult");
-			$('.houseItem').click(function(){
-=======
-			renderingPage(result);
-			$('.top').click(function(){
->>>>>>> 7315f1cdb7ef69d1a5db06d2d54f27db8b4d3c07
-				location=$.URL.house.info+"?id="+$(this).attr("houseId");
-			});
 		}
 	}
 	
