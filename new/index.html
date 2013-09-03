@@ -367,7 +367,7 @@ $("#factor a").click(function(){
 			$('#searchResult').html("亲，没有检索到相匹配的房源哦！");
 		}else{
 			renderingPage(result);
-			$('.houseItem').click(function(){
+			$('.top').click(function(){
 				location=$.URL.house.info+"?id="+$(this).attr("houseId");
 			});
 		}
@@ -525,6 +525,7 @@ function getretionlink(key,price,region,room,type,value,category){
 			link+="&room="+room;
 		}
 	}
+	//alert(link);
 	return link;
 }
 
