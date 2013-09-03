@@ -23,6 +23,65 @@ function currentUserName()
 	return 	$userName;
 }
 
+function currentUserCompany()
+{
+	if(!isLogin())
+	{
+		return "";
+	}
+	
+	//获得当前用户的公司名称
+	$userCompany = new UserCompanyModel();
+	$userCompanyObj = $userCompany->findByUserId(currentUserId());
+	if($userCompanyObj)
+	{
+		$company = new CompanyModel();
+		$companyObj = $company->find($userCompanyObj['companyId']);
+		return $companyName =$companyObj['name'];
+	}
+	return "";
+}
+
+function currentUserCollege()
+{
+	if(!isLogin())
+	{
+		return "";
+	}
+
+	//获得当前用户的高校名称
+	$userCollege = new UserCollegeModel();
+	$userCollegeObj = $userCollege->findByUserId($_SESSION['userId']);
+	if($userCollegeObj)
+	{
+		$college = new CollegeModel();
+		$collegeObj = $college->find($userCollegeObj['collegeId']);
+		return $collegeObj['name'];
+	}		
+	return "";
+}
+
+function currentUserTargetCommunity()
+{
+	if(!isLogin())
+	{
+		return "";
+	}
+
+	//获得当前用户的目标住房
+	$userTargetHouse = new UserTargetHouseModel();
+	$userTargetHouseObj = $userTargetHouse->findByUserId($_SESSION['userId']);
+	if($userTargetHouseObj)
+	{
+		$targetHouse = new TargetHouseModel();
+		$targetHouseObj = $targetHouse->find($userTargetHouseObj['targetHouseId']);
+		return $targetHouseObj['name'];
+	}			
+	return "";
+}
+
+
+
 //当前用户编号
 function currentUserId()
 {

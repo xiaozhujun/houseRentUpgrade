@@ -50,10 +50,10 @@ temp.topbar =
     '        <a href="#">北京</a>' + 
     '        <a href="#">北京</a>' + 
     '    </div>' + 
-    '    <div class="login fr">' + 
+    '    <div id="userLoginActions" class="login fr">' + 
     '        <a href="login.html">登录</a>&nbsp;&nbsp;<a href="register.html">注册</a>' + 
     '    </div>' + 
-    '    <div class="user fr none"><a href="#">肖竹君</a></div>' + 
+    '    <div id="usernameDiv" class="user fr none">欢迎你，<a id="usernameLink" href="#">肖竹君</a></div>' + 
     '</div>'
     ;
 
@@ -111,5 +111,19 @@ $('#searchBtn').click(function(){
 		alert("请输入房源搜索关键字！");
 	}
 });
+
+$.get($.URL.user.checkLogin,null,checkLoginCallback,"json");
+
+var isLogin = false;
+function checkLoginCallback(data)
+{
+	if(data.isLogin)
+		{
+			$("#usernameLink").html(data.userName);
+			$("#usernameLink").parent().removeClass("none");
+			$("#userLoginActions").addClass("none");
+			isLogin = true;
+		}
+}
 
 

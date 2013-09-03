@@ -26,34 +26,11 @@ class PublicAction extends Action
 			$communityName = "";
 			
 			//获得当前用户的公司名称
-			$userCompany = new UserCompanyModel();
-			$userCompanyObj = $userCompany->findByUserId($_SESSION['userId']);
-			if($userCompanyObj)
-			{
-				$company = new CompanyModel();
-				$companyObj = $company->find($userCompanyObj['companyId']);
-				$companyName =$companyObj['name'];
-			}
-			
+			$companyName = currentUserCollege();
 			//获得当前用户的高校名称
-			$userCollege = new UserCollegeModel();
-			$userCollegeObj = $userCollege->findByUserId($_SESSION['userId']);
-			if($userCollegeObj)
-			{
-				$college = new CollegeModel();
-				$collegeObj = $college->find($userCollegeObj['collegeId']);
-				$collegeName =$collegeObj['name'];
-			}
-			
+			$collegeName = currentUserCollege();
 			//获得当前用户的目标住房
-			$userTargetHouse = new UserTargetHouseModel();
-			$userTargetHouseObj = $userTargetHouse->findByUserId($_SESSION['userId']);
-			if($userTargetHouseObj)
-			{
-				$targetHouse = new TargetHouseModel();
-				$targetHouseObj = $targetHouse->find($userTargetHouseObj['targetHouseId']);
-				$communityName =$targetHouseObj['name'];
-			}
+			$communityName =currentUserTargetCommunity();
 			
 			$this->assign('companyName',$companyName);
 			$this->assign('collegeName',$collegeName);

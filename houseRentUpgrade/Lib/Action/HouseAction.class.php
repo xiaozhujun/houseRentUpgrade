@@ -58,7 +58,7 @@ class HouseAction extends Action {
 		}
 		if($houseinfolist["list"]){
 			$data['current_count']=count($houseinfolist["list"]);
-			$data['houseinfo_list']=$houseinfolist["list"];
+			$data['houseList']=$houseinfolist["list"];
 		}else{
 			$data['current_count']=0;
 			$data['houseinfo_list']=null;
@@ -275,18 +275,23 @@ class HouseAction extends Action {
 			redirect(C('LOGIN_URL'));
 			return;
 		}
+		$companyName = $_POST['company'];
 		
 		$data = array();
 		$data['success'] = false;
 		
-		if(is_null($_POST['company']))
+		if(is_null($companyName))
 		{
-			$data['msg'] = "请填写公司信息！";
-			$this->ajaxReturn($data);
-			return;	
+			$companyName = currentUserCompany();
+			if(is_null($companyName))
+			{
+				$data['msg'] = "请填写公司信息！";
+				$this->ajaxReturn($data);
+				return;
+			}
 		}
 		$companyModel = new CompanyModel();
-		$company = $companyModel->where("name='{$_POST['company']}'")->find();
+		$company = $companyModel->where("name='{$companyName}'")->find();
 		
 		$companyId = $company['id'];
 		
@@ -305,18 +310,23 @@ class HouseAction extends Action {
 			redirect(C('LOGIN_URL'));
 			return;
 		}
-		
+		$collegeName = $_POST['college'];
 		$data = array();
 		$data['success'] = false;
 		
-		if(is_null($_POST['college']))
+		if(is_null($collegeName))
 		{
-			$data['msg'] = "请填写学校信息！";
-			$this->ajaxReturn($data);
-			return;
+			$collegeName = currentUserCollege();
+			if(is_null($collegeName))
+			{
+				$data['msg'] = "请填写学校信息！";
+				$this->ajaxReturn($data);
+				return;
+			}
+			
 		}
 		$collegeModel = new CollegeModel();
-		$college = $collegeModel->where("name='{$_POST['college']}'")->find();
+		$college = $collegeModel->where("name='{$collegeName}'")->find();
 		
 		$collegeId = $college['id'];
 		
@@ -335,15 +345,19 @@ class HouseAction extends Action {
 			redirect(C('LOGIN_URL'));
 			return;
 		}
-		
+		$communityName = $_POST['community'];
 		$data = array();
 		$data['success'] = false;
 		
-		if(is_null($_POST['community']))
+		if(is_null($communityName))
 		{
-			$data['msg'] = "请填写目标小区信息！";
-			$this->ajaxReturn($data);
-			return;
+			$communityName = currentUserTargetCommunity();
+			if(is_null($communityName))
+			{
+				$data['msg'] = "请填写目标小区信息！";
+				$this->ajaxReturn($data);
+				return;
+			}
 		}
 		$houseInfoModel = new HouseInfoModel();
 		$hosueList = $houseInfoModel->where("community like '%{$_POST['community']}%'")->order("houseId desc")->limit(10)->select();;

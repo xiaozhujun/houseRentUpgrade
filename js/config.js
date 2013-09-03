@@ -9,6 +9,7 @@
 			"register":"/User/add",
 			"verify":"/User/verify",
 			"findFriend":"/User/findFriend",
+			"checkLogin":"/User/checkLogin",
 		},
 		"friend":{
 			"applyFriend":"/Friend/applyFriend",

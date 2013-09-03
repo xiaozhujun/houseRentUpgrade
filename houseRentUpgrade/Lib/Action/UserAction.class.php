@@ -308,6 +308,15 @@ class UserAction extends Action {
 		
 	}
 	
+	//判断用户是否登录
+	function checkLogin()
+	{
+		$result = array();
+		$result["isLogin"] = isLogin();
+		$result["userName"] = currentUserName();
+		$this->ajaxReturn($result);
+	}
+	
 	//维护个人信息
 	function update()
 	{
