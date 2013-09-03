@@ -125,7 +125,7 @@ class HouseAction extends Action {
 			$data['code']=-1;
 			$data['msg']="not login!";
 			$this->assign ( 'data', $data);
-			$this->display ( "houseinfo" );
+			//$this->display ( "houseinfo" );
 			return ;
 		}
 		$houseId=$_POST['houseId'];
@@ -133,13 +133,17 @@ class HouseAction extends Action {
 		$houseinfo = new HouseInfoModel();
 		$data["houseinfo"]=$houseinfo->getHouseInfo($houseId);
 		$this->assign ( 'data', $data);
-		$this->display ("houseinfo");
+	/* 	$this->display ("houseinfo"); */
+		$this->ajaxReturn($data);
+		
 	}
 	
 	//查看房源信息
 	function info()
 	{
 		$houseId = $_GET['id'];
+		$data=array();
+    
 		if(is_null($houseId))
 		{
 
@@ -155,25 +159,26 @@ class HouseAction extends Action {
 		
 		$houseInfo = M('HouseInfo');
 		$houseInfoObj = $houseInfo->find($houseId);
-		$this->assign('houseInfo',$houseInfoObj);
-		
+		$data['houseinfo']=$houseInfo->find($houseId);
+		//$this->assign('houseInfo',$houseInfoObj);
 		$region = M('Region');
 		$regionId = $houseInfoObj['region'];
 		$regionObj = $region->find($regionId);
-		$this->assign("region",$regionObj);
-
+		//$this->assign("region",$regionObj);
+         $data['region']=$region->find($regionId);
 		$houseUser = M("User");
 		$houseUserId = $houseInfoObj["userId"];
 		$houseUserObj = $houseUser->find($houseUserId);
-		$this->assign("houseUser",$houseUserObj);
-		
+		//$this->assign("houseUser",$houseUserObj);
+		$data['houseuser']=$houseUser->find($houseUserId);
 		$userCompany = new UserCompanyModel();
 		$company = $userCompany->getUserCompany($houseUserId);
-		$this->assign("company",$company);
-		
+		//$this->assign("company",$company);
+		$data['company']=$userCompany->getUserCompany($houseUserId);
 		$userCollege = new UserCollegeModel();
 		$college = $userCollege->getUserCollege($houseUserId);
-		$this->assign("college",$college);
+		//$this->assign("college",$college);
+		$data['college']=$userCollege->getUserCollege($houseUserId);
 		//保存用户浏览房源记录
 		$houseViewModel = new HouseViewModel();
 		$result = $houseViewModel->saveOrUpdate(currentUserId(),$houseId);
@@ -184,7 +189,9 @@ class HouseAction extends Action {
 		
 		
 		header ( "Content-Type:text/html; charset=utf-8" );
-		$this->display("houseInfo");
+		//$this->display("houseInfo");
+		//$this->ajaxReturn($data);
+		$this->ajaxReturn($data);
 	}
 	
 	//关注度高的房子

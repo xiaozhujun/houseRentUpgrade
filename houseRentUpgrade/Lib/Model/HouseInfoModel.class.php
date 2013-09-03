@@ -59,7 +59,7 @@ class HouseInfoModel extends Model{
 	$wheresql."house_info.userId=u.id and house_info.userId=c1.userId and house_info.userId=c2.userId
 				and c3.id=c1.collegeId and c4.id=c2.companyId";
     	$countSQL="select count(*) count  from house_info ".$wheresql;
-//     	echo $querySQL;
+      	//echo $querySQL;
     	$list["list"]= $this->query($querySQL);
     	$count=$this->query($countSQL);
     	if($count){
