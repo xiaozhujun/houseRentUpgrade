@@ -68,6 +68,7 @@ class HouseCommentAction extends Action {
 	function houseCommentList()
 	{
 		$data = array();
+		//echo "haha";
 		$houseId = $_GET['houseId'];
 		if(is_null($houseId))
 		{

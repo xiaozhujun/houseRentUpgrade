@@ -74,7 +74,7 @@
 
 #collectBtn
 {
-	margin-left:20px;
+	/* //margin-left:20px; */
 }
 
 #description
@@ -130,6 +130,7 @@
 	padding-top:20px;
 	margin-right:10px;
 	padding-bottom:20px;
+	margin-left:8px;
 }
 
 .comentRow
@@ -335,10 +336,22 @@
 	padding:10px 10px;
 }
 
-html,body,#allmap
+html,body
 {
 	width:99%;
 	height:300px;
 	float:left;
 	margin:0;
+}
+#allmap{
+	width:100%;
+	height:300px;
+	float:left;
+	margin:0;
+	/* margin-left:170px; */
+}
+#commentBtn{
+	line-height:30px;
+	margin: 1px 1px;
+	margin-bottom:10px;
 }

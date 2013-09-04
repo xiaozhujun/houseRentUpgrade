@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/houseDetail.css">
+    <link href="css/houseInfo.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <div id="topbar" class="topbar"></div>
@@ -13,14 +14,58 @@
 <div id="headerNoSearch" class="header mb10"></div>
 
 <div class="w990 bc clearfix mb10" id="housemain">
-   
+		<div id="houseDetailInfo" class="fl w740 mb20">
+			<div class='detail'></div>
+			<div class='house_describ mb20' id='allmap'></div>
+			<div id="sample">
+<script type="text/javascript" src="js/nicEdit.js"></script>
+<script type="text/javascript">
+	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
+<div id='commentList'></div>
+				<div id='comentTitle'>房源评价：</div>
+			
+				<div class='comemntInput'>
+<textarea name="area1" cols="89" rows="15" id='commentInput'>请输入您的评价！</textarea>
+<div class='comentRow'>
+						<div class='comemntInput sumary'>
+							<span id="commentBtn" class="stow"><a href="#">评论</a></span>
+<!-- 							<div id='commentBtn'  class="stow">评论</div> -->
+						</div>
+					</div>
 </div>
+			<!-- <div id='comment'>
+				<div id='commentList'></div>
+				<div id='comentTitle'>房源评价：</div>
+				<div id='commentContainer'>
+					<div class='comentRow'>
+						<div class='commentLabel'>内容：</div>
+						<div class='comemntInput'>
+							<textarea id='commentInput' rows='8' cols='60'>请输入您的评价！</textarea>
+						</div>
+					</div>
+					<div class='comentRow'>
+						<div class='commentLabel'>&nbsp;</div>
+						<div class='comemntInput'>
+							<div id='commentBtn' class='myButton'>评论</div>
+						</div>
+					</div>
+				</div>
+			</div> -->
+		</div>
+		
+</div>
+<div class='fr w238 mb20 colMenu' id="zuke"><h3 class='m10'>租客信息</h3></div>
+</div>
+<!-- <div class='house_describ mb20' id='allmap'></div> -->
+
+
 <!-- <div></div> -->
 <div id="footer" class="footer">尾部</div>
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript" src="js/houseDetail.js"></script>
-<script src="/js/config.js" type="text/javascript"></script>
 <script src="/js/urlUtil.js" type="text/javascript"></script>
 <script src="/js/resouce.js" type="text/javascript"></script>
 <script src="/js/emptyNote.js" type="text/javascript"></script>
@@ -30,13 +75,15 @@
 <script src="/js/jquery-dateFormat.js" type="text/javascript"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=0414726b722ea5ad257d0b96a3c6117a"></script>
 <script src="js/getParam.js"></script>
+
 <script type="text/javascript">
 	//var houseId = {$houseInfo['houseId']};
+	var houseId=decodeURI($.getUrlVar('id'));
 	var replyComment = null;
 	$(document).ready(function(){
 		//var houseId=$.jquery.get("id");
 		//alert(houseId);
-		var houseId=decodeURI($.getUrlVar('id'));
+		//var houseId=decodeURI($.getUrlVar('id'));
 		$("input").emptyValue();
 		/* $.get(house/info+"?id="+houseId,null,houseinfoCallback,"json"); */
 		$.ajax(
@@ -51,10 +98,11 @@
          alert("error");
         }
       }    );
-		$.get($.URL.house.streetHouseList+"?street={$houseInfo['street']}",null,streetHouseCallback,"json");
+		//alert(houseId);
+		//$.get($.URL.house.streetHouseList+"?street={$houseInfo['street']}",null,streetHouseCallback,"json");
 		$.get($.URL.houseComment.commentList+"?houseId="+houseId,null,commentListCallback,'json');
 		
-		$("a.addFriendBtn").fancybox({
+		$("a #addFriendBtn").fancybox({
 							'transitionIn'	:	'elastic',
 							'transitionOut'	:	'elastic',
 							'speedIn'		:	200, 
@@ -70,6 +118,7 @@
 			});
 			
 		$("#collectBtn").click(function(){
+			alert("haha");
 			var data = {};
 			data.houseId = houseId;
 			$.post($.URL.houseCollect.collect,data,collectCallback,'json');
@@ -92,12 +141,13 @@
 			}
 			$.post($.URL.houseComment.comment,data,commentCallback,'json');
 		});
-		
+		  
 		showHouseLocation();
 	});
 	
 	function showHouseLocation()
 	{
+		
 		var map = new BMap.Map("allmap");
 var point = new BMap.Point(116.331398,39.897445);
 map.centerAndZoom(point,12);
@@ -105,6 +155,7 @@ map.centerAndZoom(point,12);
 var myGeo = new BMap.Geocoder();
 // 将地址解析结果显示在地图上,并调整地图视野
 myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point){
+	/* myGeo.getPoint(data.houseinfo.street,data.houseinfo.community, function(point){ */
   if (point) {
     map.centerAndZoom(point, 16);
     map.addOverlay(new BMap.Marker(point));
@@ -115,6 +166,7 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 	//评论列表回调
 	function commentListCallback(result)
 	{
+		
 		$("#commentList").html("");
 		$.each(result.commentList,function(index,item){
 			var commentRow = $("<div class='commentRow'></div>");
@@ -131,7 +183,9 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 	//房源详细信息回调
 	
 	function houseinfoCallback(data) {
-		$("#housemain").html("");
+		/* $("#housemain").html(""); */
+		$(".detail").html("");
+		$("#zuke").html("");
 		var houseDetailInfo = $("<div class='fl w740 mb20' id='houseDetailInfo'></div>");
 		var detail = $("<div class='detail'></div>");
 		var title = $("<div class='bigtitle'><h3>" + data.houseinfo.title
@@ -158,7 +212,7 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		var area = $("<li><div class='su_tit'>所在区域：</div><div class='su_con'>"+data.houseinfo.street+"--"+data.houseinfo.community+"</div></li>");
 		var address = $("<li><div class='su_tit'>所在地址：</div><div class='su_con'>通州小潞邑 龙旺庄向东100米 新潮嘉园对面</div></li>");
 		var tel = $("<li><div class='su_tit'>联系方式：</div><div class='su_con'><span class='tel'>"+data.houseinfo.contactPhone+"</span></div></li>");
-		var shoucang = $("<li><span class='stow'><a href='#'>收 藏</a></span></li>");
+		var shoucang = $("<li><span class='stow' id='collectBtn'><a href='#'>收 藏</a></span></li>");
 		var housedescrib = $(" <div class='house_describ mb20'></div>");
 		var topmb10 = $("<div class='top mb10'><a href='#'>房源描述</a></div>");
 		var peizhi = $(" <div class='peizhi'><strong>房屋配置：</strong><span> 衣柜 </span><span> 洗衣机 </span><span> 空调 </span><span> 热水器 </span>"
@@ -173,7 +227,7 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		var gjm10 = $("<div class='g_j m10'></div>");
 		var picfl = $(" <a class='pic fl' href='#'><img src='images/person_bg.png' alt='' width='80' height='80'></a>");
 		var right = $("<div class='right'><strong><a class='name' href='#'>"+data.houseuser.name+"</a></strong><p class='ring'><a href='#'>"+data.company+"</a><a href='#'>"+data.college+"</a>"
-				+ "</p><a class='add' href='#'>+ 加为好友</a></div>");
+				+ "</p><a class='add' id='addFriendBtn' href='/Friend/applyFriendPage?userId={$houseUser['id']}'>+ 加为好友</a></div>");
 		var borderbar = $("<div class='borderbar'></div>");
 		var pr10 = $("<div class='clearfix pl10 pr10'><h3 class='fl'>租客圈内好友</h3><a class='fr' href='#'>换一批</a></div>");
 		var grm10 = $("<ul class='g_r m10'></ul>");
@@ -183,6 +237,10 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		var grh = $("<ul class='g_rh'><li><a class='pic' href=''><img src='images/house_bg.png' width='180' height='120' alt=''></a>"
 				+ "<a href='#'>立水桥-立水桥-立水桥-立水桥-立水桥-立水桥</a></li><li><a class='pic' href=''><img src='images/house_bg.png' width='180' height='120' alt=''></a>"
 				+ "<a href='#'>立水桥-立水桥-立水桥-立水桥-立水桥-立水桥</a></li></ul>");
+		var map=$("<div class='house_describ mb20' id='allmap'></div> "); 
+		var comment=$("<div id='comment' ><div id='commentList'></div><div id='comentTitle'>房源评价：</div><div id='commentContainer'><div class='comentRow'>"+
+    					"<div class='commentLabel'>内容：</div><div class='comemntInput'><textarea id='commentInput' rows='8' cols='60'>请输入您的评价！</textarea></div>"+
+    				"</div><div class='comentRow'><div class='commentLabel'>&nbsp;</div><div class='comemntInput'><div id='commentBtn' class='myButton'>评论</div></div></div></div></div>");
 		simgslide.append(aa).append(imgcontain);
 		sumary.append(price).append(housetype).append(housecondition).append(
 				layer).append(area).append(address).append(tel)
@@ -193,14 +251,14 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		housedescrib.append(topmb10).append(peizhi).append(wordbox).append(
 				bigimgslide);
 		mb20.append(gallery).append(sumary);
-		detail.append(title).append(fabutime).append(mb20).append(housedescrib);
-		houseDetailInfo.append(detail);
+		$(".detail").append(title).append(fabutime).append(mb20).append(housedescrib);
+		/* houseDetailInfo.append(detail); */
 		gjm10.append(picfl).append(right);
 		grm10.append(m10li).append(m10li).append(m10li).append(m10li).append(m10li).append(m10li);
-		zuke.append(gjm10).append(borderbar).append(pr10).append(grm10)
+		$("#zuke").append(gjm10).append(borderbar).append(pr10).append(grm10)
 				.append(borderbar).append(pl10pr10).append(grh);
-		houseDetailInfo.append(detail);
-		$("#housemain").append(houseDetailInfo).append(zuke);
+		//houseDetailInfo.append(detail);
+		/* $("#housemain").append(houseDetailInfo).append(zuke); */
 	}
 	//评论回调
 	function commentCallback(result) {
@@ -222,34 +280,8 @@ myGeo.getPoint("{$houseInfo['street']}{$houseInfo['community']}", function(point
 		}
 	}
 
-	//街道相对应的房源
-	function streetHouseCallback(result) {
-		$.each(result.houseList,
-				function(index, value) {
-
-					var houseInfo = $("<div class='houseItem'></div>");
-					houseInfo.attr('houseId', value.houseId);
-					var title = $("<div class='houseItemColumn'></div>")
-							.append(value.title);
-					var price = $("<div class='houseItemColumn'></div>")
-							.append(value.price).append("&nbsp;元/月");
-					var type = $("<div class='houseItemColumn'></div>").append(
-							"房屋户型： " + value.room + "室" + value.parlor + "厅"
-									+ value.washroom + "卫");
-					var transferTime = $("<div class='houseItemColumn'></div>")
-							.append(
-									"出租时间： "
-											+ $.format.date(value.transferTime,
-													"yyyy-MM-dd"));
-					houseInfo.append(title).append(price).append(type).append(
-							transferTime);
-					$("#houseList").append(houseInfo);
-				});
-
-		$('.houseItem').click(function() {
-			location = $.URL.house.info + "?id=" + $(this).attr("houseId");
-		});
-	}
+	
+	
 
 	//登录回调函数
 	function loginCallback(result) {
