@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>租客团-首页</title>
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -179,7 +179,7 @@ function searchHouseWithUser(index)
 	
 	if(!isLogin  && index!=0)
 		{
-			var msg = "亲，你还没有<a class='message' href=''>登录</a>哦";
+			var msg = "亲，你还没有<a class='message' href='login.html'>登录</a>哦";
 			$("#houseInfo .homes").eq(index).html(msg);
 		}
 	else if(index==1)

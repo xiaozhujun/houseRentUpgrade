@@ -16,28 +16,31 @@
             <h1>注册</h1>
         </div>
         <form action="">
-            <div class="username in_sty mb20">
-                <input type="text" placeholder="用户名" maxlength="100">
-            </div>
             <div class="email in_sty mb20">
-                <input type="text" placeholder="邮箱" maxlength="100">
+                <input id='emailInput' type="text" placeholder="邮箱" maxlength="100">
             </div>
             <div class="password in_sty mb20">
-                <input type="text" placeholder="密码" maxlength="100">
+                <input id='passwordInput' type="password" placeholder="密码" maxlength="100">
             </div>
             <div class="repassword in_sty mb20">
-                <input type="password" placeholder="确认密码" maxlength="100">
+                <input id='repasswordInput' type="password" placeholder="确认密码" maxlength="100">
+            </div>
+            <div class="username in_sty mb20">
+                <input id='realNameInput' type="text" placeholder="姓名" maxlength="100">
+            </div>
+             <div class="sex  mb20">
+                	性别 <input class="sexInput" type='radio' name='sex' id='sexInput' value='男' checked/>男 <input class="sexInput"  type='radio' name='sex' value='女'/>女
             </div>
             <div class="check in_sty mb10">
-                <input type="text" placeholder="验证码" maxlength="4">
-                <span>3456</span>
+                <input id='verifyInput' type="text" placeholder="验证码" maxlength="4">
+                <img id="verify" alt="验证码" onClick="reloadVerifyCode()" src=""><a href="javascript:reloadVerifyCode()">看不清楚</a>
             </div>
             <div class="iskeep mb10">
                 <input type="checkbox">
                 我已经阅读并同意遵守<a href="#">《友居》</a>
             </div>
-            <div class="registerbtn mb10">注 册</div>
-            <div class="error">错误提示</div>
+            <div id='regitserBtn' class="registerbtn mb10">注 册</div>
+            <div id="messageDiv" class="error"></div>
 
         </form>
     </div>
@@ -50,6 +53,34 @@
 <div id="footer" class="footer">尾部</div>
 
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/config.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#regitserBtn').click(function(){
+			var data = {};
+			data.realName = $('#realNameInput').val();
+			data.sex = $('#sexInput').val();
+			data.password = $('#passwordInput').val();
+			data.repassword = $('#repasswordInput').val();
+			data.email = $('#emailInput').val();
+			data.verify = $('#verifyInput').val();
+			$.post($.URL.user.register,data,registerCallback,"json");
+		});
+		
+		$('#verify').attr('src',$.URL.user.verify);
+	});
+	
+	function reloadVerifyCode(){  
+        document.getElementById("verify").src=$.URL.user.verify +'/' +Math.random();  
+	}
+	
+	//注册回调函数
+	function registerCallback(result)
+	{
+		$("#messageDiv").html(result.msg);
+			
+	}
+</script>
 </body>
 </html>

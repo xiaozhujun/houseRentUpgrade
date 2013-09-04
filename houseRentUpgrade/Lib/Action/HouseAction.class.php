@@ -302,10 +302,15 @@ class HouseAction extends Action {
 		
 		$companyId = $company['id'];
 		
-		$userCompanyModel = new UserCompanyModel();
-		$hosueList = $userCompanyModel->join("INNER JOIN house_info ON user_company.userId = house_info.userId")->where("user_company.companyId={$companyId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
+// 		$userCompanyModel = new UserCompanyModel();
+// 		$hosueList = $userCompanyModel->join("INNER JOIN house_info ON user_company.userId = house_info.userId")->where("user_company.companyId={$companyId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
+		
+		$houseInfoModel = new HouseInfoModel();
+		$hosueList = $houseInfoModel->findHouseWithCondition("user_company.companyId={$companyId}");
+		
+		
 		$data['success'] = true;
-		$data['houseList'] = $hosueList;
+		$data['houseList'] = $hosueList["list"];
 		$this->ajaxReturn($data);
 	}
 	
@@ -337,10 +342,13 @@ class HouseAction extends Action {
 		
 		$collegeId = $college['id'];
 		
-		$userCollegeModel = new UserCollegeModel();
-		$hosueList = $userCollegeModel->join("INNER JOIN house_info ON user_college.userId = house_info.userId")->where("user_college.collegeId={$collegeId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
+		
+		//$hosueList = $userCollegeModel->join("INNER JOIN house_info ON user_college.userId = house_info.userId")->where("user_college.collegeId={$collegeId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
+		$houseInfoModel = new HouseInfoModel();
+		$hosueList = $houseInfoModel->findHouseWithCondition("user_college.collegeId={$collegeId}");
+		
 		$data['success'] = true;
-		$data['houseList'] = $hosueList;
+		$data['houseList'] = $hosueList["list"];
 		$this->ajaxReturn($data);
 	}
 	
@@ -355,7 +363,7 @@ class HouseAction extends Action {
 		$communityName = $_POST['community'];
 		$data = array();
 		$data['success'] = false;
-		
+	
 		if(is_null($communityName))
 		{
 			$communityName = currentUserTargetCommunity();
@@ -367,10 +375,10 @@ class HouseAction extends Action {
 			}
 		}
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->where("community like '%{$_POST['community']}%'")->order("houseId desc")->limit(10)->select();;
-		
+		$hosueList = $houseInfoModel->findHouseWithCondition("house_info.community like '%{$_POST['community']}%'");
+	
 		$data['success'] = true;
-		$data['houseList'] = $hosueList;
+		$data['houseList'] = $hosueList["list"];
 		$this->ajaxReturn($data);
 	}
 	
@@ -400,7 +408,7 @@ class HouseAction extends Action {
 					$filename = "/Public/upload/".$info[0]['savename'];
 					
 					$housePhoto = new HousePhotoModel();
-					$housePhotoData = [];
+					$housePhotoData = array();
 					$housePhotoData["userId"] = currentUserId();
 					$housePhotoData["photoURL"] = $filename;
 					$photoId = $housePhoto->add($housePhotoData);

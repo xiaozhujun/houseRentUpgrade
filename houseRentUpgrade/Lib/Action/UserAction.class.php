@@ -57,7 +57,7 @@ class UserAction extends Action {
 				// 发送邮件
 				$email_result = sendMail ( $email, $realName, $subject, $email_content );
 				
-				$data['msg'] =  '恭喜您，注册成功！已发送激活邮件，请您注意查收账户激活邮件！';
+				$data['msg'] =  '恭喜您，注册成功！已发送激活邮件到'.$email.',请您注意查收激活邮件！';
 				$data['success'] = true;
 				$this->ajaxReturn($data);
 				return;
