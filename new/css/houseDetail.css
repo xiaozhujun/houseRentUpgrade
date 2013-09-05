@@ -29,8 +29,8 @@
 }
 .sumary .su_tit{
     float: left;
-    text-align: justify;
-    width: 65px;
+    text-align: right;
+    width: 75px;
 }
 .sumary .su_con {
     border: 1px solid #FFFFFF;

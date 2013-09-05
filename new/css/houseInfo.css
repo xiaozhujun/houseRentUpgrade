@@ -121,18 +121,6 @@
     font-size: 16px;
 }
 
-#commentContainer
-{
-	width:98%;
-	float:left;
-	border:solid 1px #ccc;
-	margin-top:20px;
-	padding-top:20px;
-	margin-right:10px;
-	padding-bottom:20px;
-	margin-left:8px;
-}
-
 .comentRow
 {
 	width:100%;
@@ -150,6 +138,7 @@
 {
 	width:85%;
 	float:left;
+	margin-top:5px;
 }
 
 #user
@@ -300,9 +289,8 @@
 {
 	border: 1px solid #CCCCCC;
     float: left;
-    margin-right: 10px;
     margin-top: 5px;
-    width: 98%;
+    width: 100%;
 }
 
 .commentTitle
@@ -333,7 +321,6 @@
 	width:100%;
 	float:left;
 	text-align:left;
-	padding:10px 10px;
 }
 
 html,body
@@ -344,14 +331,24 @@ html,body
 	margin:0;
 }
 #allmap{
-	width:100%;
 	height:300px;
-	float:left;
-	margin:0;
+	margin-left:15px;
+	margin-right:15px;
 	/* margin-left:170px; */
 }
 #commentBtn{
 	line-height:30px;
 	margin: 1px 1px;
 	margin-bottom:10px;
+}
+
+#commentContainer
+{
+	margin-left:15px;
+	margin-right:15px;
+}
+
+#commentList
+{
+	width:100%;
 }
