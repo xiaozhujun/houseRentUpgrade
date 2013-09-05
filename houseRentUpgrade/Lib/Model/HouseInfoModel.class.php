@@ -4,7 +4,7 @@ class HouseInfoModel extends Model{
 	protected $trueTableName = 'house_info';
 	
     /*
-     * 通过参数信息查找房源
+     * 閫氳繃鍙傛暟淇℃伅鏌ユ壘鎴挎簮
      */
 //    function findHouse($region,$price,$houseType)
     function findHouse($post)
@@ -55,7 +55,7 @@ class HouseInfoModel extends Model{
     	}
     	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,u.realName as realName,c3.`name` as collegeName,c4.`name` as companyName".
 	" from house_info,user u,user_college c1,user_company c2,college c3,company c4 where ".
-	$wheresql."house_info.userId=u.id and house_info.userId=c1.userId and house_info.userId=c2.userId
+	$wheresql." house_info.transferTime >= NOW() and house_info.userId=u.id and house_info.userId=c1.userId and house_info.userId=c2.userId
 				and c3.id=c1.collegeId and c4.id=c2.companyId";
     	$countSQL="select count(*) count  from house_info ".$wheresql;
       	//echo $querySQL;
@@ -69,7 +69,7 @@ class HouseInfoModel extends Model{
     	return $list;
     }
     
-    //通过查找条件查找房源列表
+    //閫氳繃鏌ユ壘鏉′欢鏌ユ壘鎴挎簮鍒楄〃
     function findHouseWithCondition($condition)
     {
     	$wheresql="";
@@ -95,7 +95,7 @@ class HouseInfoModel extends Model{
     }
     
     /*
-     * 根据houseId查询房屋详情页
+     * 鏍规嵁houseId鏌ヨ鎴垮眿璇︽儏椤�
      */
     function getHouseInfo($houseId){
 
@@ -114,14 +114,14 @@ class HouseInfoModel extends Model{
     	
     } 
     
-    //受欢迎的房子
+    //鍙楁杩庣殑鎴垮瓙
     function popularHouse()
     {
     	$now = dateTime();
     	return $this->where("transferTime>='{$now}'")->order("houseId desc")->limit(10)->select();
     }
     
-    //一个街道的房源
+    //涓�釜琛楅亾鐨勬埧婧�
     function streetHouse($street)
     {
     	if(is_null($street))
