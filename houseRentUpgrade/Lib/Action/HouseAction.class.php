@@ -320,6 +320,13 @@ class HouseAction extends Action {
 		
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
+		
+		$housePhotoModel = new HousePhotoModel();
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+		}
+		
 		$this->ajaxReturn($data);
 	}
 	
@@ -358,6 +365,13 @@ class HouseAction extends Action {
 		
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
+		
+		$housePhotoModel = new HousePhotoModel();
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+		}
+		
 		$this->ajaxReturn($data);
 	}
 	
@@ -388,6 +402,13 @@ class HouseAction extends Action {
 	
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
+		
+		$housePhotoModel = new HousePhotoModel();
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+		}
+		
 		$this->ajaxReturn($data);
 	}
 	
