@@ -56,16 +56,16 @@ class HouseInfoModel extends Model{
     	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,u.realName as realName,c3.`name` as collegeName,c4.`name` as companyName".
 	" from house_info,user u,user_college c1,user_company c2,college c3,company c4 where ".
 	$wheresql." house_info.transferTime >= NOW() and house_info.userId=u.id and house_info.userId=c1.userId and house_info.userId=c2.userId
-				and c3.id=c1.collegeId and c4.id=c2.companyId";
+				and c3.id=c1.collegeId and c4.id=c2.companyId order by house_info.houseId desc limit 0,10";
     	$countSQL="select count(*) count  from house_info ".$wheresql;
       	//echo $querySQL;
     	$list["list"]= $this->query($querySQL);
-    	$count=$this->query($countSQL);
-    	if($count){
-    		$list["allcount"]=$count[0]["count"];
-    	}else{
-    		$list["allcount"]=0;
-    	}
+//     	$count=$this->query($countSQL);
+//     	if($count){
+//     		$list["allcount"]=$count[0]["count"];
+//     	}else{
+//     		$list["allcount"]=0;
+//     	}
     	return $list;
     }
     

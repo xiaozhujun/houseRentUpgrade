@@ -50,7 +50,7 @@ temp.topbar =
     '    <div id="userLoginActions" class="login fr">' + 
     '        <a href="login.html">登录</a>&nbsp;&nbsp;<a href="register.html">注册</a>' + 
     '    </div>' + 
-    '    <div id="usernameDiv" class="user fr none">欢迎您，<a id="usernameLink" href="#">肖竹君</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/logout">安全退出</a></div>' + 
+    '    <div id="usernameDiv" class="user fr none">欢迎您，<a id="usernameLink" href="/User/personCenter">肖竹君</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/logout">安全退出</a></div>' + 
     '</div>'
     ;
 
@@ -87,7 +87,7 @@ temp.headerNoSearch =
     '    <a id="logo" target="_self" href="index.html">' +
     '        <img alt="中文最大社交房产信息门户" src="images/logo.png">' +
     '    </a>' +
-    '    <a id="issue" href="#">免费发布房源信息</a>' +
+    '    <a id="issue" href="releaseInfo.html">免费发布房源信息</a>' +
     '</div>'
     ;
 
@@ -109,9 +109,14 @@ $('#searchBtn').click(function(){
 	}
 });
 
-$.get($.URL.user.checkLogin,null,checkLoginCallback,"json");
-
 var isLogin = false;
+
+function getLoginInfo()
+{
+	$.get($.URL.user.checkLogin,null,checkLoginCallback,"json");
+}
+getLoginInfo();
+
 function checkLoginCallback(data)
 {
 	if(data.isLogin)
@@ -123,4 +128,80 @@ function checkLoginCallback(data)
 		}
 }
 
+var popLoginStr = 
+    '<div id="popLogin">' + 
+    '    <div class="login_main">' + 
+    '        <div class="content_head">' + 
+    '            <h1>登录</h1>' + 
+    '        </div>' + 
+    '        <form action="">' + 
+    '            <div class="username mb20">' + 
+    '                <input id="popEmailInput" type="text" placeholder="邮箱" maxlength="100">' + 
+    '            </div>' + 
+    '            <div class="password mb20">' + 
+    '                <input id="popPwdInput" type="password" placeholder="密码" maxlength="100">' + 
+    '            </div>' + 
+    '            <div class="iskeep mb10">' + 
+    '                <input type="checkbox">' + 
+    '                保持登录状态' + 
+    '            </div>' + 
+    '            <div id="popLoginBtn" class="enterbtn mb10">登 录</div>' + 
+    '            <div class="outfun mb10">' + 
+    '                <span class="doubt">还不是友居客户？</span>' + 
+    '                <a class="apply" href="register.html">我要注册</a>' + 
+    '                <a class="forget" href="">忘记密码？</a>' + 
+    '            </div>' + 
+    '            <div id="popLoginMessage" class="error"></div>' + 
+    '        </form>' + 
+    '    </div>' + 
+    '</div> '
+    ;
 
+function showPopLogin()
+{
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popLoginStr);
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popLoginBtn").click(function(){
+	    	var data = {};
+			data.email = $('#popEmailInput').val();
+			data.password = $('#popPwdInput').val();
+			$.post($.URL.user.login,data,popLoginCallback,"json");
+	    });
+}
+
+function validateLogin()
+{
+	if(!isLogin)
+		{
+			showPopLogin();
+		}
+	return isLogin;
+}
+
+
+function popLoginCallback(result)
+{
+	if(result.success)
+	{
+		getLoginInfo();
+		DIALOG.close();
+	}
+	else
+	{
+		$('#popLoginMessage').html(result.msg);
+	}
+	
+}
+
+$("#issue").click(function(){
+	return validateLogin();
+});

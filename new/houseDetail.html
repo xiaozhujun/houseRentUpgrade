@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/houseDetail.css">
     <link rel="stylesheet" type="text/css" href="css/houseInfo.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
 </head>
 <body>
 <div id="topbar" class="topbar"></div>
@@ -23,7 +25,7 @@
                 <div class="fl w240 gallery">
                     <div class="bimg_slide">
                         <span>
-                            <img src="images/house1.png" alt="">
+                            <img id="bigSlideImg" src="images/house1.png" alt="" width="607" height=432>
                         </span>
                     </div>
 
@@ -32,28 +34,8 @@
                         <a class="btn btnr fr" href="javascript:void(0)"></a>
 
                         <div class="imgcontain picContain">
-                            <ul>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
-                                <li>
-                                    <img src="images/house1.png" alt="">
-                                </li>
+                            <ul id="imgList">
+                               
                             </ul>
                         </div>
                             
@@ -123,28 +105,7 @@
                     <a class="btn btnr fr" href="javascript:void(0)"></a>
 
                     <div class="bigimgcontain picContain">
-                        <ul class="clearfix">
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
-                            <li>
-                                <img src="images/house1.png" alt="">
-                            </li>
+                        <ul id="bigImgList" class="clearfix">
                         </ul>
                     </div>
                         
@@ -269,6 +230,10 @@
 <!-- <div></div> -->
 <div id="footer" class="footer">尾部</div>
 
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/js/config.js"></script>
 <script type="text/javascript" src="/js/urlUtil.js"></script>
@@ -276,6 +241,8 @@
 <script type="text/javascript" src="js/houseDetail.js"></script>
 <script type="text/javascript" src="js/nicEdit.js"></script>
 <script src="/js/jquery-dateFormat.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/hdialog.js"></script>
+
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=0414726b722ea5ad257d0b96a3c6117a"></script>
 
 <script type="text/javascript">
@@ -298,6 +265,11 @@ $(document).ready(function(){
 		      }    );
 	
 	$("#commentBtn").click(function(){
+		if(!isLogin)
+			{
+				showPopLogin();
+				return false;
+			}
 		
 		var nicE = new nicEditors.findEditor('commentInput');
 		var comment = nicE.getContent();
@@ -318,6 +290,10 @@ $(document).ready(function(){
 	$.get($.URL.houseComment.commentList + "?houseId=" + houseId, null,
 			commentListCallback, 'json');
 	
+	$(".add").click(function(){
+		return validateLogin();
+	});
+	
 });
 
 
@@ -337,6 +313,26 @@ function houseinfoCallback(data) {
 	$("#publisher").html(data.houseuser.realName);
 	$("#company").html(data.company);
 	$("#college").html(data.college);
+	if(data.houseinfo.photos.length>0)
+		{
+			var housePhotos = data.houseinfo.photos;
+			$("#bigSlideImg").attr("src",housePhotos[0].photoURL);
+			var houseImg;
+			var li;
+			$("#imgList").html("");
+			for(var i=0;i<housePhotos.length;i++)
+				{
+					 li = $("<li></li>");
+					 houseImg = $("<img >");
+					 houseImg.attr("src",housePhotos[i].photoURL);
+					 li.append(houseImg);
+					 $("#imgList").append(li);
+					 $("#bigImgList").append(li.clone());
+				}
+			$("#imgList img").click(function(){
+				$("#bigSlideImg").attr("src",$(this).attr("src"));
+			});
+		}
 	
 	showHouseLocation(data.houseinfo.street+data.houseinfo.community);
 }

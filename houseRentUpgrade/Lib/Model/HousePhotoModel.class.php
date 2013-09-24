@@ -12,7 +12,7 @@ class HousePhotoModel extends Model{
 			return $photos;
     	}
     		 
-    	$querySQL = "select * from house_photo where house_id=".$houseId;
+    	$querySQL = "select photoURL from house_photo where houseId=".$houseId;
     	$photos= $this->query($querySQL);
 		return $photos;
     	

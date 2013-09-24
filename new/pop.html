@@ -66,7 +66,7 @@ var popLoginStr =
         '                <input type="checkbox">' + 
         '                保持登录状态' + 
         '            </div>' + 
-        '            <div class="enterbtn mb10">登 录</div>' + 
+        '            <div id="popLoginBtn" class="enterbtn mb10">登 录</div>' + 
         '            <div class="outfun mb10">' + 
         '                <span class="doubt">还不是友居客户？</span>' + 
         '                <a class="apply" href="register.html">我要注册</a>' + 
@@ -89,6 +89,10 @@ $("button").click(function(){
             iePlaceHolder();
         }
     });
+    
+    $("#popLoginBtn").click(function(){
+    	alert("login");
+    }));
 });
     
 </script>

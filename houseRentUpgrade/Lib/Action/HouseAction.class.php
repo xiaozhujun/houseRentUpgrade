@@ -61,11 +61,17 @@ class HouseAction extends Action {
 			$data['houseList']=$houseinfolist["list"];
 		}else{
 			$data['current_count']=0;
-			$data['houseinfo_list']=null;
+			$data['houseList']=null;
 			
 		}
 		
-		$data['houseinfo_list']=$houseinfolist["list"];
+		$housePhotoModel = new HousePhotoModel();
+		
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+		}
+		
 		
 		
 		$this->ajaxReturn($data);
@@ -160,6 +166,9 @@ class HouseAction extends Action {
 		$houseInfo = M('HouseInfo');
 		$houseInfoObj = $houseInfo->find($houseId);
 		$data['houseinfo']=$houseInfo->find($houseId);
+		
+		$housePhotoModel = new HousePhotoModel();
+		$data['houseinfo']['photos'] = $housePhotoModel->getHousePhotos($data['houseinfo']['houseId']);
 		//$this->assign('houseInfo',$houseInfoObj);
 		$region = M('Region');
 		$regionId = $houseInfoObj['region'];
