@@ -1,0 +1,179 @@
+#circleInfo .circleBrief{
+    border:1px solid #ddd;
+}
+
+#circleInfo .circleBrief .circleBriefTop{
+    height:60px;
+    background: #fafafa;
+}
+#circleInfo .circleBriefTop .num_t{
+    display: inline-block;
+    width:465px;
+    height:60px;
+}
+#circleInfo .circleBriefTop .num_t a{
+    margin:9px 4px;
+    display: inline-block;
+    width:42px;
+    height:42px;
+    vertical-align: top;
+}
+#circleInfo .circleBriefTop .num_t strong{
+    font:bold 12px/60px "宋体";
+    width:390px;
+}
+#circleInfo .circleBriefTop .num{
+    display: inline-block;
+    width:80px;
+    height:60px;
+}
+#circleInfo .circleBriefTop .num strong{
+    font:bold 12px/60px "宋体";
+}
+#circleInfo .circleBriefTop .num em{
+    font:12px/60px "宋体";
+}
+
+#circleJoin{
+    border:1px solid #ddd;
+}
+#circleJoin .join_t{
+    height: 40px;
+    padding-bottom: 6px;
+    margin:17px 10px;
+}
+#circleJoin .join_t .img{
+    width:40px;
+    height:40px;
+    display: inline-block;
+    text-align: center;
+    float: left;
+}
+#circleJoin .join_t .img img{
+    position: relative;
+    top:8px;
+}
+#circleJoin .join_t .right{
+    margin-left: 7px;
+}
+#circleJoin .join_t .right h3 a{
+    font:bold 14px/14px "微软雅黑"; 
+    color:#000;  
+}
+#circleJoin .join_t .right h3 a:hover{
+    text-decoration: underline;
+}
+#circleJoin .join_t .right h5{
+    font:12px/14px "宋体";
+    margin-top:7px;
+}
+#circleJoin .join_b h3{
+    font:bold 12px/12px "宋体";
+    padding:5px;
+    background: #eee;
+}
+
+
+
+
+.circleThemeTab {
+    font: bold 14px/30px "宋体";
+    height: 30px;
+    position: relative;
+}
+.circleThemeTab span{
+    border: 1px solid #DDDDDD;
+    display: inline-block;
+    height: 29px;
+    position: relative;
+    text-align: center;
+    width: 100px;
+}
+
+.circleThemeTab span.cur {
+    border-bottom: 1px solid #fafafa;
+    font-weight: bold;
+    background: #fafafa;
+}
+.circleThemeTab span a{
+    color:#333;
+}
+.circleThemeTab span a:hover{
+    text-decoration: underline;
+}
+
+.issueTheme{
+    float: right;
+    color:#fe8d2e;
+    font-size:14px;
+}
+.issueTheme:hover{
+    text-decoration: underline;
+}
+
+
+.circlePopIssue{
+    border:1px solid #ddd;
+    width:433px;
+}
+.circlePopIssue .popClose{
+    background: url("../images/popClose.png") no-repeat scroll -3px 3px transparent;
+    cursor: pointer;
+    float: right;
+    height: 30px;
+    width: 30px;
+}
+.circlePopIssue h2{
+    font:32px/32px '微软雅黑';
+    padding:0 0 10px 10px;
+}
+
+.circlePopIssue h3{
+    font:14px/30px "宋体";
+}
+.circlePopIssue input{
+    width:400px;
+    height:30px;
+    line-height: 30px;
+    padding:0 5px;
+    border: 1px solid #E3E3E3;
+    box-shadow: 0 3px 3px #E3E3E3 inset;
+    border-radius:5px;
+}
+.circlePopIssue textarea{
+    border: 1px solid #E3E3E3;
+    box-shadow: 0 3px 3px #E3E3E3 inset;
+    border-radius:5px;
+    width:400px;
+    height: 200px;
+    line-height: 24px;
+    resize:none;
+    padding: 0 5px;
+}
+.circlePopIssue select{
+    width:150px;
+    height:25px;
+    line-height: 24px;
+}
+.circlePopIssue .issueBtn{
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+    background: #25A774;
+    border-radius: 3px;
+    color:#fff;
+}
+.circlePopIssue .issueBtn:hover{
+    text-decoration: underline;
+}
+.circlePopIssue .issueBtnout{
+    color:#333;
+}
+.circlePopIssue .issueBtnout:hover{
+    text-decoration: underline;
+}
+
+
+

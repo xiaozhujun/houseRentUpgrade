@@ -75,3 +75,25 @@
 #houseInfo .homes{
 	display: none;
 }
+
+.homes .issueBtn {
+    background: none repeat scroll 0 0 #25A774;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    width: 50px;
+    margin-left:5px;
+}
+
+.homes a {
+    outline: medium none;
+    text-decoration: none;
+}
+
+.homesBody
+{
+	margin:10px;
+}

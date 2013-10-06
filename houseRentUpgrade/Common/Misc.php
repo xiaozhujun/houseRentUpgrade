@@ -31,15 +31,13 @@ function currentUserCompany()
 	}
 	
 	//获得当前用户的公司名称
-	$userCompany = new UserCompanyModel();
-	$userCompanyObj = $userCompany->findByUserId(currentUserId());
-	if($userCompanyObj)
+	$userCommunity = new UserCommunityModel();
+	$userCompanyList = $userCommunity->findCommunityWithType(currentUserId(),COMPANY);
+	if($userCompanyList && count($userCompanyList)>0)
 	{
-		$company = new CompanyModel();
-		$companyObj = $company->find($userCompanyObj['companyId']);
-		return $companyName =$companyObj['name'];
+		return $userCompanyList[0]["communityName"];
 	}
-	return "";
+	return null;
 }
 
 function currentUserCollege()
@@ -49,16 +47,14 @@ function currentUserCollege()
 		return "";
 	}
 
-	//获得当前用户的高校名称
-	$userCollege = new UserCollegeModel();
-	$userCollegeObj = $userCollege->findByUserId($_SESSION['userId']);
-	if($userCollegeObj)
+	//获得当前用户的学校名称
+	$userCommunity = new UserCommunityModel();
+	$userCollegeList = $userCommunity->findCommunityWithType(currentUserId(),COLLEGE);
+	if($userCollegeList && count($userCollegeList)>0)
 	{
-		$college = new CollegeModel();
-		$collegeObj = $college->find($userCollegeObj['collegeId']);
-		return $collegeObj['name'];
-	}		
-	return "";
+		return $userCollegeList[0]["communityName"];
+	}
+	return null;
 }
 
 function currentUserTargetCommunity()

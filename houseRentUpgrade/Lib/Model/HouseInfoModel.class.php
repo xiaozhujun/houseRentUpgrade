@@ -77,13 +77,36 @@ class HouseInfoModel extends Model{
     	if($condition!=""){
     		$wheresql=" and ".$condition;
     	}
-    	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName,college.`name` as collegeName,company.`name` as companyName".
-    			" from house_info,user,user_college,user_company,college,company where ".
-    					"house_info.userId=user.id and house_info.userId=user_college.userId and house_info.userId=user_company.userId
-				and college.id=user_college.collegeId and company.id=user_company.companyId and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
-    	//echo $querySQL;
+    	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName".
+    			" from house_info,user where ".
+    					"house_info.userId=user.id and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
+//     	echo $querySQL;
     	
-    	$countSQL="select count(*) count  from house_info ";
+    	$countSQL="select count(*) count from house_info ";
+    	$list["list"]= $this->query($querySQL);
+    	$count=$this->query($countSQL);
+    	if($count){
+    		$list["allcount"]=$count[0]["count"];
+    	}else{
+    		$list["allcount"]=0;
+    	}
+    	return $list;
+    }
+    
+    function findHouseWithCircle($condition)
+    {
+    	$wheresql="";
+    	 
+    	if($condition!=""){
+    		$wheresql=" and ".$condition;
+    	}
+    	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName".
+    			" from house_info,user,user_community,community where ".
+    			"house_info.userId=user.id and house_info.userId=user_community.userId
+				and community.id=user_community.communityId and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
+    	//     	echo $querySQL;
+    	 
+    	$countSQL="select count(*) count from house_info ";
     	$list["list"]= $this->query($querySQL);
     	$count=$this->query($countSQL);
     	if($count){

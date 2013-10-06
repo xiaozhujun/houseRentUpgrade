@@ -35,7 +35,7 @@
 			"oneDuHouseList":"/House/oneDuHouse",
 			"companyHouseList":"/House/companyHouse",
 			"collegeHouseList":"/House/collegeHouse",
-			"communityHouseList":"/House/communityHouse",
+			"villegeHouseList":"/House/villageHouse",
 		},
 		"houseApply":{
 			"applyHouse":"/HouseApply/applyHouse",
@@ -67,6 +67,12 @@
 		"targetHouse":{
 			"add":"/TargetHouse/add",
 			"autoComplete":"/TargetHouse/autoComplete",
+		},
+		"community":{
+			"addVillage":"/Community/addVillage",
+			"addCompany":"/Community/addCompany",
+			"addCollege":"/Community/addCollege",
+			"autoComplete":"/Community/autoComplete",
 		}
 		
 			

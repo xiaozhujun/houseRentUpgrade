@@ -141,7 +141,7 @@
             </div>
             <div id="houseInfo">
             	<div class='homes' id='searchResult'></div>
-                <div class="homes" id="communityHouseList"></div>
+                <div class="homes" id="villegeHouseList"></div>
                 <div class="homes" id="collegeHouseList"></div>  
                 <div class="homes" id="companyHouseList"></div>  
                 <div class="homes" id="friendHouseList"></div>
@@ -193,7 +193,7 @@ function searchHouseWithUser(index)
 	else if(index==1)
 		{
 			if($("#houseInfo .homes").eq(index).html()=="")
-			$.get($.URL.house.communityHouseList,null,searchCommunityWithUserCallback,"json");
+			$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
 		}
 	else if(index==2)
 		{
@@ -214,7 +214,7 @@ function searchHouseWithUser(index)
 
 function searchCommunityWithUserCallback(data)
 {
-	var targetContainer = "#communityHouseList";
+	var targetContainer = "#villegeHouseList";
 	renderingPage(data,targetContainer);
 	showTabByIndex(1);
 }
@@ -222,15 +222,92 @@ function searchCommunityWithUserCallback(data)
 function searchCollegeWithUserCallback(data)
 {
 	var targetContainer = "#collegeHouseList";
-	renderingPage(data,targetContainer);
-	showTabByIndex(2);
+	if(data.success)
+		{
+		renderingPage(data,targetContainer);
+		showTabByIndex(2);
+		}
+	else
+		{
+			var collegeInputContainer = $("<div class='homesBody'></div>")
+			var collegeInput = $("<input id='collegeInput' class='issueIpt keyinput' placeHolder='亲，请填写您的母校'>");
+			var collegeSaveBtn = $("<a id='collegeSaveBtn' class='issueBtn' href='#'>保存</a>")
+			collegeInputContainer.append(collegeInput);
+			collegeInputContainer.append(collegeSaveBtn);
+			$(targetContainer).html(collegeInputContainer);
+			$("#collegeSaveBtn").click(function(){
+				var collegeName = $("#collegeInput").val();
+				if(collegeName!="")
+					{
+						var collegeData = {};
+						collegeData.name = collegeName;
+						$.post($.URL.community.addCollege,collegeData,addCollegeCallback,"json");
+					}
+				else
+					{
+						alert("母校名称不能为空！");
+					}
+				
+			});
+		}
 }
 
 function searchCompanyWithUserCallback(data)
 {
 	var targetContainer = "#companyHouseList";
-	renderingPage(data,targetContainer);
-	showTabByIndex(3);
+	if(data.success)
+		{
+			renderingPage(data,targetContainer);
+			showTabByIndex(3);
+		}
+	else
+		{
+			var companyInputContainer = $("<div class='homesBody'></div>")
+			var companyInput = $("<input id='companyInput' class='issueIpt keyinput' placeHolder='亲，请输入您所在公司'>");
+			var companySaveBtn = $("<a id='companySaveBtn' class='issueBtn' href='#'>保存</a>")
+			companyInputContainer.append(companyInput);
+			companyInputContainer.append(companySaveBtn);
+			$(targetContainer).html(companyInputContainer);
+			$("#companySaveBtn").click(function(){
+				var companyName = $("#companyInput").val();
+				if(companyName!="")
+					{
+						var companyData = {};
+						companyData.name = companyName;
+						$.post($.URL.community.addCompany,companyData,addCompanyCallback,"json");
+					}
+				else
+					{
+						alert("公司名称不能为空！");
+					}
+				
+			});
+		}
+	
+}
+
+function addCompanyCallback(data)
+{
+	if(data.success)
+		{
+			$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
+		}
+	else
+		{
+			alert(data.msg);
+		}
+}
+
+function addCollegeCallback(data)
+{
+	if(data.success)
+		{
+			$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
+		}
+	else
+		{
+			alert(data.msg);
+		}
 }
 
 function searchFriendWithUserCallback(data)
@@ -395,7 +472,17 @@ function renderingPage(data,target){
 			var transferTime = $("<p><em>"+ getLeftDays(data.houseList[i].leftDays) +"</em>后出租</p>");
 			var personBottom = $("<div class='bottom'></div>");
 			var community = $("<span class='fl'>租客圈：</span>");
-			var link =$("<div class='link'><a href='#'>"+data.houseList[i].collegeName+"</a><a href='#'>"+data.houseList[i].companyName+"</a></div>");
+			var link =$("<div class='link'></div>");
+			if(typeof(data.houseList[i].circles)!="undefined")
+				{
+					for(var j=0;j<data.houseList[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='circleIndex.html'></a>");
+						circleLink.html(data.houseList[i].circles[j].name);
+						link.append(circleLink);
+					}
+				}
+			
 			personTopRight.append(personName).append(transferTime);
 			personTop.append(personImg).append(personTopRight);
 			personBottom.append(community).append(link);

@@ -2,6 +2,8 @@
 import("@.Model.HouseInfoModel");
 import("@.Model.RegionModel");
 import("@.Model.UserModel");
+import("@.Model.CommunityModel");
+import("@.Model.UserCommunityModel");
 import("@.Model.UserCompanyModel");
 import("@.Model.UserCollegeModel");
 import("@.Model.HouseViewModel");
@@ -66,10 +68,11 @@ class HouseAction extends Action {
 		}
 		
 		$housePhotoModel = new HousePhotoModel();
-		
+		$userCommunityModel = new UserCommunityModel();
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
 		}
 		
 		
@@ -306,25 +309,25 @@ class HouseAction extends Action {
 				return;
 			}
 		}
-		$companyModel = new CompanyModel();
-		$company = $companyModel->where("name='{$companyName}'")->find();
-		
+		$communityModel = new CommunityModel();
+		$company = $communityModel->where("name='{$companyName}' AND communityType=".COMPANY)->find();
+			
 		$companyId = $company['id'];
 		
-// 		$userCompanyModel = new UserCompanyModel();
-// 		$hosueList = $userCompanyModel->join("INNER JOIN house_info ON user_company.userId = house_info.userId")->where("user_company.companyId={$companyId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
-		
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCondition("user_company.companyId={$companyId}");
+		$hosueList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$companyId}");
 		
 		
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
 		
 		$housePhotoModel = new HousePhotoModel();
+		$userCommunityModel = new UserCommunityModel();
+		
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
 		}
 		
 		$this->ajaxReturn($data);
@@ -347,43 +350,44 @@ class HouseAction extends Action {
 			$collegeName = currentUserCollege();
 			if(is_null($collegeName))
 			{
-				$data['msg'] = "请填写学校信息！";
+				$data['msg'] = "请填写母校信息！";
 				$this->ajaxReturn($data);
 				return;
 			}
-			
 		}
-		$collegeModel = new CollegeModel();
-		$college = $collegeModel->where("name='{$collegeName}'")->find();
-		
+		$communityModel = new CommunityModel();
+		$college = $communityModel->where("name='{$collegeName}' AND communityType=".COLLEGE)->find();
+			
 		$collegeId = $college['id'];
 		
 		
 		//$hosueList = $userCollegeModel->join("INNER JOIN house_info ON user_college.userId = house_info.userId")->where("user_college.collegeId={$collegeId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCondition("user_college.collegeId={$collegeId}");
+		$hosueList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$collegeId}");
 		
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
 		
 		$housePhotoModel = new HousePhotoModel();
+		$userCommunityModel = new UserCommunityModel();
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
 		}
 		
 		$this->ajaxReturn($data);
 	}
 	
 	//小区的房源
-	function communityHouse()
+	function villageHouse()
 	{
 		if(!isLogin())
 		{
 			redirect(C('LOGIN_URL'));
 			return;
 		}
-		$communityName = $_POST['community'];
+		$communityName = $_POST['village'];
 		$data = array();
 		$data['success'] = false;
 	
@@ -398,15 +402,17 @@ class HouseAction extends Action {
 			}
 		}
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCondition("house_info.community like '%{$_POST['community']}%'");
+		$hosueList = $houseInfoModel->findHouseWithCondition("house_info.community like '%{$communityName}%'");
 	
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
 		
 		$housePhotoModel = new HousePhotoModel();
+		$userCommunityModel = new UserCommunityModel();
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
 		}
 		
 		$this->ajaxReturn($data);
