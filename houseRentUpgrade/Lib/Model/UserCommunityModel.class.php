@@ -53,4 +53,12 @@ class UserCommunityModel extends Model{
 	{
 		return $this->join("community on user_community.communityId=community.id")->where("user_community.userId={$userId}")->field("user_community.communityName as name")->order("community.communityType asc")->limit(0,3)->select();
 	}
+	
+	//圈子成员总数
+	function communityUserCount($communityId)
+	{
+		$querySQL = "select count(userId) as userCount from user_community where communityId=".$communityId;
+// 		echo $querySQL;
+		return $this->query($querySQL);
+	}
 }

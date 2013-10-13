@@ -104,9 +104,11 @@ class HouseInfoModel extends Model{
     			" from house_info,user,user_community,community where ".
     			"house_info.userId=user.id and house_info.userId=user_community.userId
 				and community.id=user_community.communityId and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
-    	//     	echo $querySQL;
+//     	     	echo $querySQL;
     	 
-    	$countSQL="select count(*) count from house_info ";
+    	$countSQL= "select count(house_info.houseId) as count from house_info,user,user_community,community where ".
+    			"house_info.userId=user.id and house_info.userId=user_community.userId
+				and community.id=user_community.communityId and house_info.transferTime >= NOW() ".$wheresql;
     	$list["list"]= $this->query($querySQL);
     	$count=$this->query($countSQL);
     	if($count){

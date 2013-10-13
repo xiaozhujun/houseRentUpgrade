@@ -183,14 +183,18 @@ class HouseAction extends Action {
 		$houseUserObj = $houseUser->find($houseUserId);
 		//$this->assign("houseUser",$houseUserObj);
 		$data['houseuser']=$houseUser->find($houseUserId);
-		$userCompany = new UserCompanyModel();
-		$company = $userCompany->getUserCompany($houseUserId);
-		//$this->assign("company",$company);
-		$data['company']=$userCompany->getUserCompany($houseUserId);
-		$userCollege = new UserCollegeModel();
-		$college = $userCollege->getUserCollege($houseUserId);
-		//$this->assign("college",$college);
-		$data['college']=$userCollege->getUserCollege($houseUserId);
+// 		$userCompany = new UserCompanyModel();
+// 		$company = $userCompany->getUserCompany($houseUserId);
+// 		//$this->assign("company",$company);
+// 		$data['company']=$userCompany->getUserCompany($houseUserId);
+// 		$userCollege = new UserCollegeModel();
+// 		$college = $userCollege->getUserCollege($houseUserId);
+// 		//$this->assign("college",$college);
+// 		$data['college']=$userCollege->getUserCollege($houseUserId);
+		
+		$userCommunityModel = new UserCommunityModel();
+		$data["circles"] = array_values($userCommunityModel->userCommunities($houseUserId));
+		
 		//保存用户浏览房源记录
 		$houseViewModel = new HouseViewModel();
 		$result = $houseViewModel->saveOrUpdate(currentUserId(),$houseId);
@@ -396,7 +400,7 @@ class HouseAction extends Action {
 			$communityName = currentUserTargetCommunity();
 			if(is_null($communityName))
 			{
-				$data['msg'] = "请填写目标小区信息！";
+				$data["msg"] = "请填写目标小区信息！";
 				$this->ajaxReturn($data);
 				return;
 			}
@@ -454,6 +458,45 @@ class HouseAction extends Action {
 			}
 			$data["success"] =true;
 			$data["fileUrl"] = $filename;
+			$this->ajaxReturn($data);
+		}
+		
+		function circleHouse()
+		{
+			$circleName = $_GET['circleName'];
+			
+			$data = array();
+			$data['success'] = false;
+			
+			if(is_null($circleName))
+			{
+				$data['msg'] = "圈子名称为空！";
+				$this->ajaxReturn($data);
+				return;
+			}
+			$communityModel = new CommunityModel();
+			$circle = $communityModel->where("name='{$circleName}'")->find();
+				
+			$circleId = $circle['id'];
+			
+			$houseInfoModel = new HouseInfoModel();
+			$houseList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$circleId}");
+			
+			$data['success'] = true;
+			$data['houseList'] = $houseList["list"];
+			$data['count'] = $houseList["allcount"];
+			
+			$housePhotoModel = new HousePhotoModel();
+			$userCommunityModel = new UserCommunityModel();
+			
+			foreach ($data['houseList'] as $key=>$value)
+			{
+				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			}
+			$result = $userCommunityModel->communityUserCount($circleId);
+			$data["userCount"] = $result[0]["userCount"];
+			
 			$this->ajaxReturn($data);
 		}
 		

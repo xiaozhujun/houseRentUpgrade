@@ -36,6 +36,7 @@
 			"companyHouseList":"/House/companyHouse",
 			"collegeHouseList":"/House/collegeHouse",
 			"villegeHouseList":"/House/villageHouse",
+			"circleHouseList":"/House/circleHouse",
 		},
 		"houseApply":{
 			"applyHouse":"/HouseApply/applyHouse",

@@ -117,7 +117,7 @@
 
             <ul id="topic" class="fr">
                 <li class="topic1">
-                    <a target="_blank" href="#">加入租房圈</a>
+                    <a target="_blank" href="circleList.html">加入租房圈</a>
                 </li>
                 <li class="topic2">
                     <a target="_blank" href="#">查找好友</a>
@@ -473,12 +473,13 @@ function renderingPage(data,target){
 			var personBottom = $("<div class='bottom'></div>");
 			var community = $("<span class='fl'>租客圈：</span>");
 			var link =$("<div class='link'></div>");
-			if(typeof(data.houseList[i].circles)!="undefined")
+			if(typeof(data.houseList[i].circles)!="undefined"  && data.houseList[i].circles!=null)
 				{
 					for(var j=0;j<data.houseList[i].circles.length;j++)
 					{
-						var circleLink = $("<a href='circleIndex.html'></a>");
+						var circleLink = $("<a href='#'></a>");
 						circleLink.html(data.houseList[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.houseList[i].circles[j].name));
 						link.append(circleLink);
 					}
 				}

@@ -136,7 +136,7 @@
             </a>
             <div class="right">
                 <strong><a id="publisher" class="name" href="#"></a></strong>
-                <p class="ring">
+                <p id="circles" class="ring">
                     <a id="company" href="circleIndex.html"></a>
                     <a id="college" href="circleIndex.html"></a>
                 </p>
@@ -311,6 +311,20 @@ function houseinfoCallback(data) {
 	$("#houseDetail").html(data.houseinfo.detailDescription);
 	
 	$("#publisher").html(data.houseuser.realName);
+	
+	if(typeof(data.circles)!="undefined")
+	{
+		$("#circles").html("");
+		for(var j=0;j<data.circles.length;j++)
+		{
+			var circleLink = $("<a href='#'></a>");
+			circleLink.html(data.circles[j].name);
+			circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.circles[j].name));
+			$("#circles").append(circleLink);
+			$("#circles").append("&nbsp;");
+		}
+	}
+	
 	$("#company").html(data.company);
 	$("#college").html(data.college);
 	if(data.houseinfo.photos.length>0)
