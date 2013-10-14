@@ -383,3 +383,248 @@ a.message
 	color:#25A774;
 	font:14px/24px "宋体";
 }
+
+/*关注某人*/
+.at li{
+    height:42px;
+}
+.at li .img{
+    display: inline-block;
+    height: 42px;
+    width: 42px;
+    float: left;
+}
+.at li .right{
+    height: 42px;
+    margin-left: 53px;
+}
+.at li .right strong a{
+    color: #666;
+    font: bold 12px/18px "宋体";
+}
+.at li .right strong a:hover{
+    text-decoration: underline;
+}
+.at li .right .atw{
+    margin-top:4px;
+}
+.at li .right .atw a{
+    background: none repeat scroll 0 0 #7DB213;
+    color: #FFFFFF;
+    display: inline-block;
+    line-height: 20px;
+    text-align: center;
+    width: 60px;
+}
+
+/*活跃用户*/
+.g_ac li{
+    height:42px;
+}
+.g_ac li .img{
+    display: inline-block;
+    height: 42px;
+    width: 42px;
+    float: left;
+}
+.g_ac li .right{
+    height: 42px;
+    margin-left: 53px;
+}
+.g_ac li .right strong a{
+    color: #666;
+    font: bold 12px/18px "宋体";
+}
+.g_ac li .right strong a:hover{
+    text-decoration: underline;
+}
+.g_ac li .right p{
+    margin-top:9px;
+    font: 12px/12px "宋体";
+}
+.g_ac li .right p em{
+    color:red;
+}
+
+.g_cb{
+    overflow: hidden;
+    zoom:1;
+}
+.g_cb li{
+    width:60px;
+    height:60px;
+    float: left;
+}
+.g_cb li img{
+    margin-left: 9px;
+}
+.g_cb li h5{
+    font:12px/12px "宋体";
+    margin-top: 6px;
+    text-align: center;
+}
+
+
+
+.g_cirt{
+    width:990px;
+    border:1px solid #ddd;
+}
+.g_cirt thead{
+    background: #fafafa;
+}
+.g_cirt tr{
+    line-height: 30px;
+}
+.g_cirt tbody tr{
+    line-height: 40px;
+}
+.g_cirt th{
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.g_cirt th.tb_last{
+    border-right: none;
+}
+.g_cirt .tb_topic{
+    width:350px;
+}
+.g_cirt .tb_topic a{
+    color:#000;
+    padding:0 3px;
+}
+.g_cirt .tb_topic a:hover{
+    text-decoration: underline;
+}
+.g_cirt .tb_classify{
+    width:110px;
+}
+.g_cirt .tb_partake{
+    width:240px;
+}
+.g_cirt .tb_reply{
+    width:60px;
+}
+.g_cirt .tb_reply img{
+    margin:3px 0 3px 5px;
+    float: left;
+}
+.g_cirt .tb_zan{
+    width:60px;
+}
+.g_cirt .tb_scan{
+    width:60px;
+}
+.g_cirt .tb_time{
+    width:110px;
+}
+
+
+
+
+.g_page{
+    clear:both;
+    padding:15px 0;
+    text-align:center;
+}
+.g_page .page-prev, .g_page .page-next{
+    width:68px;
+}
+.g_page a, .g_page span{
+    border:1px solid #BCBCBC;
+    color:#666;
+    display:inline-block;
+    font:bold 14px/28px Arial;
+    height:28px;
+    width:28px;
+}
+.g_page span{
+    background-color:#19c5BF;
+    border-color:#19c5BF;
+    color:#fff;
+}
+.g_page .page-dot{
+    background-color:#fff;
+    border-color:#fff;
+    color:#999;
+}
+
+
+/*圈子列表页-列表样式*/
+.g_ac li{
+    height:42px;
+}
+.g_ac li .img{
+    display: inline-block;
+    height: 42px;
+    width: 42px;
+    float: left;
+}
+.g_ac li .right{
+    height: 42px;
+    margin-left: 53px;
+}
+.g_ac li .right strong a{
+    color: #666;
+    font: bold 12px/18px "宋体";
+}
+.g_ac li .right strong a:hover{
+    text-decoration: underline;
+}
+.g_ac li .right p{
+    margin-top:9px;
+    font: 12px/12px "宋体";
+}
+.g_ac li .right p em{
+    color:red;
+}
+
+
+.g_abig{
+    overflow: hidden;
+    zoom:1;
+}
+.g_abig li {
+    float: left;
+    height: 100px;
+    width: 100px;
+}
+.g_abig li img {
+    margin-left: 9px;
+}
+
+.g_abig li h5 {
+    font: 12px/12px "宋体";
+    margin-top: 6px;
+    text-align: center;
+}
+
+
+
+.g_acc{
+    height:42px;
+}
+.g_acc .img{
+    display: inline-block;
+    height: 42px;
+    width: 42px;
+    float: left;
+}
+.g_acc .right{
+    height: 42px;
+    margin-left: 53px;
+}
+.g_acc .right strong a{
+    color: #666;
+    font: bold 12px/18px "宋体";
+}
+.g_acc .right strong a:hover{
+    text-decoration: underline;
+}
+.g_acc .right p{
+    margin-top:9px;
+    font: 12px/12px "宋体";
+}
+.g_acc .right p em{
+    color:red;
+}
