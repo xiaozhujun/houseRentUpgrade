@@ -500,7 +500,8 @@ class HouseAction extends Action {
 			$data["userCount"] = $result[0]["userCount"];
 			
 			$data["circleMaster"] = $communityModel->communityMaster($communityId);
-			$data["description"] = $communityModel->find($communityId)["description"];
+			$descriptionResult = $communityModel->find($communityId);
+			$data["description"] = $descriptionResult["description"];
 			
 			$data["canEdit"] = $communityModel->isCommunityMaster($communityId, currentUserId());
 			

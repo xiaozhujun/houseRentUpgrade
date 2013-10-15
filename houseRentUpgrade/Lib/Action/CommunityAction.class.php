@@ -186,7 +186,8 @@ class CommunityAction extends Action
 		}
 
 		$communityModel = new CommunityModel();
-		$communityId = $communityModel->findByName($_POST['circleName'])["id"];
+		$community = $communityModel->findByName($_POST['circleName']);
+		$communityId = $community["id"];
 		
 		$userId = currentUserId();
 		$isMaster = $communityModel->isCommunityMaster($communityId, $userId);
@@ -227,7 +228,8 @@ class CommunityAction extends Action
 		$data['success'] = true;
 			
 		$data["circleMaster"] = $communityModel->communityMaster($communityId);
-		$data["description"] = $communityModel->find($communityId)["description"];
+		$community = $communityModel->find($communityId);
+		$data["description"] = $community["description"];
 		$data["canEdit"] = $communityModel->isCommunityMaster($communityId, currentUserId());
 		
 		$userCommunityModel = new UserCommunityModel();
