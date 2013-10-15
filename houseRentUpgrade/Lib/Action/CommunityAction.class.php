@@ -156,4 +156,88 @@ class CommunityAction extends Action
 		$data["result"] = $userCollegeExist;
 		$this->ajaxReturn($data);
 	}
+	
+	//保存圈子描述
+	function saveDescription()
+	{
+		$data = array();
+		if(!isset($_POST['circleName']) || is_null($_POST['circleName']))
+		{
+			$data["result"] = false;
+			$data["msg"] = "圈子名称不能为空！";
+			$this->ajaxReturn($data);
+			return;
+		}
+		
+		if(!isset($_POST['description']) || is_null($_POST['description']))
+		{
+			$data["result"] = false;
+			$data["msg"] = "圈子描述不能为空！";
+			$this->ajaxReturn($data);
+			return;
+		}
+		
+		if(!isLogin())
+		{
+			$data["result"] = false;
+			$data["msg"] = "您还没有登录！";
+			$this->ajaxReturn($data);
+			return;
+		}
+
+		$communityModel = new CommunityModel();
+		$communityId = $communityModel->findByName($_POST['circleName'])["id"];
+		
+		$userId = currentUserId();
+		$isMaster = $communityModel->isCommunityMaster($communityId, $userId);
+		if(!isMaster)
+		{
+			$data["result"] = false;
+			$data["msg"] = "您没有操作权限！";
+			$this->ajaxReturn($data);
+			return;
+		}
+		
+		$communityData = array();
+		$communityData["description"] = $_POST["description"];
+		$communityModel->where("id={$communityId}")->save($communityData);
+		$data["result"] = true;
+		$this->ajaxReturn($data);
+	}
+	
+	//圈子用户信息
+	function communityMember()
+	{
+		$circleName = $_POST['circleName'];
+			
+		$data = array();
+		$data['success'] = false;
+			
+		if(is_null($circleName))
+		{
+			$data['msg'] = "圈子名称为空！";
+			$this->ajaxReturn($data);
+			return;
+		}
+		$communityModel = new CommunityModel();
+		$circle = $communityModel->where("name='{$circleName}'")->find();
+		
+		$communityId = $circle['id'];
+			
+		$data['success'] = true;
+			
+		$data["circleMaster"] = $communityModel->communityMaster($communityId);
+		$data["description"] = $communityModel->find($communityId)["description"];
+		$data["canEdit"] = $communityModel->isCommunityMaster($communityId, currentUserId());
+		
+		$userCommunityModel = new UserCommunityModel();
+		$data["communityUsers"] = $userCommunityModel->communityUsers($communityId);
+		
+		$result = $userCommunityModel->communityUserCount($communityId);
+		$data["userCount"] = $result[0]["userCount"];
+		$data["houseCount"] = $communityModel->communityHouseCount($communityId);
+			
+		$this->ajaxReturn($data);
+	}
+	
 }

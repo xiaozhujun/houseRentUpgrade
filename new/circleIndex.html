@@ -31,19 +31,20 @@
 	                    <em id="houseCount">12</em>
                     </a>
                 </span>
+<!--                 <span class="num"> -->
+<!--                     <strong>话题：</strong> -->
+<!--                     <em>12</em> -->
+<!--                 </span> -->
                 <span class="num">
-                    <strong>话题：</strong>
-                    <em>12</em>
-                </span>
-                <span class="num">
-                	<a href="circleMember.html">
+                	<a id="circleMemberLink" href="circleMember.html">
 	                    <strong>成员：</strong>
 	                    <em id="userCount">12</em>
                     </a>
                 </span>     
             </div>
-            <div class="circleBriefBottom m10">
-                圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介圈子简介。。。<a href="#">详情</a>
+            <div id="circleDescription" class="circleBriefBottom m10">
+            	<div id="circleDescriptionEditor" class="circleBriefBottom m10">还没有圈子描述哦！</div>
+                
             </div>
         </div>
 
@@ -200,34 +201,7 @@
             </div>
             <div class="join_b m10">
                 <h3 class="mb15">圈主：</h3>
-                <ul class="at">
-                    <li class="mb10">
-                        <a class="img" href="#">
-                            <img src="images/person_bg.png" alt="" width="42" height="42">
-                        </a>
-                        <div class="right">
-                            <strong>
-                                <a href="#">肖竹君</a>
-                            </strong>
-                            <p class="atw">
-                                <a class="add" href="#">♥ 关注</a>
-                            </p>
-                        </div>
-                    </li>
-
-                    <li class="mb10">
-                        <a class="img" href="#">
-                            <img src="images/person_bg.png" alt="" width="42" height="42">
-                        </a>
-                        <div class="right">
-                            <strong>
-                                <a href="#">肖竹君</a>
-                            </strong>
-                            <p class="atw">
-                                <a class="add" href="#">♥ 关注</a>
-                            </p>
-                        </div>
-                    </li>
+                <ul id="masterList" class="at">
                 </ul>
             </div>
         </div>
@@ -289,14 +263,18 @@
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/js/config.js"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/community.js"></script>
 <script src="/js/urlUtil.js" type="text/javascript"></script>
 <script type="text/javascript">
+var circleName="圈子名称";
 $(function(){
-	var circleName = URL.decode($.getUrlParam("circle"));
+	circleName = URL.decode($.getUrlParam("circle"));
 	var circleData = {};
 	circleData.circleName = circleName;
 	$("#circleName").html(circleName);
+	$("#circleMemberLink").attr("href","circleMember.html?circle="+circleName);
 	$.get($.URL.house.circleHouseList,circleData,getCircleHouseListCallback,"json");
+	
 });
 
 function getCircleHouseListCallback(data)
@@ -312,6 +290,16 @@ function renderingPage(data,target){
 		$(target).html("");
 		$("#houseCount").html(data.count);
 		$("#userCount").html(data.userCount);
+		if(typeof(data.description)!="undefined"  && data.description!=null){
+			$("#circleDescriptionEditor").html(data.description);
+		}
+		else{
+			$("#circleDescriptionEditor").html("还没有圈子描述哦！");
+		}
+		
+		openDescriptionEdit(data.canEdit);
+		
+		renderMaster(data.circleMaster);
 		for(var i=0;i<data.houseList.length;i++){
 			var houseInfo = $("<div class='houseInfo clearfix m10'></div>");
 			var houseDetail = $("<div class='g_houseInfo fl'></div>");

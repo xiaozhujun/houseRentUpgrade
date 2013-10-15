@@ -93,13 +93,10 @@ class HouseInfoModel extends Model{
     	return $list;
     }
     
-    function findHouseWithCircle($condition)
+    function findHouseWithCircle($communityId)
     {
-    	$wheresql="";
+    	$wheresql=" and user_community.communityId={$communityId}";
     	 
-    	if($condition!=""){
-    		$wheresql=" and ".$condition;
-    	}
     	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName".
     			" from house_info,user,user_community,community where ".
     			"house_info.userId=user.id and house_info.userId=user_community.userId
@@ -118,6 +115,7 @@ class HouseInfoModel extends Model{
     	}
     	return $list;
     }
+    
     
     /*
      * 鏍规嵁houseId鏌ヨ鎴垮眿璇︽儏椤�

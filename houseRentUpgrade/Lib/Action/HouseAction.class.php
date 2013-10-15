@@ -461,6 +461,7 @@ class HouseAction extends Action {
 			$this->ajaxReturn($data);
 		}
 		
+		//圈子房源信息
 		function circleHouse()
 		{
 			$circleName = $_GET['circleName'];
@@ -477,10 +478,10 @@ class HouseAction extends Action {
 			$communityModel = new CommunityModel();
 			$circle = $communityModel->where("name='{$circleName}'")->find();
 				
-			$circleId = $circle['id'];
+			$communityId = $circle['id'];
 			
 			$houseInfoModel = new HouseInfoModel();
-			$houseList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$circleId}");
+			$houseList = $houseInfoModel->findHouseWithCircle($communityId);
 			
 			$data['success'] = true;
 			$data['houseList'] = $houseList["list"];
@@ -494,12 +495,16 @@ class HouseAction extends Action {
 				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
 				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
 			}
-			$result = $userCommunityModel->communityUserCount($circleId);
+			
+			$result = $userCommunityModel->communityUserCount($communityId);
 			$data["userCount"] = $result[0]["userCount"];
+			
+			$data["circleMaster"] = $communityModel->communityMaster($communityId);
+			$data["description"] = $communityModel->find($communityId)["description"];
+			
+			$data["canEdit"] = $communityModel->isCommunityMaster($communityId, currentUserId());
 			
 			$this->ajaxReturn($data);
 		}
-		
-		 
 	
 }

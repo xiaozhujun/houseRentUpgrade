@@ -34,4 +34,40 @@ class CommunityModel extends Model{
 		if($college) return true;
 		return false;
 	}
+	
+	//获得圈主
+	function communityMaster($communityId)
+	{
+		$querySQL = "select creatorId as userId,creator as userName from community where id={$communityId}";
+		return $this->query($querySQL);
+	}
+	
+	//当前用户是否为圈主
+	function isCommunityMaster($communityId,$userId)
+	{
+		$querySQL = "select count(id) as count from community where id={$communityId} and creatorId={$userId}";
+// 		echo $querySQL;
+		$result = $this->query($querySQL);
+		if($result[0]["count"]>0) return true;
+		
+		return false;
+	}
+	
+	//圈子房源数
+	function communityHouseCount($communityId)
+	{
+		if(is_null($communityId)){
+			return 0;
+		}
+			
+		$countSQL= "select count(house_info.houseId) as count from house_info,user,user_community,community where ".
+				"house_info.userId=user.id and house_info.userId=user_community.userId
+				and community.id=user_community.communityId and house_info.transferTime >= NOW()  and user_community.communityId={$communityId}";
+		$count=$this->query($countSQL);
+		if($count){
+			return $count[0]["count"];
+		}else{
+			return 0;
+		}
+	}
 }

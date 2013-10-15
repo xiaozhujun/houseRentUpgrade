@@ -58,7 +58,13 @@ class UserCommunityModel extends Model{
 	function communityUserCount($communityId)
 	{
 		$querySQL = "select count(userId) as userCount from user_community where communityId=".$communityId;
-// 		echo $querySQL;
+		return $this->query($querySQL);
+	}
+	
+	//圈子用户
+	function communityUsers($communityId)
+	{
+		$querySQL = "select userId,userName from user_community where communityId=".$communityId;
 		return $this->query($querySQL);
 	}
 }

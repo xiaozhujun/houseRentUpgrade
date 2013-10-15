@@ -68,7 +68,7 @@ temp.header =
     '                </span>  ' +                  
     '            </div>' +
     '            <div class="submit fl">' +
-    '                <input id="searchBtn" type="submit" value="出租房源">' +
+    '                <input id="searchBtn" type="submit" value="搜索房源">' +
     '            </div>' +
     '        </div>' +
     '    </form>' +

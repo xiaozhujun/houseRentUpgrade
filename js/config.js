@@ -74,6 +74,8 @@
 			"addCompany":"/Community/addCompany",
 			"addCollege":"/Community/addCollege",
 			"autoComplete":"/Community/autoComplete",
+			"saveDescription":"/Community/saveDescription",
+			"communityMember":"/Community/communityMember",
 		}
 		
 			
