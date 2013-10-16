@@ -1,3 +1,35 @@
+var key="";
+var price="";
+var region="";
+var room="";
+var type="";
+
+function iniSearchParam(){
+	key = $.getUrlParam("key");
+	price = $.getUrlParam("price");
+	region = $.getUrlParam("region");
+	room = $.getUrlParam("room");
+	type = $.getUrlParam("type");
+}
+
+function getPramsFromUrl(data,key,price,region,room,type){
+	if(key!="" && key!=null){
+		data['key']=key;
+	}
+	if(price!="" && price!=null){
+		data['price']=price;
+	}
+	if(region!="" && region!=null){
+		data['region']=region;
+	}
+	if(room!="" && room!=null){
+		data['room']=room;
+	}
+	if(type!="" && type!=null){
+		data['type']=type;
+	}
+}
+
 //ie模拟placeholder
 function iePlaceHolder(){
     var doc = document,
@@ -60,7 +92,6 @@ temp.header =
     '    <a id="logo" target="_self" href="index.html">' +
     '        <img alt="中文最大社交房产信息门户" src="images/logo.png">' +
     '    </a>' +
-    '    <form action="">' +
     '        <div id="searchbar">' +
     '            <div class="saerkey">' +
     '                <span class="key">' +
@@ -68,10 +99,9 @@ temp.header =
     '                </span>  ' +                  
     '            </div>' +
     '            <div class="submit fl">' +
-    '                <input id="searchBtn" type="submit" value="搜索房源">' +
+    '                <input id="searchBtn" type="button" value="搜索房源">' +
     '            </div>' +
     '        </div>' +
-    '    </form>' +
 
     '    <div class="hot">' +
     '        <a href="#">出租房源</a>' +
@@ -99,9 +129,11 @@ $('#searchBtn').click(function(){
 	key = $('#searchInput').val();
 	if(key!="")
 	{
-		var data = {};
-	getPramsFromUrl(data,key,price,region,room,type);
-	$.post($.URL.house.houselist,data,searchCallback,"json");
+		var newLocation = "/new/index.html?key="+key;
+		window.location.href = newLocation;
+//		var data = {};
+//		getPramsFromUrl(data,key,price,region,room,type);
+//		$.post($.URL.house.houselist,data,searchCallback,"json");
 	}
 	else
 	{

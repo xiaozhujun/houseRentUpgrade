@@ -268,7 +268,7 @@
 <script type="text/javascript">
 var circleName="圈子名称";
 $(function(){
-	circleName = URL.decode($.getUrlParam("circle"));
+	circleName = $.getUrlParam("circle");
 	var circleData = {};
 	circleData.circleName = circleName;
 	$("#circleName").html(circleName);

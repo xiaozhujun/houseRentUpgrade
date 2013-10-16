@@ -166,12 +166,6 @@
 	<script type="text/javascript" src="js/hdialog.js"></script>
 	
 <script type="text/javascript">
-var hrefstr=window.location.href;
-var key=test("key");
-var price=test("price");
-var region=test("region");
-var room=test("room");
-var type=test("type");
 
 function showTabByIndex(index)
 {
@@ -369,6 +363,7 @@ for(var i=0;i<type_array.length;i++){
     
 }
 var data = {};
+iniSearchParam();
 getPramsFromUrl(data,key,price,region,room,type);
 $.post($.URL.house.houselist,data,searchCallback,"json");
 
@@ -411,24 +406,6 @@ $("#factor a").click(function(){
 		}
 	}
 	
-	function getPramsFromUrl(data,key,price,region,room,type){
-	if(key!=""){
-		data['key']=key;
-	}
-	if(price!=""){
-		data['price']=price;
-	}
-	if(region!=""){
-		data['region']=region;
-	}
-	if(room!=""){
-		data['room']=room;
-	}
-	if(type!=""){
-		data['type']=type;
-	}
-	}
-
 function getLeftDays(days){
 	var result ="";
 	if(days>=365){
@@ -578,15 +555,6 @@ function getretionlink(key,price,region,room,type,value,category){
 	return link;
 }
 
-function test(paramName)  
-{  
-    var reg = new RegExp("(^|\\?|&)"+ paramName+"=([^&]*)(\\s|&|$)", "i");
-  
-    if (reg.test(hrefstr)) //test为script ID 
-        return URL.decode(RegExp.$2); 
-    else
-        return "";
-}
 </script>
 </body>
 </html>

@@ -135,7 +135,7 @@
 <script type="text/javascript">
 var circleName;
 $(function(){
-	circleName = URL.decode($.getUrlParam("circle"));
+	circleName = $.getUrlParam("circle");
 	$("#circleName").html(circleName);
 	$("#circleIndexLink").attr("href","circleIndex.html?circle="+circleName);
 	
