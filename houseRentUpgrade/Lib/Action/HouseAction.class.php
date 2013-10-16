@@ -319,7 +319,7 @@ class HouseAction extends Action {
 		$companyId = $company['id'];
 		
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$companyId}");
+		$hosueList = $houseInfoModel->findHouseWithCircle($companyId);
 		
 		
 		$data['success'] = true;
@@ -367,7 +367,7 @@ class HouseAction extends Action {
 		
 		//$hosueList = $userCollegeModel->join("INNER JOIN house_info ON user_college.userId = house_info.userId")->where("user_college.collegeId={$collegeId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCircle("user_community.communityId={$collegeId}");
+		$hosueList = $houseInfoModel->findHouseWithCircle($collegeId);
 		
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];
