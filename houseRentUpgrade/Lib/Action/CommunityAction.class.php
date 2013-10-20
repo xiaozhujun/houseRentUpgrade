@@ -242,4 +242,25 @@ class CommunityAction extends Action
 		$this->ajaxReturn($data);
 	}
 	
+	//根据关键字查找圈子
+	function search()
+	{
+		$key = $_POST["key"];
+		$data = array();
+		$data["success"] = true;
+		$communityModel = new CommunityModel();
+		$data["communityList"] = $communityModel->search($key);
+		$this->ajaxReturn($data);
+	}
+	
+	//受欢迎的圈子列表
+	function popularList()
+	{
+		$data = array();
+		$data["success"] = true;
+		$communityModel = new CommunityModel();
+		$data["communityList"] = $communityModel->popularList();
+		$this->ajaxReturn($data);
+	}
+	
 }

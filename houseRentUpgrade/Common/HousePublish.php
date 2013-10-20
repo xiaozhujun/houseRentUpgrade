@@ -49,6 +49,6 @@ function getRoomInfo($pricetype){
 */
 function getKeyWordInfo($key){
 	$keyword="";
-	$keyword.=" (title like '%".$key."%'"." or remark like '%".$key."%' or decoration like '%".$key."%')";
+	$keyword.=" (community like '%".$key."%' or title like '%".$key."%'"." or remark like '%".$key."%' or decoration like '%".$key."%')";
 	return 	$keyword;
 }

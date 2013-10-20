@@ -82,7 +82,7 @@ temp.topbar =
     '    <div id="userLoginActions" class="login fr">' + 
     '        <a href="login.html">登录</a>&nbsp;&nbsp;<a href="register.html">注册</a>' + 
     '    </div>' + 
-    '    <div id="usernameDiv" class="user fr none">欢迎您，<a id="usernameLink" href="/User/personCenter">肖竹君</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/logout">安全退出</a></div>' + 
+    '    <div id="usernameDiv" class="user fr none">欢迎您，<a id="usernameLink" href="systemInform.html"></a><a href="systemInform.html">|个人中心</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/User/logout">安全退出</a></div>' + 
     '</div>'
     ;
 

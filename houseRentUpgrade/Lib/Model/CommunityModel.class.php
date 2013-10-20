@@ -70,4 +70,33 @@ class CommunityModel extends Model{
 			return 0;
 		}
 	}
+	
+	//根据关键字搜索圈子
+	function search($key)
+	{
+		if(is_null($key))
+		{
+			$condition = "";
+		}
+		else 
+		{
+			$condition = $key;
+		}
+		$querySQL = "select id,name,createTime,communityType,creator,creatorId from community where name like '%{$condition}%' order by id asc limit 0,10";
+		//echo $querySQL;
+		$result = $this->query($querySQL);
+		return $result;
+	}
+	
+	//受欢迎的圈子列表
+	function popularList()
+	{
+		$querySQL =  "select  community.id as id,community.name as name,community.createTime as createTime,community.communityType as communityType,community.creator as creator,community.creatorId as creatorId,count(house_info.houseId) as count ".
+				"from user_community,house_info,community ".
+				" where user_community.userId=house_info.userId and user_community.communityId=community.id ".
+				" and house_info.transferTime >= NOW()  group by community.id order by count limit 0,10";
+		
+		$result = $this->query($querySQL);
+		return $result;
+	}
 }

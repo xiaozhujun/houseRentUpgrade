@@ -628,3 +628,104 @@ a.message
 .g_acc .right p em{
     color:red;
 }
+
+
+
+/*个人详细资料*/
+.g_userInfo{
+    color: #666;
+    overflow: hidden;
+    zoom:1;
+    font-size: 14px;
+    height:120px;
+    background: #fafafa;
+}
+.g_userInfo .userPic {
+    height: 120px;
+    position: relative;
+    width: 120px;
+}
+.g_userInfo .right{
+    margin-left:130px;
+}
+.g_userInfo h5{
+    font:bold 14px/150% "宋体";
+    color:#000;
+    margin:10px 0;
+}
+.g_userInfo h5 a{
+    font:12px/150% "宋体";
+    margin-left: 30px;
+    color:#666; 
+}
+.g_userInfo h5 a:hover{
+    text-decoration: underline;
+}
+.g_userInfo li{
+    margin:5px 0;
+}
+.g_userInfo li strong{
+    margin-right:5px;
+}
+
+/*系统房源通知*/
+.g_houseAct{
+    color: #333;
+}
+.g_houseAct li{
+    margin:5px 0 25px;
+    border-bottom: 1px dashed #666;
+    position: relative;
+}
+.g_houseAct span{
+    color:#666;
+}
+.g_houseAct h5{
+    margin-bottom: 10px;
+}
+.g_houseAct a{
+    display: inline-block;
+    width: 102px;
+    position:absolute;
+    right:10px;
+    bottom: 10px;
+}
+
+/*按钮样式*/
+.g_greenBtn{
+    background: #25A774;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 14px;
+    height: 34px;
+    line-height: 30px;
+    text-align: center;
+    display: inline-block;
+}
+.g_greenBtn:hover{
+    text-decoration: underline;
+}
+
+
+/*左侧栏样式*/
+.g_leftlan{
+    border: 1px solid #DFDFDF;
+    width:180px;
+}
+.g_leftlan h5{
+    background: url(../images/wkh4.png) repeat-x 0 0 transparent;
+    font:bold 14px/38px "宋体";
+    padding-left: 10px;
+}
+.g_leftlan p{
+    padding-left: 30px;
+    line-height: 30px;
+    cursor: pointer;
+}
+.g_leftlan p:hover{
+    background: url(../images/jiao_r.png) no-repeat 20px 12px #f8f8f8;
+}
+.g_leftlan p.cur{
+    background: url(../images/jiao_r.png) no-repeat 20px 12px #f8f8f8;
+}
+

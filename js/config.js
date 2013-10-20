@@ -76,6 +76,8 @@
 			"autoComplete":"/Community/autoComplete",
 			"saveDescription":"/Community/saveDescription",
 			"communityMember":"/Community/communityMember",
+			"search":"/Community/search",
+			"popularList":"/Community/popularList",
 		}
 		
 			
