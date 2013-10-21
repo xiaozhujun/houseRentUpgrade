@@ -134,79 +134,8 @@
         <!-- 全部圈子 -->
         <div class="circleLall m10">
             <h3>全部圈子</h3>
-            <table class="p10" width="100%" cellspacing="0" cellspadding="0">
-                <tr>
-                    <td>
-                        <div class="g_acc">
-                            <a class="img" href="#">
-                                <img width="42" height="42" alt="" src="images/person_bg.png">
-                            </a>
-                            <div class="right">
-                                <strong>
-                                    <a href="#">肖竹君</a>
-                                </strong>
-                                <p>
-                                    信息<em>3</em>
-                                    &nbsp;&nbsp;
-                                    话题<em>3</em>
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="g_acc">
-                            <a class="img" href="#">
-                                <img width="42" height="42" alt="" src="images/person_bg.png">
-                            </a>
-                            <div class="right">
-                                <strong>
-                                    <a href="#">肖竹君</a>
-                                </strong>
-                                <p>
-                                    信息<em>3</em>
-                                    &nbsp;&nbsp;
-                                    话题<em>3</em>
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="g_acc">
-                            <a class="img" href="#">
-                                <img width="42" height="42" alt="" src="images/person_bg.png">
-                            </a>
-                            <div class="right">
-                                <strong>
-                                    <a href="#">肖竹君</a>
-                                </strong>
-                                <p>
-                                    信息<em>3</em>
-                                    &nbsp;&nbsp;
-                                    话题<em>3</em>
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="g_acc">
-                            <a class="img" href="#">
-                                <img width="42" height="42" alt="" src="images/person_bg.png">
-                            </a>
-                            <div class="right">
-                                <strong>
-                                    <a href="#">肖竹君</a>
-                                </strong>
-                                <p>
-                                    信息<em>3</em>
-                                    &nbsp;&nbsp;
-                                    话题<em>3</em>
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
+            <table id="searchList" class="p10" width="100%" cellspacing="0" cellspadding="0">
+               
             </table>
             
             <!-- 分页 -->
@@ -232,6 +161,10 @@
 <script type="text/javascript">
 	var key = "";
 	$(function(){
+		
+
+		$.post($.URL.community.popularList,condition,popularListCallback,"json");
+		
 		key = $.getUrlParam("key");
 		var condition = {};
 		condition.key = key;
@@ -243,16 +176,40 @@
 		renderSearchResult(data.communityList);
 	}
 	
-	function renderSearchResult(data)
+	function buildSearchLi(community)
+	{
+    	var communityTD=$('<td></td>');
+    	var communityDiv=$('<div class="g_acc"></div>');
+    	var imgLink = $('<a class="img" href="#"></a>');
+    	var img = $('<img width="42" height="42" alt="" src="images/person_bg.png">');
+    	imgLink.append(img);
+    	var infoDiv = $('<div class="right"></div>');
+    	var p=$('<p></p>');
+    	var communityName=$('<strong></strong>');
+    	communityName.append(community.name);
+    	var nameLink = $('<a href="#"></a>');
+    	var houseCount = $('<em>3</em>');
+    	var memberCount=$('<em>3</em>');
+    	p.append(houseCount).append('&nbsp;&nbsp;&nbsp;&nbsp;').append(memberCount);
+    	communityName.append(nameLink);
+    	infoDiv.append(communityName).append(p);
+    	communityDiv.append(imgLink).append(infoDiv);
+    	communityTD.append(communityDiv);
+    	return communityTD;
+    	
+	}
+	
+	function renderSearchResult(communityList)
 	{
 		var searchList = $("#searchList");
 		searchList.html("");
-    	for(var i=0;i<data.communityList.length;i++){
-    		var communityLi = $('<li></li>');
-    		var communityImg = $('<img width="80" height="80" alt="" src="images/person_bg.png">');
-    		var communityName = $('<h5></h5>');
-    		communityName.html(data.communityList[i].name);
-    		searchList.append(communityLi);
+    	for(var i=0;i<communityList.length;i++){
+    		var tr = $('<tr></tr>');
+    		tr.append(buildSearchLi(communityList[i]));
+    		if(++i<communityList.length){
+    			tr.append(buildSearchLi(communityList[i]));
+    		}
+    		searchList.append(tr);
     	}
 	}
 	
@@ -265,6 +222,8 @@
     		var communityImg = $('<img width="80" height="80" alt="" src="images/person_bg.png">');
     		var communityName = $('<h5></h5>');
     		communityName.html(data.communityList[i].name);
+    		communityLi.append(communityImg);
+    		communityLi.append(communityName);
     		popularList.append(communityLi);
     	}
 	}

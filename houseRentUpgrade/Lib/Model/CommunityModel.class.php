@@ -74,7 +74,7 @@ class CommunityModel extends Model{
 	//根据关键字搜索圈子
 	function search($key)
 	{
-		if(is_null($key))
+		if(is_null($key) || $key=="null")
 		{
 			$condition = "";
 		}
@@ -83,7 +83,7 @@ class CommunityModel extends Model{
 			$condition = $key;
 		}
 		$querySQL = "select id,name,createTime,communityType,creator,creatorId from community where name like '%{$condition}%' order by id asc limit 0,10";
-		//echo $querySQL;
+// 		echo $querySQL;
 		$result = $this->query($querySQL);
 		return $result;
 	}
