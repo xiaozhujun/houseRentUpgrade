@@ -88,6 +88,26 @@ class CommunityModel extends Model{
 		return $result;
 	}
 	
+	function searchDetail($key,$orderCondition)
+	{
+		if(is_null($key) || $key=="null")
+		{
+			$condition = "";
+		}
+		else
+		{
+			$condition = $key;
+		}
+		$querySQL = "select community.name as name,count(DISTINCT(user_community.userId)) as userCount,count(DISTINCT(house_info.houseId)) as houseCount from community,user_community,house_info where community.id=user_community.communityId AND user_community.userId=house_info.userId and house_info.transferTime>=NOW() AND community.name like '%{$condition}%' group by community.name order by {$orderCondition} desc limit 0,20";
+		$countSQL = "select count(id) as count from community";
+		$result = array();
+		$result["list"] = $this->query($querySQL);
+		$temp = $this->query($countSQL);
+		$result["count"] = $temp[0]["count"];
+		return $result;
+		
+	}
+	
 	//受欢迎的圈子列表
 	function popularList()
 	{

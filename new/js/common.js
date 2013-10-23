@@ -142,6 +142,9 @@ $('#searchBtn').click(function(){
 });
 
 var isLogin = false;
+var userCompany = "";
+var userCollege = "";
+var targetCommunity
 
 function getLoginInfo()
 {
@@ -158,6 +161,9 @@ function checkLoginCallback(data)
 			$("#userLoginActions").addClass("none");
 			isLogin = true;
 		}
+	userCompany = data.company;
+	userCollege = data.college;
+	targetCommunity = data.targetCommunity;
 }
 
 var popLoginStr = 

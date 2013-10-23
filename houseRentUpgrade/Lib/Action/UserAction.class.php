@@ -314,6 +314,9 @@ class UserAction extends Action {
 		$result = array();
 		$result["isLogin"] = isLogin();
 		$result["userName"] = currentUserName();
+		$result["company"] = currentUserCompany();
+		$result["college"] = currentUserCollege();
+		$result["targetCommunity"] = currentUserTargetCommunity();
 		$this->ajaxReturn($result);
 	}
 	

@@ -38,6 +38,7 @@ class CommunityAction extends Action
 			{
 				$data['msg'] = "修改成功";
 				$data['success'] =true;
+				$data['community'] = $_POST["name"];
 				$this->ajaxReturn($data);
 				return;
 			}
@@ -74,6 +75,44 @@ class CommunityAction extends Action
 			{
 				$data['msg'] = "修改成功";
 				$data['success'] =true;
+				$data['community'] = $_POST["name"];
+				$this->ajaxReturn($data);
+				return;
+			}
+		}
+	}
+	
+	//用户输入自己的高校
+	function addTargetCommunity()
+	{
+		if(!isLogin())
+		{
+			header ( "Content-Type:text/html; charset=utf-8" );
+			$this->redirect(C('LOGIN_URL'));
+		}
+		else
+		{
+			$data = array();
+			$data['success'] = false;
+			session_start();
+			$userId = currentUserId();
+			if(is_null($_POST['name']))
+			{
+				$data['msg'] = "目标区域、小区不能为空";
+				$this->ajaxReturn($data);
+				return;
+			}
+			if(!updateUserCommunity($userId, $_POST['name'],COLLEGE))
+			{
+				$data['msg'] = "操作错误";
+				$this->ajaxReturn($data);
+				return;
+			}
+			else
+			{
+				$data['msg'] = "修改成功";
+				$data['success'] =true;
+				$data['community'] = $_POST["name"];
 				$this->ajaxReturn($data);
 				return;
 			}
@@ -246,10 +285,13 @@ class CommunityAction extends Action
 	function search()
 	{
 		$key = $_POST["key"];
+		$orderCondition = $_POST["orderCondition"];
 		$data = array();
 		$data["success"] = true;
 		$communityModel = new CommunityModel();
-		$data["communityList"] = $communityModel->search($key);
+		$result = $communityModel->searchDetail($key,$orderCondition);
+		$data["communityList"] = $result["list"];
+		$data["count"] = $result["count"];
 		$this->ajaxReturn($data);
 	}
 	

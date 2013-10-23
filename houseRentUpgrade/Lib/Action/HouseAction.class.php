@@ -406,7 +406,7 @@ class HouseAction extends Action {
 			}
 		}
 		$houseInfoModel = new HouseInfoModel();
-		$hosueList = $houseInfoModel->findHouseWithCondition("house_info.community like '%{$communityName}%'");
+		$hosueList = $houseInfoModel->findHouseWithCondition("(house_info.community like '%{$communityName}%' or house_info.title like '%{$communityName}%')");
 	
 		$data['success'] = true;
 		$data['houseList'] = $hosueList["list"];

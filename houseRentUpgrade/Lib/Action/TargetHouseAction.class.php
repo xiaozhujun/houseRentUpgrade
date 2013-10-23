@@ -8,7 +8,7 @@ import('Common.UserTargetHouseFunc',APP_PATH,'.php');
 class TargetHouseAction extends Action
 {
 	//用户输入自己的公司
-	function add()
+	function addTargetCommunity()
 	{
 		if(!isLogin())
 		{
@@ -18,12 +18,11 @@ class TargetHouseAction extends Action
 		else
 		{
 			$data = array();
-			$data['result'] = false;
-			session_start();
-			$userId = $_SESSION['userId'];
+			$data['success'] = false;
+			$userId = currentUserId();
 			if(is_null($_POST['name']))
 			{
-				$data['msg'] = "公司名不能为空";
+				$data['msg'] = "目标区域、小区不能为空";
 				$this->ajaxReturn($data);
 				return;
 			}		
@@ -36,7 +35,8 @@ class TargetHouseAction extends Action
 			else
 			{
 				$data['msg'] = "修改成功";
-				$data['result'] =true;
+				$data['success'] =true;
+				$data['community'] = $_POST["name"];
 				$this->ajaxReturn($data);
 				return;
 			}

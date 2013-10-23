@@ -66,7 +66,7 @@
 			"autoComplete":"/College/autoComplete",
 		},
 		"targetHouse":{
-			"add":"/TargetHouse/add",
+			"addTargetCommunity":"/TargetHouse/addTargetCommunity",
 			"autoComplete":"/TargetHouse/autoComplete",
 		},
 		"community":{

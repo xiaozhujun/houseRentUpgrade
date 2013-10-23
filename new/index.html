@@ -186,18 +186,34 @@ function searchHouseWithUser(index)
 		}
 	else if(index==1)
 		{
-			if($("#houseInfo .homes").eq(index).html()=="")
-			$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
+			if($("#houseInfo .homes").eq(index).html()==""){
+				if(targetCommunity==null || targetCommunity==""){
+					showTargetCommunityEditor("#villegeHouseList");
+					return;
+				}
+				$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
+			}
+			
 		}
 	else if(index==2)
 		{
-			if($("#houseInfo .homes").eq(index).html()=="")
-			$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
+			if($("#houseInfo .homes").eq(index).html()==""){
+				if(userCollege==null || userCollege==""){
+					showCollegeEditor("#collegeHouseList");
+					return;
+				}
+				$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
+			}
 		}
 	else if(index==3)
 		{
-			if($("#houseInfo .homes").eq(index).html()=="")
-			$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
+			if($("#houseInfo .homes").eq(index).html()==""){
+				if(userCompany==null || userCompany==""){
+					showCompanyEditor("#companyHouseList");
+					return;
+				}
+				$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
+			}
 		}
 	else if(index==4)
 		{
@@ -209,46 +225,107 @@ function searchHouseWithUser(index)
 function searchCommunityWithUserCallback(data)
 {
 	var targetContainer = "#villegeHouseList";
+	var settingIcon = $('<div style="float:right"><img id="targetCommunityEditor" alt="设置理想区域、小区" src="images/setting.png" class="settingIcon"></div>');
+	$(targetContainer).html("");
+	$(targetContainer).append(settingIcon);
+	
 	renderingPage(data,targetContainer);
 	showTabByIndex(1);
+	
+	$("#targetCommunityEditor").click(function(){
+		showTargetCommunityEditor(targetContainer);
+	});
+}
+
+function showTargetCommunityEditor(targetContainer){
+	var targetCommunityInputContainer = $("<div class='homesBody'></div>")
+	var targetCommunityInput = $("<input id='targetCommunityInput' class='issueIpt keyinput' placeHolder='亲，请填写您的理想区域、小区名称'>");
+	targetCommunityInput.val(targetCommunity);
+	var targetCommunitySaveBtn = $("<a id='targetCommunitySaveBtn' class='issueBtn' href='#'>保存</a>")
+	targetCommunityInputContainer.append(targetCommunityInput);
+	targetCommunityInputContainer.append(targetCommunitySaveBtn);
+	$(targetContainer).html(targetCommunityInputContainer);
+	$("#targetCommunitySaveBtn").click(function(){
+		var communityName = $("#targetCommunityInput").val();
+		if(communityName!="")
+			{
+				var communityData = {};
+				communityData.name = communityName;
+				$.post($.URL.targetHouse.addTargetCommunity,communityData,addTargetCommunityCallback,"json");
+			}
+		else
+			{
+				alert("目标区域、小区名称不能为空！");
+			}
+		
+	});
+}
+
+function addTargetCommunityCallback(data)
+{
+	if(data.success)
+		{
+			targetCommunity = data.community;
+			$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
+		}
+	else
+		{
+			alert(data.msg);
+		}
 }
 
 function searchCollegeWithUserCallback(data)
 {
 	var targetContainer = "#collegeHouseList";
+	var settingIcon = $('<div style="float:right"><img id="collegeEditor" alt="设置母校" src="images/setting.png" class="settingIcon"></div>');
+	$(targetContainer).html("");
+	$(targetContainer).append(settingIcon);
 	if(data.success)
 		{
-		renderingPage(data,targetContainer);
-		showTabByIndex(2);
+			renderingPage(data,targetContainer);
+			showTabByIndex(2);
 		}
 	else
 		{
-			var collegeInputContainer = $("<div class='homesBody'></div>")
-			var collegeInput = $("<input id='collegeInput' class='issueIpt keyinput' placeHolder='亲，请填写您的母校'>");
-			var collegeSaveBtn = $("<a id='collegeSaveBtn' class='issueBtn' href='#'>保存</a>")
-			collegeInputContainer.append(collegeInput);
-			collegeInputContainer.append(collegeSaveBtn);
-			$(targetContainer).html(collegeInputContainer);
-			$("#collegeSaveBtn").click(function(){
-				var collegeName = $("#collegeInput").val();
-				if(collegeName!="")
-					{
-						var collegeData = {};
-						collegeData.name = collegeName;
-						$.post($.URL.community.addCollege,collegeData,addCollegeCallback,"json");
-					}
-				else
-					{
-						alert("母校名称不能为空！");
-					}
-				
-			});
+			alert(data.msg);
 		}
+
+	$("#collegeEditor").click(function(){
+		showCollegeEditor(targetContainer);
+	});
+}
+
+function showCollegeEditor(targetContainer)
+{
+	var collegeInputContainer = $("<div class='homesBody'></div>")
+	var collegeInput = $("<input id='collegeInput' class='issueIpt keyinput' placeHolder='亲，请填写您的母校'>");
+	collegeInput.val(userCollege);
+	var collegeSaveBtn = $("<a id='collegeSaveBtn' class='issueBtn' href='#'>保存</a>")
+	collegeInputContainer.append(collegeInput);
+	collegeInputContainer.append(collegeSaveBtn);
+	$(targetContainer).html(collegeInputContainer);
+	$("#collegeSaveBtn").click(function(){
+		var collegeName = $("#collegeInput").val();
+		if(collegeName!="")
+			{
+				var collegeData = {};
+				collegeData.name = collegeName;
+				$.post($.URL.community.addCollege,collegeData,addCollegeCallback,"json");
+			}
+		else
+			{
+				alert("母校名称不能为空！");
+			}
+		
+	});
 }
 
 function searchCompanyWithUserCallback(data)
 {
 	var targetContainer = "#companyHouseList";
+	var settingIcon = $('<div style="float:right"><img id="companyEditor" alt="设置公司" src="images/setting.png" class="settingIcon"></div>');
+	$(targetContainer).html("");
+	$(targetContainer).append(settingIcon);
 	if(data.success)
 		{
 			renderingPage(data,targetContainer);
@@ -256,34 +333,44 @@ function searchCompanyWithUserCallback(data)
 		}
 	else
 		{
-			var companyInputContainer = $("<div class='homesBody'></div>")
-			var companyInput = $("<input id='companyInput' class='issueIpt keyinput' placeHolder='亲，请填写您所在公司'>");
-			var companySaveBtn = $("<a id='companySaveBtn' class='issueBtn' href='#'>保存</a>")
-			companyInputContainer.append(companyInput);
-			companyInputContainer.append(companySaveBtn);
-			$(targetContainer).html(companyInputContainer);
-			$("#companySaveBtn").click(function(){
-				var companyName = $("#companyInput").val();
-				if(companyName!="")
-					{
-						var companyData = {};
-						companyData.name = companyName;
-						$.post($.URL.community.addCompany,companyData,addCompanyCallback,"json");
-					}
-				else
-					{
-						alert("公司名称不能为空！");
-					}
-				
-			});
+			alert(data.msg);
 		}
+	$("#companyEditor").click(function(){
+		showCompanyEditor(targetContainer);
+	});
 	
+}
+
+function showCompanyEditor(targetContainer)
+{
+	var companyInputContainer = $("<div class='homesBody'></div>")
+	var companyInput = $("<input id='companyInput' class='issueIpt keyinput' placeHolder='亲，请填写您所在公司'>");
+	companyInput.val(userCompany);
+	var companySaveBtn = $("<a id='companySaveBtn' class='issueBtn' href='#'>保存</a>")
+	companyInputContainer.append(companyInput);
+	companyInputContainer.append(companySaveBtn);
+	$(targetContainer).html(companyInputContainer);
+	$("#companySaveBtn").click(function(){
+		var companyName = $("#companyInput").val();
+		if(companyName!="")
+			{
+				var companyData = {};
+				companyData.name = companyName;
+				$.post($.URL.community.addCompany,companyData,addCompanyCallback,"json");
+			}
+		else
+			{
+				alert("公司名称不能为空！");
+			}
+		
+	});
 }
 
 function addCompanyCallback(data)
 {
 	if(data.success)
 		{
+			userCompany = data.community;
 			$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
 		}
 	else
@@ -296,6 +383,7 @@ function addCollegeCallback(data)
 {
 	if(data.success)
 		{
+			userCollege = data.community;
 			$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
 		}
 	else
@@ -428,9 +516,8 @@ function getLeftDays(days){
 	
 function renderingPage(data,target){
 	if(data.houseList.length==0){
-		$(target).html("没有找到匹配的房子！");
+		$(target).append('<div class="houseInfo clearfix m10">没有找到匹配的房子！</div>');
 	}else {
-		$(target).html("");
 		for(var i=0;i<data.houseList.length;i++){
 			var houseInfo = $("<div class='houseInfo clearfix m10'></div>");
 			var houseDetail = $("<div class='g_houseInfo fl'></div>");
