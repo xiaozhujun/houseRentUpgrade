@@ -1,7 +1,10 @@
 <?php
 import ( "@.Model.UserModel" );
+import ( "@.Model.UserTagModel" );
 import ( 'Common.MailUtil', APP_PATH, '.php' );
 import ( 'Common.Misc', APP_PATH, '.php' );
+import('Common.Common',APP_PATH,'.php');
+import('Common.UserCommunityFunc',APP_PATH,'.php');
 
 // 本类由系统自动生成，仅供测试用途
 class UserAction extends Action {
@@ -269,13 +272,6 @@ class UserAction extends Action {
 			return;
 		}
 		
-		if($_POST['newPwd'] == $_POST['oldPwd'])
-		{
-			$result = array("success"=>false,"msg"=>"对不起，您输入的新密码与老密码一致！");
-			$this->ajaxReturn($result);
-			return;
-		}
-		
 		if($_POST['newPwd'] != $_POST['rePwd'])
 		{
 			$result = array("success"=>false,"msg"=>"新密码与确认密码不一致！");
@@ -283,19 +279,17 @@ class UserAction extends Action {
 			return;
 		}
 		
-		session_start ();
-		$userId = $_SESSION['userId'];
+		$userId = currentUserId();
 		$userModel = new UserModel();
 		$user = $userModel->find($userId);
-		
 		if(md5($_POST['oldPwd']) != $user['password'])
 		{
-			$result = array("success"=>false,"msg"=>$user['email']);
+			$result = array("success"=>false,"msg"=>"老密码不正确");
 			$this->ajaxReturn($result);
 			return;
 		}
 		
-		if($userModel->resetPwd($user['id'],$_POST['newPwd']))
+		if($userModel->resetPwd($userId,$_POST['newPwd']))
 		{
 			$result = array("success"=>true,"msg"=>"重置密码成功！");
 			$this->ajaxReturn($result);
@@ -323,46 +317,87 @@ class UserAction extends Action {
 	//维护个人信息
 	function update()
 	{
+		$data = array();
 		if(!isLogin())
 		{
-			redirect ( C('LOGIN_URL'));
+			$data["success"] = false;
+			$data["msg"] = "请您登陆后再操作！";
+			$this->ajaxReturn($data);
 			return;
 		}
 		
-		$data = array();
+		$userId = currentUserId();
+		$userData = array();
+		
 		if(isset($_POST['phone']) && !empty($_POST['phone']))
 		{
-			$data["phone"] = $_POST['phone'];
+			$userData["phone"] = $_POST['phone'];
 		}
-		session_start();
-		$data["id"] = $_SESSION['userId'];
 		
-		$userModel = new UserModel();
-		if($userModel->update($data))
+		if(isset($_POST['sex']) && !empty($_POST['sex']))
 		{
-			$result = array("success"=>true,"msg"=>"更新信息成功！");
-			$this->ajaxReturn($result);
+			$userData["sex"] = $_POST['sex'];
+		}
+		
+		if(isset($_POST['description']) && !empty($_POST['description']))
+		{
+			$userData["description"] = $_POST['description'];
+		}
+		
+		if(isset($_POST['realName']) && !empty($_POST['realName']))
+		{
+			$userData["realName"] = $_POST['realName'];
+		}
+		
+		if(isset($_POST['city']) && !empty($_POST['city']))
+		{
+			$userData["city"] = $_POST['city'];
+		}
+		
+		//更新用户公司
+		if(isset($_POST['company']) && !empty($_POST['company']))
+		{
+			updateUserCommunity($userId, $_POST['company'],COMPANY);
+		}
+		//更新用户学校
+		if(isset($_POST['college']) && !empty($_POST['college']))
+		{
+			updateUserCommunity($userId, $_POST['college'],COLLEGE);
+		}
+		$userData["id"] = $userId;
+		$userModel = new UserModel();
+		$saveResult = $userModel->create($userData);
+		if($userModel->save())
+		{
+			$data = array("success"=>true,"msg"=>"更新信息成功！");
+			$this->ajaxReturn($data);
 		}
 		else
 		{
-			$result = array("success"=>false,"msg"=>"更新信息失败！");
-			$this->ajaxReturn($result);
+			$data = array("success"=>false,"msg"=>$userModel->getError());
+			$this->ajaxReturn($data);
 		}
 	}
 	
 	//返回用户的基本信息
 	function info()
 	{
+		$data = array();
 		if(!isLogin())
 		{
-			redirect ( C('LOGIN_URL'));
-			return;
+			$data["success"] = false;
+			$data["msg"] = "您还没有登录哦！";
 		}
-		
-		session_start();
+		$userId = currentUserId();
 		$userModel =M('User');
-		$vo = $userModel->where('id='.$_SESSION['userId'])->getField('id,email,realName,phone,identifyNum');
-		$this->ajaxReturn($vo[$_SESSION['userId']]);
+		$data["info"] = $userModel->where('id='.$userId)->field('id,realName,sex,phone,city,description')->find();
+		$data["company"] = currentUserCompany();
+		$data["college"] = currentUserCollege();
+		
+		$userTagModel = new UserTagModel();
+		$data["tags"] = $userTagModel->userTags($userId);
+		$data["success"] = true; 
+		$this->ajaxReturn($data);
 	}
 	
 	//查找系统好友

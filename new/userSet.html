@@ -20,19 +20,16 @@
             <img src="images/person_bg.png" alt="" width="120" height="120">
         </a>
         <div class="right">
-            <h5>肖竹君<a href="#">编辑个人资料</a></h5>
+            <h5><em id="realNameContainer"></em><a href="#">编辑个人资料</a></h5>
             <ul>
-                <li>
+                <li id="interestContainer">
                     <strong>兴趣爱好:</strong>
-                    火锅控，篮球、足球、羽毛球样样精通！
                 </li>
-                <li>
+                <li id="educationContainer">
                     <strong>教育背景:</strong>
-                    武汉理工     武汉理工
                 </li>
-                <li>
-                    <strong>工作经历:</strong>
-                    百度     百度
+                <li id="jobContainer">
+                    <strong >工作经历:</strong>
                 </li>
             </ul>
         </div>
@@ -43,7 +40,7 @@
         <ul class="g_leftlan fl">
             <li>
                 <h5>我的房屋信息</h5>
-                <p>我申请的房源</p>
+                <p onclick="window.location='myHouseInfo.html'">我申请的房源</p>
                 <p>我收藏的房源</p>
                 <p>我发布的房源</p>
             </li>
@@ -54,9 +51,9 @@
             </li>
             <li>
                 <h5>系统</h5>
-                <p>通知</p>
-                <p class="cur">个人设置</p>
-                <p>密码设置</p>
+                <p onclick="window.location='systemInform.html'">通知</p>
+                <p class="cur" onclick="window.location='userSet.html'">个人设置</p>
+                <p onclick="window.location='changePassword.html'">密码设置</p>
             </li>
         </ul>
 
@@ -77,7 +74,7 @@
                             用户名
                         </th>
                         <td>
-                            <input id="" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                            <input id="realNameInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
                         </td>
                     </tr>
                     <tr>
@@ -87,11 +84,11 @@
                         </th>
                         <td>
                             <label class="mr15" for="sex">
-                                <input id="" type="radio" name="sex" value="0">
+                                <input id="sexInput1" type="radio" name="sex" value="男">
                                 男
                             </label>
                         <label class="mr15" for="money">
-                                <input id="" type="radio" name="sex" value="1">
+                                <input id="sexInput2" type="radio" name="sex" value="女">
                                 女
                         </label>
                         </td>
@@ -102,24 +99,14 @@
                             所在城市
                         </th>
                         <td>
-                            <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
+                            <select name="" id="citySelect">
+                                <option value="北京">北京</option>
+                                <option value="上海">上海</option>
+                                <option value="广州">广州</option>
+                                <option value="深圳">深圳</option>
+                                <option value="杭州">杭州</option>
                             </select>
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
-                        </td>
+                         </td>
                     </tr>
                     <tr>
                         <th>
@@ -127,7 +114,7 @@
                             所在公司
                         </th>
                         <td>
-                            <input id="" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                            <input id="companyInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
                         </td>
                     </tr>
                     <tr>
@@ -136,14 +123,16 @@
                             毕业学校
                         </th>
                         <td>
-                            <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select>
+                            <input id="collegeInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            手机号
+                        </th>
+                        <td>
+                            <input id="phoneInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
                         </td>
                     </tr>
                     <tr>
@@ -152,7 +141,7 @@
                             个人简介
                         </th>
                         <td>
-                            <textarea id="fangyuanmiaoshu" class="w500 h150"></textarea>
+                            <textarea id="descriptionInput" class="w500 h150"></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -160,24 +149,21 @@
                             <em class="red">*</em>
                             爱好
                         </th>
-                        <td>
-                            <span class="enjoin">足球<a href="#" title="删除">X</a></span>
-                            <span class="enjoin">足球<a href="#" title="删除">X</a></span>
-                            <span class="enjoin">足球<a href="#" title="删除">X</a></span>
+                        <td id="tagContainer">
                         </td>
                     </tr>
                     <tr>
                         <th></th>
                         <td>
-                            <input id="" class="txt w150" type="text" value="" maxlength="30">
-                            <span class="add">添加</span>
+                            <input id="tagInput" class="txt w150" type="text" value="" maxlength="30">
+                            <span id="addTabBtn" class="add">添加</span>
                         </td>
                     </tr>
                     <tr>
                         <th></th>
                         <td>
                             <span class="save mt20">
-                                <input id="" class="" type="submit" value="保存">
+                                <a id="saveBtn" href="#" id="issue">保存</a>
                             </span>
                         </td>
                     </tr>
@@ -193,6 +179,108 @@
 <div id="footer" class="footer">尾部</div>
 
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.get($.URL.user.info,null,userInfoCallback,"json");
+	
+	$("#addTabBtn").click(function(){
+		var tagName = $("#tagInput").val();
+		var tagData = {};
+		tagData.tagName = tagName;
+		$.post($.URL.userTag.addTag,tagData,addTagCallback,"json");
+	});
+	
+	$("#saveBtn").click(function(){
+		var user = {};
+		user.realName = $("#realNameInput").val();
+		user.sex = $("input[name='sex']:checked").val();
+		user.city = $("#citySelect").val();
+		user.company = $("#companyInput").val();
+		user.college = $("#collegeInput").val();
+		user.phone = $("#phoneInput").val();
+		user.description = $("#descriptionInput").val();
+		$.post($.URL.user.update,user,updateCallback,"json");
+	});
+});
+
+function updateCallback(data){
+	if(data.success){
+		alert("保存成功");
+	}
+	else{
+		alert("保存失败！"+data.msg);
+	}
+}
+
+function addTagCallback(data){
+	if(data.success){
+		addTagSpan(data.tagName)
+	}
+	else{
+		alert(data.msg);
+	}
+}
+
+function addTagSpan(tagName){
+	var tagSpan = $('<span class="enjoin"></span>');
+	var tagName=$('<em></em>').html(tagName);
+	var tagDeleteLink = $('<a class="tagRemoveLink" href="#" title="删除">X</a>');
+	tagSpan.append(tagName).append(tagDeleteLink);
+	$("#tagContainer").append(tagSpan);
+	tagDeleteLink.click(function(event){
+		var tagName = $(this).parent().children(":first").html();
+		var tagData = {};
+		tagData.tagName = tagName;
+		$.post($.URL.userTag.deleteTag,tagData,deleteTagCallback,"json");
+	});
+}
+
+function deleteTagCallback(data){
+	if(data.success){
+		$("#tagContainer").children().each(function(){
+			if($(this).children(":first").html()==data.tagName){
+				$(this).remove();
+			}
+		});
+	}
+	else{
+		alert(data.msg);
+	}
+}
+
+function userInfoCallback(data){
+	$("#realNameInput").val(data.info.realName);
+	$("input[name='sex'][value='"+data.info.sex+"']").attr("checked","checked");
+	$("#citySelect").val(data.info.city);
+	$("#companyInput").val(data.company);
+	$("#collegeInput").val(data.college);
+	$("#phoneInput").val(data.info.phone);
+	$("#descriptionInput").val(data.info.description);
+	
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			addTagSpan(data.tags[i].tagName);
+		}
+	}
+	
+	setUserInfo(data);
+}
+
+function setUserInfo(data){
+	var tags = "";
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			tags+=data.tags[i].tagName + "&nbsp;&nbsp;";
+		}
+	}
+	
+	$("#interestContainer").append(tags);
+	$("#jobContainer").append(data.company)
+	$("#educationContainer").append(data.college);
+	$("#realNameContainer").append(data.info.realName);
+}
+</script>
 </body>
 </html>

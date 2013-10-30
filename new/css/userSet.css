@@ -116,6 +116,15 @@
     text-decoration: underline;
 }
 
-
-
+#saveBtn {
+    background: url("../images/btn.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    display: inline-block;
+    font: bold 14px/32px "ËÎÌו";
+    height: 32px;
+    right: 0;
+    text-align: center;
+    top: 21px;
+    width: 140px;
+}
 

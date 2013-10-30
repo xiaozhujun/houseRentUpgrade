@@ -77,7 +77,7 @@
                     </li>
                     <li>
                         <span class="stow">
-                            <a href="#">收 藏</a>
+                            <a id="collectBtn" href="#">收 藏</a>
                         </span>
                     </li>    
                 </ul>
@@ -140,7 +140,7 @@
                     <a id="company" href="circleIndex.html"></a>
                     <a id="college" href="circleIndex.html"></a>
                 </p>
-                <a class="add" href="#">
+                <a id="addFriendBtn" class="add" href="#">
                     + 加为好友
                 </a>
             </div>
@@ -158,7 +158,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -167,7 +167,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -176,7 +176,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -185,7 +185,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -194,7 +194,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -203,7 +203,7 @@
                     <img src="images/person_bg.png" alt="" width="42" height="42">
                 </a>
                 <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add" href="#">
+                <a class="add friendApply" href="#">
                     + 加为好友
                 </a>
             </li>
@@ -247,6 +247,69 @@
 
 <script type="text/javascript">
 var houseId;
+var houseUserName;
+var houseUserId;
+
+var  popAddFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>添加好友</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="popFriendName mb5">' + 
+	    '            </div>' + 
+	    '            <div class="password mb5">' + 
+	    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>请输入您的申请信息！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popAddFriendBtn" class="enterbtn mb10">发送申请</div>' + 
+	    '            <div id="popAddFriendMessage" class="error"></div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
+function showPopAddFriend()
+{
+	if(!isLogin)
+	{
+		showPopLogin();
+		return false;
+	}
+	
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popAddFriendStr);
+	            $("#popUserNameDiv").html("与"+houseUserName+"成为好友吧！");
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popAddFriendBtn").click(function(){
+	    	var data = {};
+			data.authInfo = $('#friendApplyInput').val();
+			data.toUser = houseUserId;
+			$.post($.URL.friend.applyFriend,data,addFriendCallback,"json");
+	    });
+}
+
+function addFriendCallback(data)
+{
+	if(data.success)
+	{
+		alert("恭喜您，操作成功！");
+		DIALOG.close();
+	}
+	else
+	{
+		$('#popAddFriendMessage').html(data.msg);
+	}
+	
+} 
 
 $(document).ready(function(){
 	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
@@ -287,15 +350,38 @@ $(document).ready(function(){
 		$.post($.URL.houseComment.comment,data,commentCallback,'json');
 	});
 	
+	$("#addFriendBtn").click(function(){
+		showPopAddFriend();
+	});
+	
 	$.get($.URL.houseComment.commentList + "?houseId=" + houseId, null,
 			commentListCallback, 'json');
 	
-	$(".add").click(function(){
+	$(".friendApply").click(function(){
 		return validateLogin();
+	});
+	
+	$("#collectBtn").click(function(){
+		if(!isLogin)
+		{
+			showPopLogin();
+			return false;
+		}
+		var collectData = {};
+		collectData.houseId = houseId;
+		$.post($.URL.houseCollect.collect,collectData,collectCallback,"json");
 	});
 	
 });
 
+function collectCallback(data){
+	if(data.success){
+		alert("收藏成功！");
+	}
+	else{
+		alert("收藏失败！"+data.msg);
+	}
+}
 
 function houseinfoCallback(data) {
 	
@@ -311,6 +397,8 @@ function houseinfoCallback(data) {
 	$("#houseDetail").html(data.houseinfo.detailDescription);
 	
 	$("#publisher").html(data.houseuser.realName);
+	houseUserName = data.houseuser.realName;
+	houseUserId = data.houseuser.id;
 	
 	if(typeof(data.circles)!="undefined")
 	{

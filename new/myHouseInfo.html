@@ -20,19 +20,16 @@
             <img src="images/person_bg.png" alt="" width="120" height="120">
         </a>
         <div class="right">
-            <h5>肖竹君<a href="#">编辑个人资料</a></h5>
+            <h5><em id="realNameContainer"></em><a href="userSet.html">编辑个人资料</a></h5>
             <ul>
-                <li>
+                <li id="interestContainer">
                     <strong>兴趣爱好:</strong>
-                    火锅控，篮球、足球、羽毛球样样精通！
                 </li>
-                <li>
+                <li id="educationContainer">
                     <strong>教育背景:</strong>
-                    武汉理工     武汉理工
                 </li>
-                <li>
+                <li id="jobContainer">
                     <strong>工作经历:</strong>
-                    百度     百度
                 </li>
             </ul>
         </div>
@@ -43,7 +40,7 @@
         <ul class="g_leftlan fl">
             <li>
                 <h5>我的房屋信息</h5>
-                <p>我申请的房源</p>
+                <p class="cur" onclick="window.location='myHouseInfo.html'">我申请的房源</p>
                 <p>我收藏的房源</p>
                 <p>我发布的房源</p>
             </li>
@@ -54,8 +51,8 @@
             </li>
             <li>
                 <h5>系统</h5>
-                <p>通知</p>
-                <p>个人设置</p>
+                <p onclick="window.location='systemInform.html'">通知</p>
+                <p onclick="window.location='userSet.html'">个人设置</p>
                 <p>密码设置</p>
             </li>
         </ul>
@@ -109,7 +106,6 @@
                     <div class="top">
                         <a class="personPic fl" href="#"><img src="images/person_bg.png" alt="" width="42" height="42"></a>
                         <div class="right">
-                            <strong><a href="#">肖竹君</a></strong>
                             <p>发布于<em>3</em>天前</p>
                         </div>
                     </div>    
@@ -193,6 +189,27 @@
 <div id="footer" class="footer">尾部</div>
 
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.get($.URL.user.info,null,userInfoCallback,"json");
+});
+
+function userInfoCallback(data){
+	var tags = "";
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			tags+=data.tags[i].tagName + "&nbsp;&nbsp;";
+		}
+	}
+	
+	$("#interestContainer").append(tags);
+	$("#jobContainer").append(data.company)
+	$("#educationContainer").append(data.college);
+	$("#realNameContainer").append(data.info.realName);
+}
+
+</script>
 </body>
 </html>

@@ -235,3 +235,7 @@
     background:url(../images/direction.png) no-repeat -185px -111px;
 }
 
+.popFriendName{
+	margin-top: -15px;
+	font-size: 18px;
+}

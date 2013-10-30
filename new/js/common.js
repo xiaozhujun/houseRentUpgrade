@@ -195,6 +195,25 @@ var popLoginStr =
     '</div> '
     ;
 
+var  addFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>添加好友</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="username mb20">' + 
+	    '            </div>' + 
+	    '            <div class="password mb20">' + 
+	    '                <textarea>请输入您的申请信息！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popLoginBtn" class="enterbtn mb10">发送申请</div>' + 
+	    '            <div id="popLoginMessage" class="error"></div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
 function showPopLogin()
 {
 	 DIALOG.init("dialog");

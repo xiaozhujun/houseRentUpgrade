@@ -23,7 +23,7 @@ class HouseCollectModel extends Model{
 	//判断收藏是否存在
 	function isExist($userId,$houseId)
 	{
-		$result = $this->where("collectUser={$userId} and houseId={$houseId} and status=0")->select();
+		$result = $this->where("collectUserId={$userId} and houseId={$houseId}")->select();
 		if(sizeOf($result)>=1)
 		{
 			return true;

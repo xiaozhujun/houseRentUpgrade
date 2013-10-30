@@ -45,7 +45,7 @@ class UserCommunityModel extends Model{
 	//根据圈子类型获得用户圈子
 	function findCommunityWithType($userId,$communityType)
 	{
-		return $this->join("community on user_community.communityId=community.id")->where("user_community.userId=".$userId." AND community.communityType=".$communityType)->select();
+		return $this->join("community on user_community.communityId=community.id")->where("user_community.userId={$userId} AND community.communityType={$communityType}")->field("user_community.id as id,user_community.userId as userId,user_community.communityName as communityName")->select();
 	}
 	
 	//用户的圈子

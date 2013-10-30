@@ -3,8 +3,8 @@
 //更新用户所在高校信息
 function updateUserCommunity($userId,$communityName,$communityType)
 { 	
-	$communityModel = D('Community');
-	$userCommunityModel = D('UserCommunity');
+	$communityModel = new CommunityModel();
+	$userCommunityModel = new UserCommunityModel();
 	//判断该公司信息是否存在，不存在则在数据库中添加一条记录
 	$communityObj = $communityModel->findByName($communityName);
 	if(!$communityObj)
@@ -40,9 +40,12 @@ function updateUserCommunity($userId,$communityName,$communityType)
 	
 	if(!is_null($userCommunityObj))
 	{
+		$userCommunityObj = array();
 		$userCommunityObj['communityId'] = $communityId;
 		$userCommunityObj['communityName'] = $communityName;
-		$result = $userCommunityModel->data($userCommunityObj)->save();
+		$userCommunityObj['id'] = $userCommunityList[0]["id"];
+		$saveResult = $userCommunityModel->create($userCommunityObj);
+		$result = $userCommunityModel->save();
 	}
 	else 
 	{

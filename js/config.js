@@ -11,6 +11,10 @@
 			"findFriend":"/User/findFriend",
 			"checkLogin":"/User/checkLogin",
 		},
+		"userTag":{
+			"addTag":"/UserTag/addTag",
+			"deleteTag":"/UserTag/deleteTag",
+		},
 		"friend":{
 			"applyFriend":"/Friend/applyFriend",
 			"applyingUntreated":"/Friend/applyingUntreated",

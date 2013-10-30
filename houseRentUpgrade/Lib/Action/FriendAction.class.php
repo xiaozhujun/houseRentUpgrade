@@ -34,26 +34,25 @@ class FriendAction extends Action
 	//申请加为好友
 	function applyFriend()
 	{
-		if(!isLogin())
-		{
-			redirect("/login.html");
-			return;
-		}
-		
 		$data = array();
 		$data['success'] = false;
+		
+		if(!isLogin())
+		{
+			$data["msg"] = "请您先登录！";
+			$this->ajaxReturn($data);
+		}
+		
 		if(!isset($_POST['toUser']) || empty($_POST['toUser']))
 		{
 			$data['msg'] = '被申请人未设置，操作失败！';
 			$this->ajaxReturn($data);
-			return;
 		}
 		
 		if(!isset($_POST['authInfo']) || empty($_POST['authInfo']))
 		{
 			$data['msg'] = '验证信息不能为空！';
 			$this->ajaxReturn($data);
-			return;
 		}
 		
 		$friendApply = M('FriendApply');
@@ -62,19 +61,19 @@ class FriendAction extends Action
 		{
 			$data['msg'] = '您已经提交的申请，请耐心等待！';
 			$this->ajaxReturn($data);
-			return;
 		}
 		
-		session_start();
-		$userModel = M('User');
-		$fromUser = $userModel->find($_SESSION['userId']);
+		$userId = currentUserId();
+		$userModel = new UserModel();
+		$fromUser = $userModel->find($userId);
 		$toUser = $userModel->find($_POST['toUser']);
 		$friendApplyData = array(
-			"fromUser"=>$_SESSION['userId'],
+			"fromUser"=>$userId,
 			"fromRealName"=>$fromUser['realName'],
 			"toUser"=>$_POST['toUser'],
 			"toRealName"=>$toUser['realName'],
 			"authInfo"=>$_POST['authInfo'],
+				"createTime"=>dateTime(),
 			"status"=>UNTREAT,
 		);
 		
@@ -114,7 +113,7 @@ class FriendAction extends Action
 		session_start();
 		$userId = $_SESSION['userId'];
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("fromUser={$userId} and status=".UNTREAT)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(1,10)->select();
+		$applyList = $friendApply->where("fromUser={$userId} and status=".UNTREAT)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
 		$this->ajaxReturn($data);
@@ -137,7 +136,7 @@ class FriendAction extends Action
 		session_start();
 		$userId = $_SESSION['userId'];
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("fromUser={$userId} and status=".PASS)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(1,10)->select();
+		$applyList = $friendApply->where("fromUser={$userId} and status=".PASS)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
 		$this->ajaxReturn($data);
@@ -158,7 +157,7 @@ class FriendAction extends Action
 		session_start();
 		$userId = $_SESSION['userId'];
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("fromUser={$userId} and status=".REFUSE)->field("toUser,fromUser,fromRealName,toRealName,replyInfo,createTime")->order("createTime desc")->limit(1,10)->select();
+		$applyList = $friendApply->where("fromUser={$userId} and status=".REFUSE)->field("toUser,fromUser,fromRealName,toRealName,replyInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
 		$this->ajaxReturn($data);
@@ -179,7 +178,7 @@ class FriendAction extends Action
 		session_start();
 		$userId = $_SESSION['userId'];
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("toUser={$userId} and status=".UNTREAT)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(1,10)->select();
+		$applyList = $friendApply->where("toUser={$userId} and status=".UNTREAT)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
 		$this->ajaxReturn($data);
@@ -223,7 +222,7 @@ class FriendAction extends Action
 		session_start();
 		$userId = $_SESSION['userId'];
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("toUser={$userId} and status=".REFUSE)->field("toUser,fromUser,fromRealName,toRealName,replyInfo,createTime")->order("createTime desc")->limit(1,10)->select();
+		$applyList = $friendApply->where("toUser={$userId} and status=".REFUSE)->field("toUser,fromUser,fromRealName,toRealName,replyInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
 		$this->ajaxReturn($data);

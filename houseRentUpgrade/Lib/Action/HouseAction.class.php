@@ -6,6 +6,7 @@ import("@.Model.CommunityModel");
 import("@.Model.UserCommunityModel");
 import("@.Model.UserCompanyModel");
 import("@.Model.UserCollegeModel");
+import("@.Model.HouseCollectModel");
 import("@.Model.HouseViewModel");
 import("@.Model.OneDuFriendModel");
 import('Common.HousePublish',APP_PATH,'.php');
@@ -168,7 +169,7 @@ class HouseAction extends Action {
 		
 		$houseInfo = M('HouseInfo');
 		$houseInfoObj = $houseInfo->find($houseId);
-		$data['houseinfo']=$houseInfo->find($houseId);
+		$data['houseinfo']=$houseInfo->field("createTime,transferTime,price,street,community,contactPerson,contactPhone,room,parlor,washroom,area,detailDescription,houseId,userId")->find($houseId);
 		
 		$housePhotoModel = new HousePhotoModel();
 		$data['houseinfo']['photos'] = $housePhotoModel->getHousePhotos($data['houseinfo']['houseId']);
@@ -180,9 +181,7 @@ class HouseAction extends Action {
          $data['region']=$region->find($regionId);
 		$houseUser = M("User");
 		$houseUserId = $houseInfoObj["userId"];
-		$houseUserObj = $houseUser->find($houseUserId);
-		//$this->assign("houseUser",$houseUserObj);
-		$data['houseuser']=$houseUser->find($houseUserId);
+		$data['houseuser']=$houseUser->field("realName,id")->find($houseUserId);
 // 		$userCompany = new UserCompanyModel();
 // 		$company = $userCompany->getUserCompany($houseUserId);
 // 		//$this->assign("company",$company);

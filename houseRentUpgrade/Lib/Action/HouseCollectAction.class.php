@@ -11,26 +11,20 @@ class HouseCollectAction extends Action {
 	
 	//收集房源
 	function collect() {
+		$data = array();
+		$data["success"] = false;
 		if(!isLogin())
 		{
-			redirect("/login.html");
-			return;
-		}
-
-		$data = array();
-		$data['success'] = false;
-		$houseId = $_POST["houseId"];
-		
-		if(is_null($houseId))
-		{
-			$data['msg'] = "参数不正确！";
+			$data["msg"] = "您还没有登录哦！";
 			$this->ajaxReturn($data);
-			return;
+		}
+		$houseId = $_POST["houseId"];
+		if(!isset($houseId) || empty($houseId)){
+			$data["msg"] = "没有房源编号哦！";
+			$this->ajaxReturn($data);
 		}
 		
 		
-		
-		session_start ();
 		$userId = currentUserId();
 		
 		$houseCollectModel = new HouseCollectModel();
@@ -38,23 +32,21 @@ class HouseCollectAction extends Action {
 		{
 			$data['msg'] = "您已经收藏了该房源哦！";
 			$this->ajaxReturn($data);
-			return ;
 		}
 		
 		$houseInfoModel = new HouseInfoModel();
 		$houseInfo = $houseInfoModel->where("houseId={$houseId}")->find();
 		$houseCollectObj = array(
-				"collectUser"=>$userId,
-				"houseUser"=>$houseInfo['userId'],
+				"collectUserId"=>$userId,
+				"houseUserId"=>$houseInfo['userId'],
 				"houseId"=>$houseInfo['houseId'],
 				"createTime"=>dateTime(),
-				"status"=>0
 		);
 		$houseCollectModel = new HouseCollectModel();
 		if($houseCollectModel->create($houseCollectObj))
 		{
 			$houseCollectModel->add();
-			$data['result'] = true;
+			$data['success'] = true;
 		}
 		else 
 		{
