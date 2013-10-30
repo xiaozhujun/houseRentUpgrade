@@ -58,17 +58,30 @@ class HouseCollectAction extends Action {
 	//用户收集的房源列表
 	function collectHouseList()
 	{
+		$data = array();
+		$data['success'] = false;
 		if(!isLogin())
 		{
-			redirect("/login.html");
-			return;
+			$data["msg"] = "您还没有登录！";
+			$this->ajaxReturn($data);
 		}
-		$data = array();
-		$data['result'] = true;
+		
 		
 		$userId = currentUserId();
 		$houseCollectModel = new HouseCollectModel();
-		$data['houseList']=$houseCollectModel->join("house_info ON house_collect.houseId=house_info.houseId")->where("house_collect.collectUser={$userId}")->field("house_info.houseId,house_info.title,house_info.price,house_info.transferTime,house_info.room,house_info.parlor,house_info.washroom")->select();
+		$data["success"] = true;
+		$collectHouseData = $houseCollectModel->findCollectHouseList($userId);
+		$data['houseList']= $collectHouseData["list"];
+		
+		$housePhotoModel = new HousePhotoModel();
+		$userCommunityModel = new UserCommunityModel();
+			
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+		}
+		
 		$this->ajaxReturn($data);
 	}
 	

@@ -31,4 +31,25 @@ class HouseCollectModel extends Model{
 		return false;
 	}
 	
+	function findCollectHouseList($userId)
+	{
+		$wheresql=" and house_collect.collectUserId={$userId}";
+	
+		$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName".
+				" from house_collect,house_info,user where ".
+				" house_collect.houseId=house_info.houseId and house_collect.houseUserId=user.id  and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
+		//     	     	echo $querySQL;
+	
+		$countSQL= "select count(house_info.houseId) as count from house_info,user,house_collect where ".
+				"house_collect.houseId=house_info.houseId and house_collect.houseUserId=user.id and house_info.transferTime >= NOW() ".$wheresql;
+		$list["list"]= $this->query($querySQL);
+		$count=$this->query($countSQL);
+		if($count){
+			$list["allcount"]=$count[0]["count"];
+		}else{
+			$list["allcount"]=0;
+		}
+		return $list;
+	}
+	
 }

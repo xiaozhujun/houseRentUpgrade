@@ -506,5 +506,6 @@ class HouseAction extends Action {
 			
 			$this->ajaxReturn($data);
 		}
+		
 	
 }
