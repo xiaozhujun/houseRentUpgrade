@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <div class="mt10 mb10">
+    <div class="mt10 clearfix mb10">
         
         <ul class="g_leftlan fl">
             <li>
@@ -46,19 +46,28 @@
             </li>
             <li>
                 <h5>我的关系</h5>
-                <p>圈子</p>
-                <p>好友</p>                
+                <p onclick="window.location='myCircle.html'">圈子</p>
+                <p onclick="window.location='myFriend.html'">好友</p>              
             </li>
             <li>
                 <h5>系统</h5>
                 <p onclick="window.location='systemInform.html'">通知</p>
                 <p onclick="window.location='userSet.html'">个人设置</p>
-                <p>密码设置</p>
+                <p onclick="window.location='changePassword.html'">密码设置</p>
             </li>
         </ul>
 
-        <div id="collectHouseList" class="fr">
-             
+        <div class="fr">
+              <table class="tbHouseInfo" border="0" cellspacing="1" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="house">我收藏的房源</th>
+                        <th class="act">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="collectHouseList">
+                </tbody>
+              </table>   
         </div>
 
     </div>
@@ -105,7 +114,9 @@ function renderingPage(data,target){
 		$(target).html("");
 
 		for(var i=0;i<data.houseList.length;i++){
-			var houseInfo = $("<div class='houseInfo clearfix m10 w780'></div>");
+			var houseTR = $(' <tr></tr>');
+			var houseTD = $('<td class="house"></td>');
+			var houseInfo = $("<div class='houseInfo clearfix m10 w660'></div>");
 			var houseDetail = $("<div class='g_houseInfo fl'></div>");
 			var houseDetailInfo = $("<div class='right'></div>");
 			var houseImg = $("<a class='housePic fl' href='houseDetail.html?id="+data.houseList[i].houseId+"'><img src='"+(data.houseList[i].photos.length>0?data.houseList[i].photos[0].photoURL:"images/house_bg.png")+"' alt='' width='105' height='75'><span>"+data.houseList[i].photos.length+" 图</span></a>");
@@ -139,7 +150,13 @@ function renderingPage(data,target){
 			personBottom.append(community).append(link);
 			personInfo.append(personTop).append(personBottom);
 			houseInfo.append(houseDetail).append(personInfo);
-			$(target).append(houseInfo);
+			
+			var houseActionTD = $('<td class="act"><a href="#">删除</a></td>');
+			houseTD.append(houseInfo);
+			houseTR.append(houseTD);
+			houseTR.append(houseActionTD);
+			
+			$(target).append(houseTR);
 		}
 	}
 	

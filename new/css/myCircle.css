@@ -1,0 +1,49 @@
+.myCircleList .title{
+    font:bold 16px/30px "宋体";
+    background: #fafafa;
+    padding-left: 5px;
+}
+.myCircleListUl li{
+    float: left;
+    width:99px;
+    margin:10px 10px 10px 0;
+}
+
+.navList{
+    border-left: 1px solid #eee;
+    overflow: hidden;
+    zoom:1;
+}
+.navList li{
+    float: left;
+    width:140px;
+    line-height: 30px;
+    background: #fafafa;
+    border:1px solid #eee;
+    border-left: 0;
+    text-align: center;
+    cursor: pointer;  
+    position: relative;
+    z-index:9;
+}
+.navList li.cur{
+    background: #fff;
+    border-bottom: 1px solid #fff;
+    font-weight: bold;
+}
+.navList li:hover{
+    text-decoration: underline;
+    font-weight: bold;
+}
+.navList li em{
+    color:#f00;
+}
+
+.listWrap{
+    position: relative;
+    top:-1px;
+    border:1px solid #eee;
+    overflow: hidden;
+    zoom:1;
+    padding:10px 0 10px 20px;
+}
