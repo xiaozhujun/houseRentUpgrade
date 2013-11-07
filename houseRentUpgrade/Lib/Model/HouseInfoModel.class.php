@@ -59,12 +59,6 @@ class HouseInfoModel extends Model{
     	$countSQL="select count(*) count  from house_info ".$wheresql;
 //       	echo $querySQL;
     	$list["list"]= $this->query($querySQL);
-//     	$count=$this->query($countSQL);
-//     	if($count){
-//     		$list["allcount"]=$count[0]["count"];
-//     	}else{
-//     		$list["allcount"]=0;
-//     	}
     	return $list;
     }
     
@@ -150,7 +144,15 @@ class HouseInfoModel extends Model{
     		return array();
     	}
     	$now = dateTime();
-    	return $this->where("transferTime>='{$now}' and street like '%{$street}%'")->order("houseId desc")->limit(10)->select();
+    	return $this->where("transferTime>='{$now}' and street like '%{$street}%'")->order("houseId desc")->limit(0,10)->select();
+    }
+    
+    //用户发布房源列表
+    function  publishHouseList($userId){
+    	$querySQL =  "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,user.realName as realName".
+    			" from house_info,user where ".
+    			"house_info.userId=user.id and house_info.userId={$userId} order by house_info.houseId desc";
+    	return $this->query($querySQL);
     }
 
 }

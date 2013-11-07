@@ -149,64 +149,10 @@
         <div class="borderbar"></div>
         
         <div class="clearfix pl10 pr10">
-            <h3 class="fl">租客圈内好友</h3>
+            <h3 class="fl">房主租客圈</h3>
             <a class="fr" href="#">换一批</a>
         </div>
-        <ul class="g_r m10">
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
-            <li>
-                <a class="pic" href="#">
-                    <img src="images/person_bg.png" alt="" width="42" height="42">
-                </a>
-                <strong><a class="name" href="#">肖竹君</a></strong>
-                <a class="add friendApply" href="#">
-                    + 加为好友
-                </a>
-            </li>
+        <ul id="userCircleList" class="g_r m10">
         </ul>
 
         <div class="borderbar"></div>
@@ -215,15 +161,7 @@
             <h3 class="fl">相关房源推荐</h3>
             <a class="fr" href="#">换一批</a>
         </div>
-        <ul class="g_rh">
-            <li>
-                <a class="pic" href=""><img src="images/house_bg.png" width="180" height="120" alt=""></a>
-                <a href="#">立水桥-立水桥-立水桥-立水桥-立水桥-立水桥</a>
-            </li>
-            <li>
-                <a class="pic" href=""><img src="images/house_bg.png" width="180" height="120" alt=""></a>
-                <a href="#">立水桥-立水桥-立水桥-立水桥-立水桥-立水桥</a>
-            </li>
+        <ul id="streetHouseList" class="g_rh">
         </ul>
     </div>
 </div>
@@ -374,6 +312,20 @@ $(document).ready(function(){
 	
 });
 
+function streetHouseCallback(data){
+	for(var i=0;i<data.houseList.length;i++){
+		var streetHouseLi = $('<li></li>');
+		var streetHouseLink = $('<a class="pic" href=""></a>');
+		var streetHouseImg = $('<img src="images/house_bg.png" width="180" height="120" alt="">');
+		var streetTitleLink = $('<a href="#"></a>');
+		streetTitleLink.html(data.houseList[i].title);
+		streetHouseLink.append(streetHouseImg);
+		streetHouseLi.append(streetHouseLink);
+		streetHouseLi.append(streetTitleLink);
+		$("#streetHouseList").append(streetHouseLi);
+	}
+}
+
 function collectCallback(data){
 	if(data.success){
 		alert("收藏成功！");
@@ -400,16 +352,24 @@ function houseinfoCallback(data) {
 	houseUserName = data.houseuser.realName;
 	houseUserId = data.houseuser.id;
 	
+	var streetData = {};
+	streetData.street = data.houseinfo.street;
+	$.post($.URL.house.streetHouseList,streetData,streetHouseCallback,"json");
+	
 	if(typeof(data.circles)!="undefined")
 	{
-		$("#circles").html("");
+		$("#userCircleList").html("");
 		for(var j=0;j<data.circles.length;j++)
 		{
-			var circleLink = $("<a href='#'></a>");
-			circleLink.html(data.circles[j].name);
-			circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.circles[j].name));
-			$("#circles").append(circleLink);
-			$("#circles").append("&nbsp;");
+			var circleLi = $('<li></li>');
+			var circleImg = $('<a class="pic" href="#"><img src="images/person_bg.png" alt="" width="42" height="42"></a>');
+			var circleNameLink = $('<a class="name" href="#"></a>');
+			var circleNameStrong = $('<strong></strong>');
+			var circleActionLink = $('<a href="circleIndex.html?circle='+data.circles[j].name+'" class="add friendApply" href="#">进入圈子</a>');
+			circleNameLink.html(data.circles[j].name);
+			circleNameStrong.html(circleNameLink);
+			circleLi.append(circleImg).append(circleNameStrong).append(circleActionLink);
+			$("#userCircleList").append(circleLi);
 		}
 	}
 	

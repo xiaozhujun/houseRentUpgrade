@@ -283,7 +283,7 @@
     display: inline-block;
     zoom:1;
     padding-right:20px;
-    font:14px/26px "宋体";
+    font:14px/22px "宋体";
     color:#333;
 }
 .g_factor .detail a:hover{
@@ -367,7 +367,7 @@
     padding-bottom: 10px;
 }
 .g_rh li .pic{
-    display: inline-block;
+    display: block;
     zoom:1;
 }
 .g_rh li a{

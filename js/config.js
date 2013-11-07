@@ -41,6 +41,7 @@
 			"collegeHouseList":"/House/collegeHouse",
 			"villegeHouseList":"/House/villageHouse",
 			"circleHouseList":"/House/circleHouse",
+			"publishHouseList":"/House/publishHouseList",
 		},
 		"houseApply":{
 			"applyHouse":"/HouseApply/applyHouse",
@@ -82,6 +83,7 @@
 			"communityMember":"/Community/communityMember",
 			"search":"/Community/search",
 			"popularList":"/Community/popularList",
+			"userJoinManageCommunity":"/Community/userJoinManageCommunity",
 		}
 		
 			

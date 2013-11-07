@@ -131,11 +131,10 @@ class CommunityAction extends Action
 		{
 			$data = array();
 			$data['success'] = false;
-			session_start();
-			$userId = $_SESSION['userId'];
+			$userId = currentUserId();
 			if(is_null($_POST['name']))
 			{
-				$data['msg'] = "公司名不能为空";
+				$data['msg'] = "圈子名不能为空";
 				$this->ajaxReturn($data);
 				return;
 			}
@@ -304,5 +303,27 @@ class CommunityAction extends Action
 		$data["communityList"] = $communityModel->popularList();
 		$this->ajaxReturn($data);
 	}
+	
+	//用户参与及管理的圈子
+	function userJoinManageCommunity(){
+		$data = array();
+		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		
+		$userId = currentUserId();
+		$userCommunityModel = new UserCommunityModel();
+		$data["joinCommunityList"] = $userCommunityModel->userCommunities($userId, 0, 50);
+		$data["joinCommunityCount"] = $userCommunityModel->userCommunityCount($userId);
+		$data["manageCommunityList"] = $userCommunityModel->userManageCommunity($userId, 0, 50);
+		$communityModel = new CommunityModel();
+		$data["manageCommunityCount"] = $communityModel->where("creatorId={$userId}")->count("id");
+		$data[success] = true;
+		$this->ajaxReturn($data);
+	}
+	
 	
 }

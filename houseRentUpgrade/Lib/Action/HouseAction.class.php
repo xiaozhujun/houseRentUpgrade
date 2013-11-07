@@ -89,7 +89,7 @@ class HouseAction extends Action {
 		if(!isLogin())
 		{
 			$data['code']=-1;
-			$data['msg']="not login!";
+			$data['msg']="请您先登录!";
 			$this->ajaxReturn($data);
 		}
 		session_start();
@@ -153,13 +153,13 @@ class HouseAction extends Action {
 	{
 		$houseId = $_GET['id'];
 		$data=array();
-    
+		
 		if(is_null($houseId))
 		{
 
-			header ( "Content-Type:text/html; charset=utf-8" );
-			echo "对不起，您的请求中参数正确！";
-			return;
+			$data['success'] = false;
+			$data["msg"] = "参数不能为空！";
+			$this->ajaxReturn($data);
 		}
 		if(isLogin())
 		{
@@ -169,30 +169,24 @@ class HouseAction extends Action {
 		
 		$houseInfo = M('HouseInfo');
 		$houseInfoObj = $houseInfo->find($houseId);
-		$data['houseinfo']=$houseInfo->field("createTime,transferTime,price,street,community,contactPerson,contactPhone,room,parlor,washroom,area,detailDescription,houseId,userId")->find($houseId);
+		$data['houseinfo']=$houseInfo->field("createTime,title,transferTime,price,street,community,contactPerson,contactPhone,room,parlor,washroom,area,detailDescription,houseId,userId")->find($houseId);
 		
 		$housePhotoModel = new HousePhotoModel();
 		$data['houseinfo']['photos'] = $housePhotoModel->getHousePhotos($data['houseinfo']['houseId']);
-		//$this->assign('houseInfo',$houseInfoObj);
+		
 		$region = M('Region');
 		$regionId = $houseInfoObj['region'];
 		$regionObj = $region->find($regionId);
-		//$this->assign("region",$regionObj);
-         $data['region']=$region->find($regionId);
+		$data['region']=$region->find($regionId);
+		
 		$houseUser = M("User");
 		$houseUserId = $houseInfoObj["userId"];
 		$data['houseuser']=$houseUser->field("realName,id")->find($houseUserId);
-// 		$userCompany = new UserCompanyModel();
-// 		$company = $userCompany->getUserCompany($houseUserId);
-// 		//$this->assign("company",$company);
-// 		$data['company']=$userCompany->getUserCompany($houseUserId);
-// 		$userCollege = new UserCollegeModel();
-// 		$college = $userCollege->getUserCollege($houseUserId);
-// 		//$this->assign("college",$college);
-// 		$data['college']=$userCollege->getUserCollege($houseUserId);
 		
 		$userCommunityModel = new UserCommunityModel();
-		$data["circles"] = array_values($userCommunityModel->userCommunities($houseUserId));
+		$data["circles"] = array_values($userCommunityModel->userCommunities($houseUserId,0,10));
+		$data["company"] = $userCommunityModel->userCompany($houseUserId);
+		$data["college"] = $userCommunityModel->userCollege($houseUserId);
 		
 		//保存用户浏览房源记录
 		$houseViewModel = new HouseViewModel();
@@ -202,10 +196,7 @@ class HouseAction extends Action {
 			$houseInfo->where("houseId={$houseId}")->setInc("viewCount",1);
 		}
 		
-		
 		header ( "Content-Type:text/html; charset=utf-8" );
-		//$this->display("houseInfo");
-		//$this->ajaxReturn($data);
 		$this->ajaxReturn($data);
 	}
 	
@@ -224,7 +215,7 @@ class HouseAction extends Action {
 	function streetHouse()
 	{
 		$data = array();
-		$street = $_GET['street'];
+		$street = $_POST['street'];
 		if(is_null($street))
 		{
 			$data['result'] = false;
@@ -242,10 +233,12 @@ class HouseAction extends Action {
 	//好友房源
 	function friendHouse()
 	{
+		$data = array();
+		$data['success'] = false;
 		if(!isLogin())
 		{
-			redirect(C('LOGIN_URL'));
-			return;
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
 		}
 		
 		$userId = currentUserId();
@@ -257,7 +250,6 @@ class HouseAction extends Action {
 			$houseList = array();
 		}
 		
-		$data = array();
 		$data["success"] = true;
 		$data["houseList"] = $houseList;
 
@@ -267,10 +259,12 @@ class HouseAction extends Action {
 	//一度好友房源
 	function oneDuHouse()
 	{
+		$data = array();
+		$data['success'] = false;
 		if(!isLogin())
 		{
-			redirect(C('LOGIN_URL'));
-			return;
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
 		}
 		
 		$userId = currentUserId();
@@ -282,7 +276,6 @@ class HouseAction extends Action {
 			$houseList = array();
 		}
 		
-		$data = array();
 		$data["success"] = true;
 		$data["houseList"] = $houseList;
 
@@ -292,15 +285,14 @@ class HouseAction extends Action {
 	//同一个公司的房源
 	function companyHouse()
 	{
-		if(!isLogin())
-		{
-			redirect(C('LOGIN_URL'));
-			return;
-		}
-		$companyName = $_POST['company'];
-		
 		$data = array();
 		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		$companyName = $_POST['company'];
 		
 		if(is_null($companyName))
 		{
@@ -339,14 +331,14 @@ class HouseAction extends Action {
 	//同一个学校的房源
 	function collegeHouse()
 	{
-		if(!isLogin())
-		{
-			redirect(C('LOGIN_URL'));
-			return;
-		}
-		$collegeName = $_POST['college'];
 		$data = array();
 		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		$collegeName = $_POST['college'];
 		
 		if(is_null($collegeName))
 		{
@@ -385,14 +377,14 @@ class HouseAction extends Action {
 	//小区的房源
 	function villageHouse()
 	{
-		if(!isLogin())
-		{
-			redirect(C('LOGIN_URL'));
-			return;
-		}
-		$communityName = $_POST['village'];
 		$data = array();
 		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		$communityName = $_POST['village'];
 	
 		if(is_null($communityName))
 		{
@@ -504,6 +496,32 @@ class HouseAction extends Action {
 			
 			$data["canEdit"] = $communityModel->isCommunityMaster($communityId, currentUserId());
 			
+			$this->ajaxReturn($data);
+		}
+		
+		//发布房源列表
+		function publishHouseList(){
+			$data = array();
+			$data['success'] = false;
+			if(!isLogin())
+			{
+				$data["msg"] = "请您登录！";
+				$this->ajaxReturn($data);
+			}
+			
+			$userId = currentUserId();
+			$houseInfoModel = new HouseInfoModel();
+			$data["houseList"] = $houseInfoModel->publishHouseList($userId);
+			
+			$housePhotoModel = new HousePhotoModel();
+			$userCommunityModel = new UserCommunityModel();
+				
+			foreach ($data['houseList'] as $key=>$value)
+			{
+				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			}
+			$data["success"] = true;
 			$this->ajaxReturn($data);
 		}
 		

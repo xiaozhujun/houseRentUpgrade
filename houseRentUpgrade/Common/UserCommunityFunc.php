@@ -1,6 +1,6 @@
 <?php
 
-//更新用户所在高校信息
+//更新用户所在圈子信息
 function updateUserCommunity($userId,$communityName,$communityType)
 { 	
 	$communityModel = new CommunityModel();

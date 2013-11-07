@@ -40,9 +40,8 @@
         <ul class="g_leftlan fl">
             <li>
                 <h5>我的房屋信息</h5>
-                <p class="cur" onclick="window.location='myHouseInfo.html'">我申请的房源</p>
-                <p>我收藏的房源</p>
-                <p>我发布的房源</p>
+                <p onclick="window.location='collectHouseInfo.html'">我收藏的房源</p>
+                <p class="cur" onclick="window.location='publishHouseInfo.html'">我发布的房源</p>
             </li>
             <li>
                 <h5>我的关系</h5>
@@ -61,7 +60,7 @@
               <table class="tbHouseInfo" border="0" cellspacing="1" cellpadding="0" width="100%">
                 <thead>
                     <tr>
-                        <th class="house">我收藏的房源</th>
+                        <th class="house">我发布的房源</th>
                         <th class="act">操作</th>
                     </tr>
                 </thead>
@@ -84,7 +83,7 @@ $(function(){
 	$.get($.URL.user.info,null,userInfoCallback,"json");
 	
 	
-	$.get($.URL.houseCollect.collectList,null,getCollectHouseListCallback,"json");
+	$.get($.URL.house.publishHouseList,null,getPublishHouseListCallback,"json");
 });
 
 function userInfoCallback(data){
@@ -101,7 +100,7 @@ function userInfoCallback(data){
 	$("#realNameContainer").append(data.info.realName);
 }
 
-function getCollectHouseListCallback(data)
+function getPublishHouseListCallback(data)
 {
 	var targetContainer = "#collectHouseList";
 	renderingPage(data,targetContainer);
@@ -151,7 +150,7 @@ function renderingPage(data,target){
 			personInfo.append(personTop).append(personBottom);
 			houseInfo.append(houseDetail).append(personInfo);
 			
-			var houseActionTD = $('<td class="act"><a href="#">删除</a></td>');
+			var houseActionTD = $('<td class="act"><a href="#">取消发布</a></td>');
 			houseTD.append(houseInfo);
 			houseTR.append(houseTD);
 			houseTR.append(houseActionTD);
