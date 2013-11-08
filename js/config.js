@@ -27,6 +27,7 @@
 			"passApply":"/Friend/passApply",
 			"myFriend":"/Friend/myFriend",
 			"invitedFriend":"/Friend/invitedFriend",
+			"friendList":"/Friend/friendList",
 		},
 		"house":{
 			"houselist":"/House/houseList",

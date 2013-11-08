@@ -11,7 +11,7 @@ class UserTagModel extends Model{
 	function userTags($userId)
 	{
 		if(!isset($userId)) return null;
-		return $this->where("userId={$userId}")->select();
+		return $this->where("userId={$userId}")->field("id,tagName")->select();
 	}
 
 }
