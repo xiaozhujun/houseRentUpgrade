@@ -170,9 +170,16 @@ class FriendAction extends Action
 	
 		$userId = currentUserId();
 		$friendApply = M('FriendApply');
-		$applyList = $friendApply->where("toUser={$userId} and status=".UNTREAT)->field("toUser,fromUser,fromRealName,toRealName,authInfo,createTime")->order("createTime desc")->limit(0,10)->select();
+		$applyList = $friendApply->where("toUser={$userId} and status=".UNTREAT)->field("fromUser,fromRealName,authInfo,createTime")->order("createTime desc")->limit(0,10)->select();
 		$data['success'] = true;
 		$data['list'] = $applyList;
+		$userTagModel = new UserTagModel();
+		$userCommunityModel = new UserCommunityModel();
+		foreach ($data['list'] as $key=>$value)
+		{
+			$data['list'][$key]["tags"] = $userTagModel->userTags($value["fromUser"]);
+			$data['list'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["fromUser"],0,2));
+		}
 		$this->ajaxReturn($data);
 	
 	
@@ -416,6 +423,9 @@ class FriendAction extends Action
 			$data['friendList'][$key]["tags"] = $userTagModel->userTags($value["toUser"]);
 		}	
 		$data["friendCount"] = $friend->where("fromUser={$userId}")->count("id");
+		$friendApply = M('FriendApply');
+		$data["applyCount"] = $friendApply->where("toUser={$userId} and status=".UNTREAT)->count("id");
+		
 		$data["success"] = true;
 		$this->ajaxReturn($data);
 	}

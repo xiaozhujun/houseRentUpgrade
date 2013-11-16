@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/base.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
     <link rel="stylesheet" type="text/css" href="css/myFirend.css">
+    
+    <link rel="stylesheet" type="text/css" href="css/myHouseInfo.css">
 </head>
 <body>
     
@@ -60,20 +62,33 @@
             <h3 class="title">我的好友</h3>
 
             <ul class="navList mt10">
-                <li class="cur">
+                <li id="friendListTab" class="cur">
                     我的好友 <em id="friendCount"></em>
                 </li>
-                <li>
-                    好友申请<em>(69)</em>
+                <li id="applyTab">
+                    好友申请<em id="applyCount"></em>
                 </li>
                 <li>
                    我的关注 <em>(69)</em>
                 </li>
             </ul>
             
-            <div class="listWrap">  
+            <div id="friendListDiv" class="listWrap">  
                 <ul id="friendListUL" class="g_fb myFirendListUl">
                 </ul>
+            </div>
+            <div id="friendApplyDiv" class="listWrap"> 
+            	<table class="tbHouseInfo" border="0" cellspacing="1" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="applyTD">申请人</th>
+                        <th class="applyTD">申请信息</th>
+                        <th class="act">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="friendApplyList">
+                </tbody>
+              </table>   
             </div>
         </div>
     </div>
@@ -87,6 +102,8 @@
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript">
 $(function(){
+	$("#friendApplyDiv").hide();
+	
 	$.get($.URL.user.info,null,userInfoCallback,"json");
 	
 	$.get($.URL.friend.friendList,null,getFriendListCallback,"json");
@@ -98,13 +115,71 @@ $(function(){
 		$("#manageTab").removeClass("cur");
 	});
 	
-	$("#manageTab").click(function(){
-		$("#joinCommunityDiv").hide();
-		$("#joinTab").removeClass("cur");
-		$("#manageCommunityDiv").show();
-		$("#manageTab").addClass("cur");
+	$("#applyTab").click(function(){
+		$("#applyTab").siblings().removeClass("cur");
+		$("#applyTab").addClass("cur");
+		$("#friendApplyDiv").show();
+		$("#friendListDiv").hide();
+		
+		if($("#friendApplyList").html().trim()==""){
+			$.get($.URL.friend.applyingUntreat,null,getApplyListCallback,"json");
+		}
+	});
+	
+	$("#friendListTab").click(function(){
+		$("#friendListTab").siblings().removeClass("cur");
+		$("#friendListTab").addClass("cur");
+		$("#friendApplyDiv").hide();
+		$("#friendListDiv").show();
 	});
 });
+
+function getApplyListCallback(data){
+	
+	for(var i=0;i<data.list.length;i++){
+		var friendApplyTR = $(' <tr></tr>');
+		var applyUserTD = $('<td class="applyUserTD"></td>');
+		var applyInfoTD = $('<td class="applyTD"></td>');
+		var houseInfo = $("<div class='houseInfo clearfix m10 w660'></div>");
+		applyInfoTD.html(data.list[i].authInfo);
+		var personInfo = $("<div class='g_person fl'></div>");
+		var personTop = $("<div class='top'></div>");
+		var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+		var personTopRight = $("<div class='right'></div>");
+		var personName = $(" <strong><a href='#'>"+data.list[i].fromRealName+"</a></strong>");
+		var interest = $("<p></p>");
+		for(var x=0;x<data.list[i].tags.length;x++){
+			interest.append(data.list[i].tags[x].tagName+"&nbsp;");
+		}
+		var personBottom = $("<div class='bottom'></div>");
+		var community = $("<span class='fl'>租客圈：</span>");
+		var link =$("<div class='link'></div>");
+		if(typeof(data.list[i].circles)!="undefined")
+			{
+				for(var j=0;j<data.list[i].circles.length;j++)
+				{
+					var circleLink = $("<a href='#'></a>");
+					circleLink.html(data.list[i].circles[j].name);
+					circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.list[i].circles[j].name));
+					link.append(circleLink);
+				}
+			}
+		
+		personTopRight.append(personName).append(interest);
+		personTop.append(personImg).append(personTopRight);
+		personBottom.append(community).append(link);
+		personInfo.append(personTop).append(personBottom);
+		applyUserTD.append(personInfo);
+		//applyInfoTD.append(houseDetail);
+		//houseInfo.append(personInfo).append(houseDetail);
+		
+		var houseActionTD = $('<td class="act"><a href="#">通过</a>&nbsp;<a href="#">拒绝</a></td>');
+		//applyTD.append(houseInfo);
+		friendApplyTR.append(applyUserTD).append(applyInfoTD).append(houseActionTD);
+		
+		$(friendApplyList).append(friendApplyTR);
+	}
+}
 
 function userInfoCallback(data){
 	var tags = "";
@@ -122,6 +197,7 @@ function userInfoCallback(data){
 
 function getFriendListCallback(data){
 	$("#friendCount").html("("+data.friendCount+")");
+	$("#applyCount").html("("+data.applyCount+")");
 	$("#friendListUL").html("");
 	for(var x=0;x<data.friendList.length;x++){
 		var li = $('<li></li>');

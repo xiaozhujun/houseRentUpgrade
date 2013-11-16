@@ -73,7 +73,7 @@ class HouseAction extends Action {
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 		}
 		
 		
@@ -322,7 +322,7 @@ class HouseAction extends Action {
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 		}
 		
 		$this->ajaxReturn($data);
@@ -368,7 +368,7 @@ class HouseAction extends Action {
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 		}
 		
 		$this->ajaxReturn($data);
@@ -407,7 +407,7 @@ class HouseAction extends Action {
 		foreach ($data['houseList'] as $key=>$value)
 		{
 			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 		}
 		
 		$this->ajaxReturn($data);
@@ -484,7 +484,7 @@ class HouseAction extends Action {
 			foreach ($data['houseList'] as $key=>$value)
 			{
 				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 			}
 			
 			$result = $userCommunityModel->communityUserCount($communityId);
@@ -519,7 +519,7 @@ class HouseAction extends Action {
 			foreach ($data['houseList'] as $key=>$value)
 			{
 				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
-				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"]));
+				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 			}
 			$data["success"] = true;
 			$this->ajaxReturn($data);

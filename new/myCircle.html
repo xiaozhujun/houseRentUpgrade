@@ -87,6 +87,8 @@
 <script type="text/javascript" src="js/common.js"></script>
 <script type="text/javascript">
 $(function(){
+	$("#manageCommunityDiv").hide();
+	
 	$.get($.URL.user.info,null,userInfoCallback,"json");
 	
 	$.get($.URL.community.userJoinManageCommunity,null,getUserJoinManageCommunityCallback,"json");

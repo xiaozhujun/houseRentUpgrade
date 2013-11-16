@@ -48,5 +48,15 @@
     border:1px solid #eee;
     overflow: hidden;
     zoom:1;
-    padding:10px 0 10px 20px;
+    padding:10px;
+}
+
+.applyTD{
+	text-align: center;
+	padding:2px;
+}
+
+.applyUserTD{
+	text-align: left;
+	padding:2px;
 }
