@@ -47,6 +47,9 @@ class HouseCollectAction extends Action {
 		{
 			$houseCollectModel->add();
 			$data['success'] = true;
+			
+			$fromUserName = currentUserName();
+			createMessage($houseInfo['userId'], "{$fromUserName}，收藏了您的发布的房源", $userId);
 		}
 		else 
 		{

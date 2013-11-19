@@ -136,3 +136,9 @@ function deleteSessionKey($key)
 	session_start();
 	unset($_SESSION[$key]);
 }
+
+//创建消息
+function createMessage($toUserId,$message,$fromUserId){
+	$userMessageModel = new UserMessageModel();
+	$userMessageModel->saveMessage($toUserId, $message, $fromUserId);
+}

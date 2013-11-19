@@ -57,37 +57,13 @@
         </ul>
 
         <div class="fr">
-            <ul class="g_houseAct w780">
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
-                <li>
-                    <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5>
-                    <span>2013/9/8 17:00</span>
-                    <a class="g_greenBtn" href="#">点击查看</a>
-                </li>
+            <ul id="messageList" class="g_houseAct w780">
+<!--                 <li> -->
+<!--                     <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5> -->
+<!--                     <span>2013/9/8 17:00</span> -->
+<!--                     <a class="g_greenBtn" href="#">点击查看</a> -->
+<!--                 </li> -->
+                
             </ul>
         </div>
 
@@ -102,6 +78,7 @@
 <script type="text/javascript">
 $(function(){
 	$.get($.URL.user.info,null,userInfoCallback,"json");
+	$.get($.URL.message.userMessages,null,userMessageCallback,"json");
 	
 	
 	$("#setPwdBtn").click(function(){
@@ -129,6 +106,30 @@ function userInfoCallback(data){
 	$("#jobContainer").append(data.company)
 	$("#educationContainer").append(data.college);
 	$("#realNameContainer").append(data.info.realName);
+}
+
+function userMessageCallback(data){
+	var messageList = $("#messageList");
+	messageList.html("");
+	if(data.messageCount>0){
+		
+		for(var i=0;i<data.messages.length;i++){
+			var li = $('<li></li>');
+			var message = $('<h5></h5>');
+			var time = $('<span></span>');
+			message.html(data.messages[i].message);
+			time.html(data.messages[i].createTime);
+			li.append(message).append(time);
+			messageList.append(li);
+		}
+	}else{
+		var li = $('<li></li>');
+		var message = $('<h5></h5>');
+		var time = $('<span></span>');
+		message.html("您没有新消息哦！");
+		li.append(message).append(time);
+		messageList.append(li);
+	}
 }
 
 </script>

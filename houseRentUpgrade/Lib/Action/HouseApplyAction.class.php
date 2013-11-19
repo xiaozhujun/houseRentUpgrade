@@ -67,12 +67,12 @@ class HouseApplyAction extends Action
 			return;
 		}
 		
-		session_start();
+		$fromUser = currentUserId();
 		$userModel = M('User');
-		$fromUser = $userModel->find($_SESSION['userId']);
+		$fromUser = $userModel->find($fromUser);
 		$toUser = $userModel->find($_POST['toUser']);
 		$houseApplyData = array(
-			"fromUser"=>$_SESSION['userId'],
+			"fromUser"=>$fromUser,
 			"fromRealName"=>$fromUser['realName'],
 			"toUser"=>$_POST['toUser'],
 			"houseId"=>$_POST['houseId'],
@@ -89,6 +89,8 @@ class HouseApplyAction extends Action
 			{
 				$data['msg'] = '您的房源申请已经发送成功！';
 				$data['success'] = true;
+				
+				createMessage($_POST['toUser'], "{$fromUser['realName']}收藏了您的发布的房源", $fromUser);
 			}
 			else 
 			{

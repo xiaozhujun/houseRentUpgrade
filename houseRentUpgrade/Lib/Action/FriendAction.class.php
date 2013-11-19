@@ -93,6 +93,7 @@ class FriendAction extends Action
 		{
 			$data['msg'] = $friendApply->getError();
 		}
+		createMessage($houseInfo['userId'], "{$fromUser['realName']}申请加您好友，赶快去处理吧！", $userId);
 		
 		$this->ajaxReturn($data);
 		
@@ -260,16 +261,15 @@ class FriendAction extends Action
 			$data['msg'] = '申请人未设置，操作失败！';
 			$this->ajaxReturn($data);
 		}
-		
+		$userId = currentUserId();
 		$friendApply = M('FriendApply');
-		$count = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$_SESSION['userId']} and status=".UNTREAT)->count();
+		$count = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$userId} and status=".UNTREAT)->count();
 		if(!$count)
 		{
 			$data['msg'] = '没有符合条件的记录！';
 			$this->ajaxReturn($data);
 		}
 		
-		$userId = currentUserId();
 		$data = array(
 				"status"=>REFUSE,
 				"replyInfo"=>$_POST['replyInfo'],
@@ -279,6 +279,9 @@ class FriendAction extends Action
 		{
 			$data['msg'] = '操作成功！';
 			$data['success'] = true;
+			
+			$fromUserName = currentUserName();
+			createMessage($_POST['fromUser'], "{$fromUser['realName']}，拒绝了您的好友申请哦！", $userId);
 		}
 		else 
 		{
@@ -299,21 +302,22 @@ class FriendAction extends Action
 			$this->ajaxReturn($data);
 		}	
 	
-		if(!isset($_GET['fromUser']) || empty($_GET['fromUser']))
+		if(!isset($_POST['fromUser']) || empty($_POST['fromUser']))
 		{
 			$data['msg'] = '申请人未设置，操作失败！';
 			$this->ajaxReturn($data);
 		}
 		
+		$userId = currentUserId();
+		
 		$friendApply = M('FriendApply');
-		$count = $friendApply->where("fromUser={$_GET['fromUser']} and toUser={$_SESSION['userId']} and status=".UNTREAT)->count();
+		$count = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$userId} and status=".UNTREAT)->count();
 		if(!$count)
 		{
 			$data['msg'] = '没有符合条件的记录！';
 			$this->ajaxReturn($data);
 		}
 		
-		$userId = currentUserId();
 		$fromUserId = $_GET['fromUser'];
 		$data = array(
 				"status"=>PASS,
@@ -354,6 +358,9 @@ class FriendAction extends Action
 		{
 			$data['msg'] = '操作成功！';
 			$data['success'] = true;
+			
+			$fromUserName = currentUserName();
+			createMessage($_POST['fromUser'], "{$fromUserName}，通过了您的好友申请哦！", $userId);
 		}
 		else
 		{
