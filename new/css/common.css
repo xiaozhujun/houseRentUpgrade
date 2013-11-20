@@ -54,8 +54,14 @@
 .header #logo{
     left: 0;
     position: absolute;
-    top: 22px;
+    top: 5px;
 }
+
+#logo img{
+	height:77px;
+	width:160px;
+}
+
 .header #searchbar{
     left: 240px;
     line-height: 26px;

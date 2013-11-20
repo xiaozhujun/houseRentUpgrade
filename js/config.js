@@ -43,6 +43,8 @@
 			"villegeHouseList":"/House/villageHouse",
 			"circleHouseList":"/House/circleHouse",
 			"publishHouseList":"/House/publishHouseList",
+			"updateHouseInfo":"/House/updateHouseInfo",
+			"updateHouseStatus":"/House/updateHouseStatus",
 		},
 		"houseApply":{
 			"applyHouse":"/HouseApply/applyHouse",

@@ -150,7 +150,16 @@ function renderingPage(data,target){
 			personInfo.append(personTop).append(personBottom);
 			houseInfo.append(houseDetail).append(personInfo);
 			
-			var houseActionTD = $('<td class="act"><a href="#">取消发布</a></td>');
+			var houseActionTD = $('<td class="act">&nbsp;</td>');
+			var statusBtn = $('<a class="statusBtn" href="#" status="'+data.houseList[i].status+'" houseId="'+data.houseList[i].houseId+'"></a>');
+			var editBtn = $('<a href="editHouseInfo.html?houseId='+data.houseList[i].houseId+'">编辑</a>');
+			
+			if(data.houseList[i].status==1){
+				statusBtn.html("取消发布");
+			}else{
+				statusBtn.html("发布房源");
+			}
+			houseActionTD.append(statusBtn).append("&nbsp;|&nbsp;").append(editBtn);
 			houseTD.append(houseInfo);
 			houseTR.append(houseTD);
 			houseTR.append(houseActionTD);
@@ -159,6 +168,29 @@ function renderingPage(data,target){
 		}
 	}
 	
+	$(".statusBtn").click(function(){
+		var status = $(this).attr("status");
+		var houseId = $(this).attr("houseId");
+		if(status==0){
+			$(this).html("取消发布");
+		}else{
+			$(this).html("发布房源");
+		}
+		var data = {};
+		data.status = 1-status;
+		data.houseId = houseId;
+		$(this).attr("status",1-status);
+		$.post($.URL.house.updateHouseStatus,data,updateStatusCallback,"json");
+	});
+	
+}
+
+function updateStatusCallback(data){
+	if(data.success){
+		alert("恭喜您，操作成功");
+	}else{
+		alert(data.msg);
+	}
 }
 
 function getLeftDays(days){

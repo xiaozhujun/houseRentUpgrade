@@ -92,11 +92,11 @@ class HouseAction extends Action {
 			$data['msg']="请您先登录!";
 			$this->ajaxReturn($data);
 		}
-		session_start();
+		$userId = currentUserId();
 		$houseInfo = D ("HouseInfo");
 		if($houseInfo->create ())
 		{
-			$houseInfo->userId=$_SESSION['userId'];
+			$houseInfo->userId=$userId;
 			$houseInfo->createTime=intNow();
 			$houseInfo->viewCount=0;
 			
@@ -104,7 +104,7 @@ class HouseAction extends Action {
 			$housePhotos = getPhotos();
 			deleteSessionKey($key);
 			$housePhoto = new HousePhotoModel();
-			$housePhoto->addPhotoToHouse($houseId, currentUserId(), $housePhotos);
+			$housePhoto->addPhotoToHouse($houseId, $userId, $housePhotos);
 			
 			
 			if($houseId){
@@ -123,6 +123,104 @@ class HouseAction extends Action {
 		
 		$this->ajaxReturn($data);
 
+	}
+	
+	/*
+	 * 提交发布房源信息
+	*/
+	function updateHouseInfo(){
+		$data = array();
+		if(!isLogin())
+		{
+			$data['success']= false;
+			$data['msg']="请您先登录!";
+			$this->ajaxReturn($data);
+		}
+		$userId = currentUserId();
+		
+		$houseInfoModel = new HouseInfoModel();
+		$house = $houseInfoModel->where("houseId={$_POST['houseId']} and userId={$userId}")->find();
+		if(!isset($house)){
+			$data['success']= false;
+			$data['msg']="操作失败!";
+			$this->ajaxReturn($data);
+		}
+		
+		$houseInfo = D ("HouseInfo");
+		if($houseInfo->create ())
+		{
+			$houseInfo->updateTime=date("Y-m-d H:i:s");
+				
+			$houseId = $houseInfo->save();
+			$housePhotos = getPhotos();
+			deleteSessionKey($key);
+			$housePhoto = new HousePhotoModel();
+			$housePhoto->addPhotoToHouse($houseId, currentUserId(), $housePhotos);
+				
+				
+			if($houseId){
+				$data['success']=true;
+			}else{
+				$data['success']=false;
+				$data['msg']="对不起，操作失败!";
+			}
+		}
+		else
+		{
+			$data['success']=false;
+			$data['msg']="对不起，操作失败!";
+		}
+	
+		$this->ajaxReturn($data);
+	
+	}
+	
+	/*
+	 * 提交发布房源信息
+	*/
+	function updateHouseStatus(){
+		$data = array();
+		if(!isLogin())
+		{
+			$data['success']= false;
+			$data['msg']="请您先登录!";
+			$this->ajaxReturn($data);
+		}
+		$userId = currentUserId();
+		$houseId = $_POST['houseId'];
+	
+		$houseInfoModel = new HouseInfoModel();
+		$house = $houseInfoModel->where("houseId={$houseId} and userId={$userId}")->find();
+		if(!isset($house)){
+			$data['success']= false;
+			$data['msg']="操作失败!";
+			$this->ajaxReturn($data);
+		}
+	
+		$houseInfo = D ("HouseInfo");
+		$houseData = array();
+		$houseData["houseId"] = $houseId;
+		$houseData["status"] = $_POST["status"];
+		if($houseInfo->create ($houseData))
+		{
+			$houseInfo->updateTime=date("Y-m-d H:i:s");
+			$houseId = $houseInfo->save();
+			
+			if($houseId){
+				$data['success']=true;
+			}else{
+				$data['success']=false;
+				$data['msg']="对不起，操作失败!";
+			}
+		}
+		else
+		{
+			$data['success']=false;
+			$data['msg']="对不起，操作失败!";
+		}
+	
+		$this->ajaxReturn($data);
+	
 	}
 	
 	/*
