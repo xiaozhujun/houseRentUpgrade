@@ -59,6 +59,7 @@
 		},
 		"houseCollect":{
 			"collect":"/HouseCollect/collect",
+			"uncollect":"/HouseCollect/uncollect",
 			"collectList":"/HouseCollect/collectHouseList",
 		},
 		"houseComment":{
@@ -87,6 +88,7 @@
 			"search":"/Community/search",
 			"popularList":"/Community/popularList",
 			"userJoinManageCommunity":"/Community/userJoinManageCommunity",
+			"exitCommunity":"/Community/exitCommunity"
 		},
 		"message":{
 			"userMessages":"/UserMessage/userMessages",

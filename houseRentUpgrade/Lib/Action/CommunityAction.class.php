@@ -326,4 +326,29 @@ class CommunityAction extends Action
 	}
 	
 	
+	function exitCommunity(){
+		$data = array();
+		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		
+		$circle = $_POST["circle"];
+		if(!isset($circle)){
+			$data["msg"] = "对不起，参数不正确！";
+			$this->ajaxReturn($data);
+		}
+		
+		$userId = currentUserId();
+		$userCommunityModel = new UserCommunityModel();
+		$userCommunityModel->where("communityName='{$circle}' and userId={$userId}")->delete();
+		$data["success"]=true;
+		$data["circle"] = $circle;
+		$this->ajaxReturn($data);
+		
+	}
+	
+	
 }

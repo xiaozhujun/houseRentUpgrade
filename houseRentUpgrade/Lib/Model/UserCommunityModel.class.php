@@ -102,5 +102,5 @@ class UserCommunityModel extends Model{
 		$sql = "select id,name from community where creatorId={$userId} order by id desc limit {$limitStart},{$limitCount}";
 		return  $this->query($sql);
 	}
-
+	
 }

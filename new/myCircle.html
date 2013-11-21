@@ -140,10 +140,10 @@ function renderJoinCommunity(joinCommunityList){
 		var ul = $('<ul class="g_qzi myCircleListUl"></ul>');
 		for(var j=0;j<7;j++){
 			var li =$('<li></li>');
-			var img = $(' <img width="80" height="80" src="images/person_bg.png" alt="">');
+			var img = $('<a href="circleIndex.html?circle='+joinCommunityList[i].name+'"><img width="80" height="80" src="images/person_bg.png" alt=""></a>');
 			var communityName = $('<h5></h5>');
 			communityName.html(joinCommunityList[i].name);
-			var outAction =$('<a class="out" href="#">退出</a>');
+			var outAction =$('<a class="out" josinCircle="'+joinCommunityList[i].name+'" href="#">退出</a>');
 			li.append(img).append(communityName).append(outAction);
 			ul.append(li);
 			i++;
@@ -153,6 +153,33 @@ function renderJoinCommunity(joinCommunityList){
 		}
 		$("#joinCommunityDiv").append(ul);
 	}
+	
+	$(".out").hide();
+	$("#joinCommunityDiv li").mouseover(function(){
+		$(this.lastChild).show();
+	});
+	$("#joinCommunityDiv li").mouseout(function(){
+		$(this.lastChild).hide();
+	});
+	
+	$(".out").click(function(){
+		var circle = $(this).attr("josinCircle");
+		var data = {};
+		data.circle = circle;
+		$.post($.URL.community.exitCommunity,data,exitCommunityCallback,"json");
+	});
+}
+
+function exitCommunityCallback(data){
+	if(data.success){
+		var selector = "[josinCircle='"+data.circle+"']";
+		$(selector).each(function(i){
+			$(this).parent().remove();
+		});
+		alert("退出圈子成功！");
+	}else{
+		alert("对不起，退出操作失败！");
+	}
 }
 
 function renderManageCommunity(manageCommunityList){
@@ -161,11 +188,11 @@ function renderManageCommunity(manageCommunityList){
 		var ul = $('<ul class="g_qzi myCircleListUl"></ul>');
 		for(var j=0;j<7;j++){
 			var li =$('<li></li>');
-			var img = $(' <img width="80" height="80" src="images/person_bg.png" alt="">');
+			var img = $('<a href="circleIndex.html?circle='+manageCommunityList[i].name+'"><img width="80" height="80" src="images/person_bg.png" alt=""></a>');
 			var communityName = $('<h5></h5>');
 			communityName.html(manageCommunityList[i].name);
-			var outAction =$('<a class="out" href="#">退出</a>');
-			li.append(img).append(communityName).append(outAction);
+// 			var outAction =$('<a class="out" href="#">退出</a>');
+			li.append(img).append(communityName);
 			ul.append(li);
 			i++;
 			if(i==manageCommunityList.length){

@@ -150,7 +150,9 @@ function renderingPage(data,target){
 			personInfo.append(personTop).append(personBottom);
 			houseInfo.append(houseDetail).append(personInfo);
 			
-			var houseActionTD = $('<td class="act"><a href="#">取消收藏</a></td>');
+			var houseActionTD = $('<td class="act">&nbsp;</td>');
+			var actionBtn = $('<a class="actionBtn" href="#" houseId="'+data.houseList[i].houseId+'">取消收藏</a>');
+			houseActionTD.append(actionBtn);
 			houseTD.append(houseInfo);
 			houseTR.append(houseTD);
 			houseTR.append(houseActionTD);
@@ -159,6 +161,26 @@ function renderingPage(data,target){
 		}
 	}
 	
+	$(".actionBtn").click(function(){
+		var houseId = $(this).attr("houseId");
+		$(this).html("已经取消");
+		var data = {};
+		data.houseId = houseId;
+		$.post($.URL.houseCollect.uncollect,data,uncollectCallback,"json");
+	});
+	
+}
+
+function uncollectCallback(data){
+	if(data.success){
+		var selector = "[houseId='"+data.houseId+"']";
+		$(selector).each(function(i){
+			$(this).parent().parent().remove();
+		});
+		alert("取消收藏成功！");
+	}else{
+		alert("对不起，取消操作失败！");
+	}
 }
 
 function getLeftDays(days){

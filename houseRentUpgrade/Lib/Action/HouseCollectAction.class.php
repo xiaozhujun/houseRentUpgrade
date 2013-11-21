@@ -58,6 +58,39 @@ class HouseCollectAction extends Action {
 		$this->ajaxReturn($data);
 	}
 	
+	//取消收藏
+	function uncollect() {
+		$data = array();
+		$data["success"] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "您还没有登录哦！";
+			$this->ajaxReturn($data);
+		}
+		$houseId = $_POST["houseId"];
+		if(!isset($houseId) || empty($houseId)){
+			$data["msg"] = "没有房源编号哦！";
+			$this->ajaxReturn($data);
+		}
+	
+	
+		$userId = currentUserId();
+	
+		$houseCollectModel = new HouseCollectModel();
+		if(!$houseCollectModel->isExist($userId, $houseId))
+		{
+			$data["success"] = true;
+			$data["houseId"] = $houseId;
+			$this->ajaxReturn($data);
+		}
+	
+		$houseCollectModel = new HouseCollectModel();
+		$houseCollectModel->where("collectUserId={$userId} and houseId={$houseId}")->delete();
+		$data["success"] = true;
+		$data["houseId"] = $houseId;
+		$this->ajaxReturn($data);
+	}
+	
 	//用户收集的房源列表
 	function collectHouseList()
 	{
