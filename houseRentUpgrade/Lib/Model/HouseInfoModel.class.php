@@ -108,6 +108,27 @@ class HouseInfoModel extends Model{
     	return $list;
     }
     
+    function findFriendHouse($userId)
+    {
+    	$wheresql=" and house_info.userId={$userId}";
+    
+    	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,friend.toUserName as realName".
+    			" from house_info,friend where ".
+    			"house_info.userId=friend.toUser and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
+    	//     	     	echo $querySQL;
+    
+    	$countSQL= "select count(house_info.houseId) as count from house_info,friend where ".
+    			"house_info.userId=friend.toUser and house_info.transferTime >= NOW() ".$wheresql;
+    	$list["list"]= $this->query($querySQL);
+    	$count=$this->query($countSQL);
+    	if($count){
+    		$list["allcount"]=$count[0]["count"];
+    	}else{
+    		$list["allcount"]=0;
+    	}
+    	return $list;
+    }
+    
     
     /*
      * 鏍规嵁houseId鏌ヨ鎴垮眿璇︽儏椤�

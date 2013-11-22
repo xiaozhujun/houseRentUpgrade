@@ -256,14 +256,15 @@ class FriendAction extends Action
 		
 		$data = array();
 		$data['success'] = false;
-		if(!isset($_POST['fromUser']) || empty($_POST['fromUser']))
+		$fromUser = $_POST['fromUser'];
+		if(!isset($fromUser) || empty($fromUser))
 		{
 			$data['msg'] = '申请人未设置，操作失败！';
 			$this->ajaxReturn($data);
 		}
 		$userId = currentUserId();
 		$friendApply = M('FriendApply');
-		$count = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$userId} and status=".UNTREAT)->count();
+		$count = $friendApply->where("fromUser={$fromUser} and toUser={$userId} and status=".UNTREAT)->count();
 		if(!$count)
 		{
 			$data['msg'] = '没有符合条件的记录！';
@@ -274,14 +275,15 @@ class FriendAction extends Action
 				"status"=>REFUSE,
 				"replyInfo"=>$_POST['replyInfo'],
 		);
-		$result = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$userId} and status=".UNTREAT)->save($data);
+		$result = $friendApply->where("fromUser={$fromUser} and toUser={$userId} and status=".UNTREAT)->save($data);
 		if($result)
 		{
 			$data['msg'] = '操作成功！';
 			$data['success'] = true;
+			$data["fromUser"] = $fromUser;
 			
 			$fromUserName = currentUserName();
-			createMessage($_POST['fromUser'], "{$fromUser['realName']}，拒绝了您的好友申请哦！", $userId);
+			createMessage($fromUser, "{$fromUserName}，拒绝了您的好友申请哦！", $userId);
 		}
 		else 
 		{
@@ -301,8 +303,8 @@ class FriendAction extends Action
 			$data["msg"] = "请您登录！";
 			$this->ajaxReturn($data);
 		}	
-	
-		if(!isset($_POST['fromUser']) || empty($_POST['fromUser']))
+		$fromUserId = $_POST['fromUser'];
+		if(!isset($fromUserId) || empty($fromUserId))
 		{
 			$data['msg'] = '申请人未设置，操作失败！';
 			$this->ajaxReturn($data);
@@ -311,20 +313,21 @@ class FriendAction extends Action
 		$userId = currentUserId();
 		
 		$friendApply = M('FriendApply');
-		$count = $friendApply->where("fromUser={$_POST['fromUser']} and toUser={$userId} and status=".UNTREAT)->count();
+		$count = $friendApply->where("fromUser={$fromUserId} and toUser={$userId} and status=".UNTREAT)->count();
 		if(!$count)
 		{
 			$data['msg'] = '没有符合条件的记录！';
 			$this->ajaxReturn($data);
 		}
 		
-		$fromUserId = $_GET['fromUser'];
 		$data = array(
 				"status"=>PASS,
 		);
-		$userModel = new UserModel();
-		$fromUserName = $userModel->field("realName")->find($fromUserId);
 		$result = $friendApply->where("fromUser={$fromUserId} and toUser={$userId} and status=".UNTREAT)->save($data);
+		
+		$userModel = new UserModel();
+		$fromUser = $userModel->field("realName")->find($fromUserId);
+		$fromUserName = $fromUser["realName"];
 		$friend = M('Friend');
 		$friendData = array(
 				"fromUser"=>$fromUserId,
@@ -358,9 +361,10 @@ class FriendAction extends Action
 		{
 			$data['msg'] = '操作成功！';
 			$data['success'] = true;
+			$data["fromUser"] = $fromUserId;
 			
 			$fromUserName = currentUserName();
-			createMessage($_POST['fromUser'], "{$fromUserName}，通过了您的好友申请哦！", $userId);
+			createMessage($fromUserId, "{$fromUserName}，通过了您的好友申请哦！", $userId);
 		}
 		else
 		{
@@ -423,11 +427,13 @@ class FriendAction extends Action
 		
 		$userId = currentUserId();
 		$friend = new FriendModel();
-		$data["friendList"] = $friend->where("fromUser={$userId}")->field("toUser,toUserName")->limit(0,30)->select();
+		$data["list"] = $friend->where("fromUser={$userId}")->field("toUser,toUserName")->limit(0,30)->select();
 		$userTagModel = new UserTagModel();
-		foreach ($data['friendList'] as $key=>$value)
+		$userCommunityModel = new UserCommunityModel();
+		foreach ($data['list'] as $key=>$value)
 		{
-			$data['friendList'][$key]["tags"] = $userTagModel->userTags($value["toUser"]);
+			$data['list'][$key]["tags"] = $userTagModel->userTags($value["toUser"]);
+			$data['list'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["toUser"],0,2));
 		}	
 		$data["friendCount"] = $friend->where("fromUser={$userId}")->count("id");
 		$friendApply = M('FriendApply');

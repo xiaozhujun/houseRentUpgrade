@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="css/myFirend.css">
     
     <link rel="stylesheet" type="text/css" href="css/myHouseInfo.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
 </head>
 <body>
     
@@ -68,8 +70,8 @@
                 <li id="applyTab">
                     好友申请<em id="applyCount"></em>
                 </li>
-                <li>
-                   我的关注 <em>(69)</em>
+                <li id="findFriendTab">
+                   查找好友<em></em>
                 </li>
             </ul>
             
@@ -90,19 +92,170 @@
                 </tbody>
               </table>   
             </div>
+            <div id="findFriendDiv" class="listWrap">
+            	<div class="findFriendTop">
+		            <div class="sel">
+		                <input type="text" id="friendSearchInput">
+		                <a href="#" id="friendSearchBtn">查找</a>
+		            </div>
+		        </div>
+		        <table class="tbHouseInfo" border="0" cellspacing="1" cellpadding="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="applyTD">用户</th>
+                        <th class="act">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="findFriendListBody">
+                </tbody>
+              </table>   
+            </div>
         </div>
     </div>
 </div>
 
 <div id="footer" class="footer">尾部</div>
 
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script src="/js/config.js" type="text/javascript"></script>
 <script src="/js/urlUtil.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/hdialog.js"></script>
+<script type="text/javascript" src="/js/urlUtil.js"></script>
 <script type="text/javascript">
+var fromUser;
+var fromUserName;
+var toUser;
+var toUserName
+
+var  popAddFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>添加好友</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="popFriendName mb5">' + 
+	    '            </div>' + 
+	    '            <div class="password mb5">' + 
+	    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>请输入您的申请信息！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popAddFriendBtn" class="enterbtn mb10">发送申请</div>' + 
+	    '            <div id="popAddFriendMessage" class="error"></div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
+function showPopAddFriend()
+{
+	if(!isLogin)
+	{
+		showPopLogin();
+		return false;
+	}
+	
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popAddFriendStr);
+	            $("#popUserNameDiv").html("与"+toUserName+"成为好友吧！");
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popAddFriendBtn").click(function(){
+	    	var data = {};
+			data.authInfo = $('#friendApplyInput').val();
+			data.toUser = toUser;
+			$.post($.URL.friend.applyFriend,data,addFriendCallback,"json");
+	    });
+}
+
+function addFriendCallback(data)
+{
+	if(data.success)
+	{
+		alert("恭喜您，操作成功！");
+		DIALOG.close();
+	}
+	else
+	{
+		$('#popAddFriendMessage').html(data.msg);
+	}
+	
+} 
+
+var  popRefuseFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>拒绝好友请求</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="popFriendName mb5">' + 
+	    '            </div>' + 
+	    '            <div class="password mb5">' + 
+	    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>回复理由！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popRefuseFriendBtn" class="enterbtn mb10">拒绝请求</div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
+function showPopRefuseFriend()
+{
+	
+	if(!isLogin)
+	{
+		showPopLogin();
+		return false;
+	}
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popRefuseFriendStr);
+	            $("#popUserNameDiv").html("拒绝"+fromUserName+"的好友邀请！");
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popRefuseFriendBtn").click(function(){
+	    	var data = {};
+			data.authInfo = $('#friendApplyInput').val();
+			data.fromUser = fromUser;
+			$.post($.URL.friend.refuseApply,data,refuseFriendCallback,"json");
+	    });
+}
+
 $(function(){
+	
 	$("#friendApplyDiv").hide();
+	$("#findFriendDiv").hide();
+	$("#friendListDiv").hide();
+	var tab = $.getUrlParam("tab");
+	if(tab=="friendList"){
+		showFriendListTab();
+	}else if(tab=="friendApply"){
+		showApplyTab()
+	}else if(tab=="findFriend"){
+		showFindFriendTab();
+	}else{
+		showFriendListTab();
+	}
+	
+	
 	
 	$.get($.URL.user.info,null,userInfoCallback,"json");
 	
@@ -116,68 +269,195 @@ $(function(){
 	});
 	
 	$("#applyTab").click(function(){
-		$("#applyTab").siblings().removeClass("cur");
-		$("#applyTab").addClass("cur");
-		$("#friendApplyDiv").show();
-		$("#friendListDiv").hide();
+		showApplyTab();
 		
-		if($("#friendApplyList").html().trim()==""){
+		if($("#friendApplyList").html()!=null && $("#friendApplyList").html().trim()==""){
 			$.get($.URL.friend.applyingUntreat,null,getApplyListCallback,"json");
 		}
 	});
 	
 	$("#friendListTab").click(function(){
-		$("#friendListTab").siblings().removeClass("cur");
-		$("#friendListTab").addClass("cur");
-		$("#friendApplyDiv").hide();
-		$("#friendListDiv").show();
+		showFriendListTab();
+	});
+	
+	$("#findFriendTab").click(function(){
+		showFindFriendTab();
+	});
+	
+	$("#friendSearchBtn").click(function(){
+		var condition = $("#friendSearchInput").val().trim();
+		if(condition==""){
+			alert("查询条件不能为空！");
+			return;
+		}
+		var data = {};
+		data.condition = condition;
+		$.post($.URL.user.findFriend,data,findFriendCallback,"json");
 	});
 });
 
-function getApplyListCallback(data){
-	
-	for(var i=0;i<data.list.length;i++){
-		var friendApplyTR = $(' <tr></tr>');
-		var applyUserTD = $('<td class="applyUserTD"></td>');
-		var applyInfoTD = $('<td class="applyTD"></td>');
-		var houseInfo = $("<div class='houseInfo clearfix m10 w660'></div>");
-		applyInfoTD.html(data.list[i].authInfo);
-		var personInfo = $("<div class='g_person fl'></div>");
-		var personTop = $("<div class='top'></div>");
-		var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
-		var personTopRight = $("<div class='right'></div>");
-		var personName = $(" <strong><a href='#'>"+data.list[i].fromRealName+"</a></strong>");
-		var interest = $("<p></p>");
-		for(var x=0;x<data.list[i].tags.length;x++){
-			interest.append(data.list[i].tags[x].tagName+"&nbsp;");
-		}
-		var personBottom = $("<div class='bottom'></div>");
-		var community = $("<span class='fl'>租客圈：</span>");
-		var link =$("<div class='link'></div>");
-		if(typeof(data.list[i].circles)!="undefined")
-			{
-				for(var j=0;j<data.list[i].circles.length;j++)
-				{
-					var circleLink = $("<a href='#'></a>");
-					circleLink.html(data.list[i].circles[j].name);
-					circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.list[i].circles[j].name));
-					link.append(circleLink);
+function showFriendListTab(){
+	$("#friendListTab").siblings().removeClass("cur");
+	$("#friendListTab").addClass("cur");
+	$("#friendApplyDiv").hide();
+	$("#friendListDiv").show();
+	$("#findFriendDiv").hide();
+}
+
+function showApplyTab(){
+	$("#applyTab").siblings().removeClass("cur");
+	$("#applyTab").addClass("cur");
+	$("#friendApplyDiv").show();
+	$("#friendListDiv").hide();
+	$("#findFriendDiv").hide();
+}
+
+function showFindFriendTab(){
+	$("#findFriendTab").siblings().removeClass("cur");
+	$("#findFriendTab").addClass("cur");
+	$("#friendApplyDiv").hide();
+	$("#friendListDiv").hide();
+	$("#findFriendDiv").show();
+}
+
+function findFriendCallback(data){
+	$("#findFriendListBody").html("");
+	if(data.list!=null){
+		for(var i=0;i<data.list.length;i++){
+			var friendApplyTR = $(' <tr></tr>');
+			var applyUserTD = $('<td class="applyUserTD"></td>');
+			var houseInfo = $("<div class='houseInfo clearfix m10 w660'></div>");
+			var personInfo = $("<div class='g_person fl'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.list[i].realName+"</a></strong>");
+			var interest = $("<p></p>");
+			if(data.list[i].tags!=null){
+				for(var x=0;x<data.list[i].tags.length;x++){
+					interest.append(data.list[i].tags[x].tagName+"&nbsp;");
 				}
 			}
+			var personBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(data.list[i].circles!=null)
+				{
+					for(var j=0;j<data.list[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.list[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.list[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(interest);
+			personTop.append(personImg).append(personTopRight);
+			personBottom.append(community).append(link);
+			personInfo.append(personTop).append(personBottom);
+			applyUserTD.append(personInfo);
+			
+			var houseActionTD = $('<td class="act"><a href="#" class="sendApplyBtn" toUser='+data.list[i].id+' toUserName='+data.list[i].realName+'>添加好友</a></td>');
+			friendApplyTR.append(applyUserTD).append(houseActionTD);
+			
+			$("#findFriendListBody").append(friendApplyTR);
+		}
 		
-		personTopRight.append(personName).append(interest);
-		personTop.append(personImg).append(personTopRight);
-		personBottom.append(community).append(link);
-		personInfo.append(personTop).append(personBottom);
-		applyUserTD.append(personInfo);
-		//applyInfoTD.append(houseDetail);
-		//houseInfo.append(personInfo).append(houseDetail);
+		$(".sendApplyBtn").click(function(){
+			toUser = $(this).attr("toUser"); 
+			toUserName = $(this).attr("toUserName");
+			showPopAddFriend();
+		});
 		
-		var houseActionTD = $('<td class="act"><a href="#">通过</a>&nbsp;<a href="#">拒绝</a></td>');
-		//applyTD.append(houseInfo);
-		friendApplyTR.append(applyUserTD).append(applyInfoTD).append(houseActionTD);
+	}else{
+		alert("对不起，没有符合条件的结果！");
+	}
+}
+
+function getApplyListCallback(data){
+	if(data.list!=null){
+		for(var i=0;i<data.list.length;i++){
+			var friendApplyTR = $(' <tr></tr>');
+			var applyUserTD = $('<td class="applyUserTD"></td>');
+			var applyInfoTD = $('<td class="applyTD"></td>');
+			var houseInfo = $("<div class='houseInfo clearfix m10 w660'></div>");
+			applyInfoTD.html(data.list[i].authInfo);
+			var personInfo = $("<div class='g_person fl'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.list[i].fromRealName+"</a></strong>");
+			var interest = $("<p></p>");
+			for(var x=0;x<data.list[i].tags.length;x++){
+				interest.append(data.list[i].tags[x].tagName+"&nbsp;");
+			}
+			var personBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(typeof(data.list[i].circles)!="undefined")
+				{
+					for(var j=0;j<data.list[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.list[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.list[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(interest);
+			personTop.append(personImg).append(personTopRight);
+			personBottom.append(community).append(link);
+			personInfo.append(personTop).append(personBottom);
+			applyUserTD.append(personInfo);
+			
+			var houseActionTD = $('<td class="act"><a href="#" class="passApplyBtn" passFromUser='+data.list[i].fromUser+'>通过</a>&nbsp;<a href="#" class="refuseApplyBtn" fromUserName='+data.list[i].fromRealName+' refuseFromUser='+data.list[i].fromUser+'>拒绝</a></td>');
+			friendApplyTR.append(applyUserTD).append(applyInfoTD).append(houseActionTD);
+			
+			$(friendApplyList).append(friendApplyTR);
+		}
 		
-		$(friendApplyList).append(friendApplyTR);
+		$(".passApplyBtn").click(function(){
+			var fromUser = $(this).attr("passFromUser"); 
+			var data = {};
+			data.fromUser = fromUser;
+			$.post($.URL.friend.passApply,data,passApplyCallback,"json");
+		});
+		
+		$(".refuseApplyBtn").click(function(){
+			fromUser = $(this).attr("refuseFromUser"); 
+			fromUserName = $(this).attr("fromUserName");
+			showPopRefuseFriend();
+		});
+	}else{
+		$("#friendApplyDiv").html("您还没有好友申请哦！");
+	}
+	
+}
+
+function passApplyCallback(data){
+	if(data.success){
+		$.get($.URL.friend.friendList,null,getFriendListCallback,"json");
+		$("[passFromUser='"+data.fromUser+"']").each(function(i){
+			$(this).parent().parent().remove();
+		});
+		alert("恭喜您，操作成功！");
+	}else{
+			alert("对不起，操作失败！");
+	}
+}
+
+function refuseFriendCallback(data){
+	DIALOG.close();
+	if(data.success){
+		$.get($.URL.friend.friendList,null,getFriendListCallback,"json");
+		$("[refuseFromUser='"+data.fromUser+"']").each(function(i){
+			$(this).parent().parent().remove();
+		});
+		alert("恭喜您，操作成功！");
+	}else{
+		alert("对不起，操作失败！");
 	}
 }
 
@@ -199,29 +479,67 @@ function getFriendListCallback(data){
 	$("#friendCount").html("("+data.friendCount+")");
 	$("#applyCount").html("("+data.applyCount+")");
 	$("#friendListUL").html("");
-	for(var x=0;x<data.friendList.length;x++){
-		var li = $('<li></li>');
-		var imgLink = $('<a class="img" href="#"></a>');
-		var img = $('<img src="images/person_bg.png" alt="" width="42" height="42">');
-		imgLink.append(img);
-		li.append(imgLink);
-		var div = $('<div class="right"></div>');
-		var strong = $('<strong></strong>');
-		var nameLink = $('<a href="#"></a>');
-		strong.append(nameLink);
-		nameLink.append(data.friendList[x].toUserName);
-		var p = $('<p class="atw"></p>');
-		var addLink = $('<a class="add" href="#">♥ 关注</a>');
-		p.append(addLink);
-		div.append(strong).append(p)
-		var briefDiv = $('<div class="brief"></div>');
-		var i = $('<i>简介：</i>');
-		briefDiv.append(i);
-		for(var j=0;j<data.friendList[x].tags.length;j++){
-			briefDiv.append(data.friendList[x].tags[j].tagName+"&nbsp;");
-		}
-		li.append(imgLink).append(div).append(briefDiv);
-		$("#friendListUL").append(li);
+	if(data.list!=null){
+		for(var i=0;i<data.list.length;i++){
+			var li = $('<li></li>');
+			
+			var personInfo = $("<div class='g_person fl'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.list[i].toUserName+"</a></strong>");
+			var interest = $("<p></p>");
+			for(var x=0;x<data.list[i].tags.length;x++){
+				interest.append(data.list[i].tags[x].tagName+"&nbsp;");
+			}
+			var personBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(typeof(data.list[i].circles)!="undefined")
+				{
+					for(var j=0;j<data.list[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.list[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.list[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(interest);
+			personTop.append(personImg).append(personTopRight);
+			personBottom.append(community).append(link);
+			personInfo.append(personTop).append(personBottom);
+			
+			li.append(personInfo);
+			
+			
+			/**
+			var imgLink = $('<a class="img" href="#"></a>');
+			var img = $('<img src="images/person_bg.png" alt="" width="42" height="42">');
+			imgLink.append(img);
+			li.append(imgLink);
+			var div = $('<div class="right"></div>');
+			var strong = $('<strong></strong>');
+			var nameLink = $('<a href="#"></a>');
+			strong.append(nameLink);
+			nameLink.append(data.friendList[x].toUserName);
+			var p = $('<p class="atw"></p>');
+			var addLink = $('<a class="add" href="#">♥ 关注</a>');
+			p.append(addLink);
+			div.append(strong).append(p)
+			var briefDiv = $('<div class="brief"></div>');
+			var i = $('<i>简介：</i>');
+			briefDiv.append(i);
+			for(var j=0;j<data.friendList[x].tags.length;j++){
+				briefDiv.append(data.friendList[x].tags[j].tagName+"&nbsp;");
+			}
+			li.append(imgLink).append(div).append(briefDiv);
+			**/
+			$("#friendListUL").append(li);
+		}	
+	}else{
+		$("#friendListUL").html("亲，您还没有添加好友哦！");
 	}
 }
 

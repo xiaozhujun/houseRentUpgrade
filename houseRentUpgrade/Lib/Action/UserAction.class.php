@@ -403,16 +403,15 @@ class UserAction extends Action {
 	//查找系统好友
 	function findFriend()
 	{
-		
+		$data = array();
+		$data["success"] = false;
 		if(!isLogin())
 		{
-			redirect ( C('LOGIN_URL'));
-			return;
+			$data["msg"] = "您还没有登录！";
+			$this->ajaxReturn($data);
 		}
 		
 		$condition = $_POST['condition'];
-		$data = array();
-		$data['success'] = false;
 		if(!isset($condition) || empty($condition))
 		{
 			$data['msg'] = '请输入查询条件';
@@ -420,9 +419,17 @@ class UserAction extends Action {
 			return;
 		}
 		
-		$userModel = M('User');
-		$list = $userModel->where("email='{$condition}' or realName='{$condition}'")->limit(12)->getField('id,id,realName');
+		$userModel = new UserModel();
+		$list = $userModel->where("email like '%{$condition}%' or realName like '%{$condition}%'")->field('id,realName')->select();
 		$data['list'] = array_values($list);
+		$userTagModel = new UserTagModel();
+		$userCommunityModel = new UserCommunityModel();
+		foreach ($data['list'] as $key=>$value)
+		{
+			$data['list'][$key]["tags"] = $userTagModel->userTags($value["id"]);
+			$data['list'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["id"],0,2));
+		}
+		
 		$data['success'] = true;
 		$this->ajaxReturn($data);
 	}

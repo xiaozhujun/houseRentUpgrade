@@ -340,16 +340,21 @@ class HouseAction extends Action {
 		}
 		
 		$userId = currentUserId();
-		$friendModel = new FriendModel();
-		$houseList = $friendModel->join("INNER JOIN house_info ON friend.toUser = house_info.userId")->where("friend.fromUser={$userId}")->field("house_info.*")->order("house_info.houseId desc")->limit(10)->select();
-		
-		if($houseList==null)
-		{
-			$houseList = array();
-		}
+		$houseInfoModel = new HouseInfoModel();
+		$houseList = $houseInfoModel->findFriendHouse($userId);
 		
 		$data["success"] = true;
-		$data["houseList"] = $houseList;
+		$data["houseList"] = $houseList["list"];
+		$data["count"]=$houseList["allcount"];
+		
+		$housePhotoModel = new HousePhotoModel();
+		$userCommunityModel = new UserCommunityModel();
+		
+		foreach ($data['houseList'] as $key=>$value)
+		{
+			$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
+			$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
+		}
 
 		$this->ajaxReturn($data);
 	}
