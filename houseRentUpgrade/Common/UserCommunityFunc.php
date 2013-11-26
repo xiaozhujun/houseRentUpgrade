@@ -1,5 +1,6 @@
 <?php
 
+import('Common.Common',APP_PATH,'.php');
 //更新用户所在圈子信息
 function updateUserCommunity($userId,$communityName,$communityType)
 { 	
@@ -7,6 +8,7 @@ function updateUserCommunity($userId,$communityName,$communityType)
 	$userCommunityModel = new UserCommunityModel();
 	//判断该公司信息是否存在，不存在则在数据库中添加一条记录
 	$communityObj = $communityModel->findByName($communityName);
+	//圈子不存在
 	if(!$communityObj)
 	{
 		$communityData = array(
@@ -26,7 +28,7 @@ function updateUserCommunity($userId,$communityName,$communityType)
 			return false;
 		}
 	}
-	else 
+	else //圈子已经存在
 	{
 		$communityId = $communityObj["id"];
 	}
@@ -40,12 +42,24 @@ function updateUserCommunity($userId,$communityName,$communityType)
 	
 	if(!is_null($userCommunityObj))
 	{
-		$userCommunityObj = array();
-		$userCommunityObj['communityId'] = $communityId;
-		$userCommunityObj['communityName'] = $communityName;
-		$userCommunityObj['id'] = $userCommunityList[0]["id"];
+		
+		$userCommunityObj = array(
+				"userId"=>$userId,
+				"userName"=>currentUserName(),
+				"communityId"=>$communityId,
+				"communityName"=>$communityName,
+				"communityType"=>$communityType,
+				"createTime"=>date("Y-m-d H:i:s"),
+		
+		);
+		
 		$saveResult = $userCommunityModel->create($userCommunityObj);
-		$result = $userCommunityModel->save();
+		if($communityType==OTHER){
+			$result = $userCommunityModel->add();
+		}else{
+			$userCommunityObj['id'] = $userCommunityList[0]["id"];
+			$result = $userCommunityModel->save();
+		}
 	}
 	else 
 	{
@@ -69,4 +83,15 @@ function updateUserCommunity($userId,$communityName,$communityType)
 		}
 	}
 	return true;
+}
+
+//判断用户是否已经加入圈子
+function isUserCommunityExist($userId,$communityName){
+	$userCommunityModel = new UserCommunityModel();
+	$count = $userCommunityModel->where("userId={$userId} and communityName='{$communityName}'")->count("id");
+	if($count>0){
+		return true;
+	}else{
+		return false;
+	}
 }

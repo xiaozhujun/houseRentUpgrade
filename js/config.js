@@ -88,7 +88,9 @@
 			"search":"/Community/search",
 			"popularList":"/Community/popularList",
 			"userJoinManageCommunity":"/Community/userJoinManageCommunity",
-			"exitCommunity":"/Community/exitCommunity"
+			"exitCommunity":"/Community/exitCommunity",
+			"enterCommunity":"/Community/enterCommunity",
+			"communityMessages":"/CommunityMessage/communityMessages"
 		},
 		"message":{
 			"userMessages":"/UserMessage/userMessages",

@@ -25,12 +25,12 @@
                     <a  href="javascript:void(0)">
                         <img src="images/house_bg.png" alt="" width="42" height="42">
                     </a>
-                    <strong id="circleName">圈子子名称</strong>
+                    <strong id="circleName"></strong>
                 </span>
                 <span class="num">
                 	<a id="circleIndexLink"  href="circleIndex.html">
 	                    <strong>房源：</strong>
-                    	<em id="houseCount">12</em>
+                    	<em id="houseCount"></em>
                     </a>
                 </span>
 <!--                 <span class="num"> -->
@@ -39,7 +39,7 @@
 <!--                 </span> -->
                 <span class="num">
                     <strong>成员：</strong>
-                    <em id="userCount">12</em>
+                    <em id="userCount"></em>
                 </span>     
             </div>
             <div id="circleDescription" class="circleBriefBottom m10">
@@ -72,7 +72,7 @@
             </div>
             <!-- 圈子成员 -->
             <div class="m10" id="circleMb">
-                <h3 class="title">圈子成员（<em>1122</em>）</h3>
+                <h3 class="title">圈子成员（<em></em>）</h3>
                 <ul id="circleUserInfo" class="g_cb">
                     
                 </ul>
@@ -89,7 +89,7 @@
                     <img src="images/topic1.png" alt="" width="24" height="24">
                 </a>
                 <div class="right fl">
-                    <h3><a href="#">加入圈子</a></h3>
+                    <h3><a id="enterBtn" href="#">加入圈子</a></h3>
                     <h5>第一时间获取本圈信息</h5>
                 </div>
             </div>
@@ -127,7 +127,21 @@ $(function(){
 	circleData.circleName = circleName;
 	$.post($.URL.community.communityMember,circleData,communityMemberCallback,"json");
 	
+	$("#enterBtn").click(function(){
+		var data = {};
+		data.circle = circleName;
+		$.post($.URL.community.enterCommunity,data,enterCommunityCallback,"json");
+	});
+	
 });
+
+function enterCommunityCallback(data){
+	if(data.success){
+		alert("恭喜您，成功加入"+circleName);
+	}else{
+		alert(data.msg);
+	}
+}
 
 //获得圈子用户信息回调
 function communityMemberCallback(data)

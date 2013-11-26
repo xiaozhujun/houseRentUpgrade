@@ -424,9 +424,7 @@ a.message
 }
 
 /*活跃用户*/
-.g_ac li{
-    height:42px;
-}
+
 .g_ac li .img{
     display: inline-block;
     height: 42px;
@@ -557,9 +555,7 @@ a.message
 
 
 /*圈子列表页-列表样式*/
-.g_ac li{
-    height:42px;
-}
+
 .g_ac li .img{
     display: inline-block;
     height: 42px;

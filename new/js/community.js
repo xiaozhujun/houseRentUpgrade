@@ -1,3 +1,6 @@
+var circleMasterId;
+var circleMasterName;
+
 function openDescriptionEdit(canEdit)
 {
 	if(canEdit){
@@ -60,9 +63,76 @@ function renderMaster(master)
 		var masterLi = $('<li class="mb10"><a class="img" href="#"><img src="images/person_bg.png" alt="" width="42" height="42"></a></li>');
 		var rightDiv = $('<div class="right"></div>');
 		var masterName=$('<strong></strong>').html($('<a href="#"></a>').html(master[i].userName));
-		var actionForMaster = $('<p class="atw"><a class="add" href="#">♥ 关注</a></p>');
+		var actionForMaster = $('<p class="atw"><a class="friendAddBtn" href="#">加为好友</a></p>');
 		rightDiv.append(masterName).append(actionForMaster);
 		masterLi.append(rightDiv);
+		circleMasterId = master[i].userId;
+		circleMasterName = master[i].userName;
 		$("#masterList").append(masterLi);
 	}
+	$(".friendAddBtn").click(function(){
+		showPopAddFriend();
+	});
+	
 }
+
+var  popAddFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>添加好友</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="popFriendName mb5">' + 
+	    '            </div>' + 
+	    '            <div class="password mb5">' + 
+	    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>请输入您的申请信息！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popAddFriendBtn" class="enterbtn mb10">发送申请</div>' + 
+	    '            <div id="popAddFriendMessage" class="error"></div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
+function showPopAddFriend()
+{
+	if(!isLogin)
+	{
+		showPopLogin();
+		return false;
+	}
+	
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popAddFriendStr);
+	            $("#popUserNameDiv").html("与"+circleMasterName+"成为好友吧！");
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popAddFriendBtn").click(function(){
+	    	var data = {};
+			data.authInfo = $('#friendApplyInput').val();
+			data.toUser = circleMasterId;
+			$.post($.URL.friend.applyFriend,data,addFriendCallback,"json");
+	    });
+}
+
+function addFriendCallback(data)
+{
+	if(data.success)
+	{
+		alert("恭喜您，操作成功！");
+		DIALOG.close();
+	}
+	else
+	{
+		$('#popAddFriendMessage').html(data.msg);
+	}
+	
+} 

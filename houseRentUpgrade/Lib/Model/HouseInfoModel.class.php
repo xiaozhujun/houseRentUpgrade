@@ -110,12 +110,12 @@ class HouseInfoModel extends Model{
     
     function findFriendHouse($userId)
     {
-    	$wheresql=" and house_info.userId={$userId}";
+    	$wheresql=" and friend.fromUser={$userId}";
     
     	$querySQL = "select house_info.*,DATEDIFF(house_info.transferTime,NOW()) as leftDays,friend.toUserName as realName".
     			" from house_info,friend where ".
     			"house_info.userId=friend.toUser and house_info.transferTime >= NOW() ".$wheresql." order by house_info.transferTime asc limit 0,10";
-    	//     	     	echo $querySQL;
+    	     	     	//echo $querySQL;
     
     	$countSQL= "select count(house_info.houseId) as count from house_info,friend where ".
     			"house_info.userId=friend.toUser and house_info.transferTime >= NOW() ".$wheresql;

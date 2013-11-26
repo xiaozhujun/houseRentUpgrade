@@ -142,3 +142,9 @@ function createMessage($toUserId,$message,$fromUserId){
 	$userMessageModel = new UserMessageModel();
 	$userMessageModel->saveMessage($toUserId, $message, $fromUserId);
 }
+
+//创建圈子消息
+function createCommunityMessage($userId,$communityName, $message){
+	$communityMessageModel = new CommunityMessageModel();
+	$communityMessageModel->saveMessage($userId,$communityName, $message);
+}

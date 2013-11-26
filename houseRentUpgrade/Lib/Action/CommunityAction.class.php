@@ -344,11 +344,50 @@ class CommunityAction extends Action
 		$userId = currentUserId();
 		$userCommunityModel = new UserCommunityModel();
 		$userCommunityModel->where("communityName='{$circle}' and userId={$userId}")->delete();
+		
+		$userName = currentUserName();
+		createCommunityMessage($userId, $circle,"{$userName}退出了圈子！");
+		
 		$data["success"]=true;
 		$data["circle"] = $circle;
 		$this->ajaxReturn($data);
 		
 	}
 	
+	//用户主动加入圈子
+	function enterCommunity(){
+		$data = array();
+		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"] = "请您登录！";
+			$this->ajaxReturn($data);
+		}
+		
+		$circle = $_POST["circle"];
+		if(!isset($circle)){
+			$data["msg"] = "对不起，参数不正确！";
+			$this->ajaxReturn($data);
+		}
+		$userId = currentUserId();
+		
+		if(isUserCommunityExist($userId, $circle)){
+			$data["msg"] = "您已经加入".$circle;
+			$this->ajaxReturn($data);
+		}
+		
+		if(!updateUserCommunity($userId, $circle,OTHER))
+		{
+			$data['msg'] = "对不起，加入失败！";
+			$this->ajaxReturn($data);
+		}
+		else
+		{
+			$userName = currentUserName();
+			createCommunityMessage($userId,$circle, "{$userName}加入了圈子！");
+			$data['success'] =true;
+			$this->ajaxReturn($data);
+		}
+	}
 	
 }
