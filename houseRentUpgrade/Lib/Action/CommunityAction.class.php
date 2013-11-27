@@ -273,6 +273,13 @@ class CommunityAction extends Action
 		$userCommunityModel = new UserCommunityModel();
 		$data["communityUsers"] = $userCommunityModel->communityUsers($communityId);
 		
+		$userTagModel = new UserTagModel();
+		foreach ($data["communityUsers"] as $key=>$value)
+		{
+			$data['communityUsers'][$key]["tags"] = $userTagModel->userTags($value["userId"]);
+			$data['communityUsers'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
+		}
+		
 		$result = $userCommunityModel->communityUserCount($communityId);
 		$data["userCount"] = $result[0]["userCount"];
 		$data["houseCount"] = $communityModel->communityHouseCount($communityId);

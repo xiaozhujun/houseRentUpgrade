@@ -48,31 +48,9 @@
         </div>
 
         <div class="mt10 mb10" id="circleM">
-            <!-- 圈子管理员 -->
-            <div class="p10" id="circleMan">
-                <h3 class="title">圈子管理员</h3>
-                <ul class="g_cb">
-                    <li>
-                        <img src="images/person_bg.png" alt="" width="42" height="42">
-                        <h5>成员姓名</h5>
-                    </li>
-                    <li>
-                        <img src="images/person_bg.png" alt="" width="42" height="42">
-                        <h5>成员姓名</h5>
-                    </li>
-                    <li>
-                        <img src="images/person_bg.png" alt="" width="42" height="42">
-                        <h5>成员姓名</h5>
-                    </li>
-                    <li>
-                        <img src="images/person_bg.png" alt="" width="42" height="42">
-                        <h5>成员姓名</h5>
-                    </li>
-                </ul>
-            </div>
             <!-- 圈子成员 -->
             <div class="m10" id="circleMb">
-                <h3 class="title">圈子成员（<em></em>）</h3>
+                <h3 class="title">圈子成员（<em id="memberCount"></em>）</h3>
                 <ul id="circleUserInfo" class="g_cb">
                     
                 </ul>
@@ -167,16 +145,86 @@ function renderingPage(data,target){
 		openDescriptionEdit(data.canEdit);
 		
 		renderMaster(data.circleMaster);
-		for(var i=0;i<data.communityUsers.length;i++){
+		
+		renderCircleMemberList(data);
+		/* for(var i=0;i<data.communityUsers.length;i++){
 			var communityUserLi = $('<li></li>');
 			var userImg = $('<img src="images/person_bg.png" alt="" width="42" height="42">');
 			var userName = $('<h5></h5>');
 			userName.html(data.communityUsers[i].userName);
 			communityUserLi.append(userImg).append(userName);
 			$(target).append(communityUserLi);
-		}
+		} */
 	}
 	
+}
+
+function renderCircleMemberList(data){
+	$("#circleUserInfo").html("");
+	if(data.communityUsers!=null){
+		$("#memberCount").html(data.communityUsers.length);
+		for(var i=0;i<data.communityUsers.length;i++){
+			var li = $('<li></li>');
+			
+			var personInfo = $("<div class='g_person fl'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.communityUsers[i].userName+"</a></strong>");
+			var friendAddP = $('<p class="atw"></p>');
+			var friendAddBtn = $('<a href="#" userId='+data.communityUsers[i].userId+' userName='+data.communityUsers[i].userName+' class="memberFriendAddBtn">加为好友</a>');
+			friendAddP.append(friendAddBtn);
+			var interest = $("<p></p>");
+			if(data.communityUsers[i].tags!=null){
+				for(var x=0;x<data.communityUsers[i].tags.length;x++){
+					interest.append(data.communityUsers[i].tags[x].tagName+"&nbsp;");
+				}
+			}
+			var circleBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(data.communityUsers[i].circles!=null)
+				{
+					for(var j=0;j<data.communityUsers[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.communityUsers[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.communityUsers[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			var interestBottom = $("<div class='bottom'></div>");
+			var interestSpan = $("<span class='fl'>兴趣：</span>");
+			var interestLink =$("<div class='link'></div>");
+			if(data.communityUsers[i].circles!=null)
+				{
+					for(var j=0;j<data.communityUsers[i].tags.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.communityUsers[i].tags[j].tagName);
+						interestLink.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(friendAddP);
+			personTop.append(personImg).append(personTopRight);
+			circleBottom.append(community).append(link);
+			interestBottom.append(interestSpan).append(interestLink);
+			personInfo.append(personTop).append(circleBottom).append(interestBottom);
+			
+			li.append(personInfo);
+			$("#circleUserInfo").append(li);
+		}
+		
+		$(".memberFriendAddBtn").click(function(){
+			circleMasterId =$(this).attr("userId");
+			circleMasterName = $(this).attr("userName");
+			showPopAddFriend();
+		});
+	}else{
+		$("#friendListUL").html("这个圈子还没有成员加入哦！");
+	}
 }
 </script>
 </body>

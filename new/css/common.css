@@ -203,14 +203,12 @@
 }
 .g_person .top .right p{
     font:12px/12px "å®‹ä½“";
-    margin-top:11px;
 }
 .g_person .bottom{
     font:12px/24px "å®‹ä½“";
-    margin-top:5px;
 }
 .g_person .link{
-    margin-left: 53px;
+    margin-left: 50px;
 }
 .g_person .link a{
     color:#666;
@@ -455,12 +453,9 @@ a.message
     zoom:1;
 }
 .g_cb li{
-    width:60px;
-    height:60px;
+    margin-right:10px;
+    margin-bottom:10px;
     float: left;
-}
-.g_cb li img{
-    margin-left: 9px;
 }
 .g_cb li h5{
     font:12px/12px "ËÎÌå";
@@ -806,4 +801,13 @@ a.message
     background: #000;
     opacity: .5;
     color:#fff;
+}
+
+.atw a{
+	background: none repeat scroll 0 0 #7DB213;
+    color: #FFFFFF;
+    display: inline-block;
+    line-height: 20px;
+    text-align: center;
+    width: 60px;
 }

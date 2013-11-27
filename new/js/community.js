@@ -63,14 +63,14 @@ function renderMaster(master)
 		var masterLi = $('<li class="mb10"><a class="img" href="#"><img src="images/person_bg.png" alt="" width="42" height="42"></a></li>');
 		var rightDiv = $('<div class="right"></div>');
 		var masterName=$('<strong></strong>').html($('<a href="#"></a>').html(master[i].userName));
-		var actionForMaster = $('<p class="atw"><a class="friendAddBtn" href="#">加为好友</a></p>');
+		var actionForMaster = $('<p class="atw"><a class="friendAddBtn" userId='+master[i].userId+' userName='+master[i].userName+' href="#">加为好友</a></p>');
 		rightDiv.append(masterName).append(actionForMaster);
 		masterLi.append(rightDiv);
-		circleMasterId = master[i].userId;
-		circleMasterName = master[i].userName;
 		$("#masterList").append(masterLi);
 	}
 	$(".friendAddBtn").click(function(){
+		circleMasterId =$(this).attr("userId");
+		circleMasterName = $(this).attr("userName");
 		showPopAddFriend();
 	});
 	
