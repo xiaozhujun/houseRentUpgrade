@@ -90,7 +90,8 @@
 			"userJoinManageCommunity":"/Community/userJoinManageCommunity",
 			"exitCommunity":"/Community/exitCommunity",
 			"enterCommunity":"/Community/enterCommunity",
-			"communityMessages":"/CommunityMessage/communityMessages"
+			"communityMessages":"/CommunityMessage/communityMessages",
+			"createCommunity":"/Community/createCommunity",
 		},
 		"message":{
 			"userMessages":"/UserMessage/userMessages",

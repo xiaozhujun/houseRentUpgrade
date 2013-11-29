@@ -26,7 +26,7 @@
     line-height: 18px;
     width: 150px;
 }
-.circleL .top .sel a{
+#communitySearchBtn{
     position: absolute;
     left: 308px;
     top: 3px;
@@ -38,6 +38,20 @@
     background: #f2882c;
     color:#fff;
 }
+
+#communityCreateBtn{
+    position: absolute;
+    left: 368px;
+    top: 3px;
+    height:23px;
+    line-height: 23px;
+    width: 50px;
+    text-align: center;
+    display: inline-block;
+    background: #f2882c;
+    color:#fff;
+}
+
 .circleL .top .sort{
     position: absolute;
     left: 560px;

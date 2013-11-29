@@ -397,4 +397,49 @@ class CommunityAction extends Action
 		}
 	}
 	
+	function createCommunity(){
+		$data = array();
+		$data['success'] = false;
+		if(!isLogin())
+		{
+			$data["msg"]="您还没有登录！";
+			$this->ajaxReturn($data);
+		}
+		else
+		{
+			$userId = currentUserId();
+			$circle = $_POST['circle'];
+			if(!isset($circle))
+			{
+				$data['msg'] = "圈子名不能为空";
+				$this->ajaxReturn($data);
+			}
+			if(!updateUserCommunity($userId, $circle,OTHER))
+			{
+				$data['msg'] = "操作错误";
+				$this->ajaxReturn($data);
+				return;
+			}
+			else
+			{
+				$description = $_POST["description"];
+				if(isset($description)){
+					$communityModel = new CommunityModel();
+					$community = $communityModel->findByName($circle);
+					$communityId = $community["id"];
+					$community["description"] = $description;
+					if($communityModel->create($community)){
+						$communityModel->save();
+					}
+				} 
+				
+				$data['msg'] = "修改成功";
+				$data['success'] =true;
+				$data['community'] = $circle;
+				$this->ajaxReturn($data);
+				return;
+			}
+		}
+	}
+	
 }

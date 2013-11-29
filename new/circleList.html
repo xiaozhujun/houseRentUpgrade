@@ -116,6 +116,7 @@
             <div class="sel">
                 <input id="communitySearchInput" type="text">
                 <a id="communitySearchBtn" href="#">筛选</a>
+                <a id="communityCreateBtn" href="#">创建圈子</a>
             </div>
             <span class="sort">排序</span>
             <select name="" id="orderSelect">
@@ -178,6 +179,10 @@
 			var orderCondition = $("#orderSelect").val();
 			var key = $("#communitySearchInput").val();
 			searchCommunity(key,orderCondition);
+		});
+		
+		$("#communityCreateBtn").click(function(){
+			showPopCreateCommunity();
 		});
 	});
 	
@@ -260,6 +265,68 @@
     		location = "circleIndex.html?circle="+$(this).attr("community");
 		});
 	}
+	
+	var  popCreateCommunityStr = 
+		 '<div id="popLogin">' + 
+		    '    <div class="login_main">' + 
+		    '        <div class="content_head">' + 
+		    '            <h1>创建圈子</h1>' + 
+		    '        </div>' + 
+		    '        <form action="">' + 
+		    '            <div id="popUserNameDiv" class="popFriendName mb5">' +
+		    '            圈子名称:<input type="text" id="circleInput">'+
+		    '            </div>' + 
+		    '            <div class="password mb5">' + 
+		    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>请输入圈子描述！</textarea>' + 
+		    '            </div>' + 
+		    '            <div id="popAddFriendBtn" class="enterbtn mb10">创建圈子</div>' + 
+		    '            <div id="popAddFriendMessage" class="error"></div>' + 
+		    '        </form>' + 
+		    '    </div>' + 
+		    '</div> '
+		    ;
+
+	function showPopCreateCommunity()
+	{
+		if(!isLogin)
+		{
+			showPopLogin();
+			return false;
+		}
+		
+		 DIALOG.init("dialog");
+		    DIALOG.open({
+		        title:100000,
+		        w:326,
+		        h:345,
+		        fun:function(element){ 
+		            element.html(popCreateCommunityStr);
+		            iePlaceHolder();
+		        }
+		    });	
+		    
+		    $("#popAddFriendBtn").click(function(){
+		    	var data = {};
+				data.description = $('#friendApplyInput').val();
+				data.circle = $('#circleInput').val();;
+				$.post($.URL.community.createCommunity,data,communityCreateCallback,"json");
+		    });
+	}
+
+	function communityCreateCallback(data)
+	{
+		if(data.success)
+		{
+			alert("恭喜您，操作成功！");
+			DIALOG.close();
+			location = "circleIndex.html?circle="+data.community;
+		}
+		else
+		{
+			$('#popAddFriendMessage').html(data.msg);
+		}
+		
+	} 
 	
 </script>
 </body>
