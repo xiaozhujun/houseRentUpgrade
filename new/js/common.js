@@ -28,6 +28,7 @@ function getPramsFromUrl(data,key,price,region,room,type){
 	if(type!="" && type!=null){
 		data['type']=type;
 	}
+	data['city'] = $(".cityLink.cur").html();
 }
 
 //ie模拟placeholder
@@ -77,7 +78,11 @@ var temp = {};
 temp.topbar = 
 	'<div class="content w990">' + 
     '    <div class="nav fl">' + 
-    '        <a class="cur" href="#">北京</a>' + 
+    '        <a class="cur cityLink" href="#">北京</a>' + 
+    '        <a class="cityLink" href="#">上海</a>' + 
+    '        <a class="cityLink" href="#">广州</a>' + 
+    '        <a class="cityLink" href="#">深圳</a>' + 
+    '        <a class="cityLink" href="#">杭州</a>' + 
     '    </div>' + 
     '    <div id="userLoginActions" class="login fr">' + 
     '        <a href="login.html">登录</a>&nbsp;&nbsp;<a href="register.html">注册</a>' + 

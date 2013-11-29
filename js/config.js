@@ -95,6 +95,9 @@
 		},
 		"message":{
 			"userMessages":"/UserMessage/userMessages",
+		},
+		"city":{
+			"cityDistrict":"/City/cityDistrict",
 		}
 		
 			

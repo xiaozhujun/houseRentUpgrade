@@ -55,7 +55,32 @@
                         </label>
                     </td>
                 </tr>
-
+				<tr>
+                    <th>
+                        <em class="red">*</em>城市
+                    </th>
+                    <td>
+                        <select id="citySelect">
+				  			<option value="北京">北京</option>
+				  			<option value="上海">上海</option>
+				  			<option value="广州">广州</option>
+				  			<option value="深圳">深圳</option>
+				  			<option value="杭州">杭州</option>
+				  		</select>&nbsp;
+				  		<select id="districtSelect">
+				  			<option value="海淀">海淀</option>
+				  			<option value="朝阳">朝阳</option>
+				  			<option value="东城">东城</option>
+				  			<option value="西城">西城</option>
+				  			<option value="宣武">宣武</option>
+				  			<option value="丰台">丰台</option>
+				  			<option value="房山">房山</option>
+				  			<option value="顺义">顺义</option>
+				  			<option value="昌平">昌平</option>
+				  			<option value="大兴">大兴</option>
+				  		</select>
+                    </td>
+                </tr>
                 <tr>
                     <th>
                         <em class="red">*</em>小区名称
@@ -277,6 +302,8 @@ $(document).ready(function(){
 				data.contactPerson = $('#contact_person').val();
 				data.contactPhone = $('#contact_phone').val();
 				data.detailDescription = $('#detail_description').val();
+				data.city = $("#citySelect").val();
+				data.district = $("#districtSelect").val();
 				$.post($.URL.house.publishhouse,data,callback,"json");
 			}
 
@@ -289,8 +316,32 @@ $(document).ready(function(){
         dayNamesMin: ['日','一','二','三','四','五','六'],  //日期简写名称
         monthNamesShort: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']  //月份简写名称
     });
+	
+	$("#citySelect").change(function(){
+		var city = $(this).val();
+		var data = {};
+		data.city = city;
+		$.post($.URL.city.cityDistrict,data,cityChangeCallback,"json");
+		
+	});
 
 });
+
+function cityChangeCallback(data){
+	if(data.success){
+		if(data.list!=null){
+			$("#districtSelect").html("");
+			for(var i=0;i<data.list.length;i++){
+				var option = $('<option></option>');
+				option.html(data.list[i].name);
+				option.attr("value",data.list[i].name);
+				$("#districtSelect").append(option);
+			}
+		}		
+	}else{
+		alert(data.msg);	
+	}
+}
 
 function callback(result){
 	if(result.code==0){

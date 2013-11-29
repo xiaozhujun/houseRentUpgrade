@@ -10,16 +10,25 @@ class HouseInfoModel extends Model{
     function findHouse($post)
     {
     	$region=$post["region"];
+    	$city = $post["city"];
     	$price=$post["price"];
     	$houseType=$post["type"];
     	$key=$post["key"];
     	$room=$post["room"];
     	$wheresql="";
+    	
+    	if(!is_null($city)){
+    		if($wheresql==""){
+    			$wheresql.=" house_info.city='{$city}' ";
+    		}else{
+    			$wheresql.=" and house_info.city='{$city}' ";
+    		}
+    	}
     	if(!is_null($region)){
     		if($wheresql==""){
-    			$wheresql.=" region=".$region;
+    			$wheresql.=" house_info.district='{$region}' ";
     		}else{
-    			$wheresql.=" and region=".$region;
+    			$wheresql.=" and house_info.district='{$region}' ";
     		}
     	}
        	if(!is_null($price)){

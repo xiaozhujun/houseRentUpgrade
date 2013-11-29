@@ -18,7 +18,12 @@ var URL = {
  
         // public method for url encoding 
         encode : function (string) { 
-                return escape(this._utf8_encode(string)); 
+        	if(string!=null){
+        		return escape(this._utf8_encode(string));
+        	}else{
+        		return '';
+        	}
+                 
         }, 
  
         // public method for url decoding 
