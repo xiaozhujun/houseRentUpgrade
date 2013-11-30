@@ -179,6 +179,7 @@ function changeCity(city){
 		var selector = ".cityLink:contains('"+city+"')"
 		$(selector).addClass("cur");
 		$(selector).siblings().removeClass("cur");
+		changeDistrict(city);
 	}else{
 		changeDistrict("北京");
 	}
