@@ -149,7 +149,8 @@ $('#searchBtn').click(function(){
 var isLogin = false;
 var userCompany = "";
 var userCollege = "";
-var targetCommunity
+var targetCommunity;
+var city = null;
 
 function getLoginInfo()
 {
@@ -169,6 +170,55 @@ function checkLoginCallback(data)
 	userCompany = data.company;
 	userCollege = data.college;
 	targetCommunity = data.targetCommunity;
+	city = data.city;
+	changeCity(city);
+}
+
+function changeCity(city){
+	if(city!=null){
+		var selector = ".cityLink:contains('"+city+"')"
+		$(selector).addClass("cur");
+		$(selector).siblings().removeClass("cur");
+	}else{
+		changeDistrict("北京");
+	}
+}
+
+function changeDistrict(city){
+	if(city!=null){
+		var data = {};
+		data.city = city;
+		$.post($.URL.city.cityDistrict,data,cityDistrictCallback,"json");
+	}
+}
+
+function cityDistrictCallback(data){
+	if(data.success){
+		if(data.list!=null){
+			
+			$("#region").html("");
+			var unLimit = $('<a href="#" value="" type="region" class="selected">不限</a>');
+			$("#region").append(unLimit);
+			for(var i=0;i<data.list.length;i++){
+				var limit = $('<a href="#" type="region"></a>');
+				limit.html(data.list[i].name);
+				limit.attr("value",data.list[i].name);
+				$("#region").append(limit);
+			}
+			
+			$("#region a").click(function(){
+				$(this).addClass('selected').siblings().removeClass('selected');
+				linkType = $(this).attr("type");
+				region = $(this).attr("value");
+				var data = {};
+				getPramsFromUrl(data,key,price,region,room,type);
+				$.post($.URL.house.houselist,data,searchCallback,"json");
+				return false;
+			});
+		}		
+	}else{
+		alert(data.msg);	
+	}
 }
 
 var popLoginStr = 
@@ -266,4 +316,13 @@ function popLoginCallback(result)
 
 $("#issue").click(function(){
 	return validateLogin();
+});
+
+$(".cityLink").click(function(){
+	var city = $(this).html();
+	var data = {};
+	data.city = city;
+	$.post($.URL.city.cityDistrict,data,cityDistrictCallback,"json");
+	$(this).addClass("cur");
+	$(this).siblings().removeClass("cur");
 });

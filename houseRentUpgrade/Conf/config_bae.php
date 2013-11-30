@@ -3,6 +3,7 @@
 return array(
 		'URL_MODEL'=>2,
 		'BUCKET_PREFIX'=>'think-',
+		//'DB_CHARSET'=>'UTF-8',
 		'DB_TYPE'=> 'mysql',     // 数据库类型
 		'DB_HOST'=> HTTP_BAE_ENV_ADDR_SQL_IP, // 服务器地址
 		'DB_NAME'=> 'wZPhzsANmcCRTnWQdRqe',        // 数据库名,填写你创建的数据库

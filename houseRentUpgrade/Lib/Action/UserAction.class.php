@@ -1,3 +1,4 @@
+
 <?php
 import ( "@.Model.UserModel" );
 import ( "@.Model.UserTagModel" );
@@ -134,16 +135,7 @@ class UserAction extends Action {
 				$vo = $userModel->findByEmail($email);
 				$_SESSION ['user'] = $vo['realName'];
 				$_SESSION ['userId'] = $vo['id'];
-				/*
-				if(session_register('user'))
-				{ 
-					$_SESSION ['user'] = $vo['realName'];
-				}
-				if(session_register('userId'))
-				{
-					$_SESSION ['userId'] = $vo['id'];
-				}
-				*/
+				$_SESSION ['city'] = $vo['city'];
 				$data['success'] = true;
 				$this->ajaxReturn($data);
 			} else {
@@ -311,6 +303,7 @@ class UserAction extends Action {
 		$result["company"] = currentUserCompany();
 		$result["college"] = currentUserCollege();
 		$result["targetCommunity"] = currentUserTargetCommunity();
+		$result["city"] = currentUserCity();
 		$this->ajaxReturn($result);
 	}
 	
@@ -366,8 +359,8 @@ class UserAction extends Action {
 		}
 		$userData["id"] = $userId;
 		$userModel = new UserModel();
-		$saveResult = $userModel->create($userData);
-		if($userModel->save())
+		//$saveResult = $userModel->create($userData);
+		if($userModel->save($userData))
 		{
 			$data = array("success"=>true,"msg"=>"更新信息成功！");
 			$this->ajaxReturn($data);

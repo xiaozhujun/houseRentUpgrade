@@ -4,9 +4,6 @@ class UserModel extends Model{
     //自动验证  
     protected $_validate=array(  
             //每个字段的详细验证内容  
-//             array("name","require","用户名不能为空"),  
-//             array("name","checkLength","用户名长度不符合要求",0,'callback'), 
-//     		array("name","isUserExist","账号已经使用",0,"callback"),
     		array("realName","require","真实姓名不能为空"),
             array("password","require","密码不能为空"),  
             array("password","checkLength","密码长度的要求是5~15位之间",0,'callback'),  
@@ -15,10 +12,6 @@ class UserModel extends Model{
     		array("email","email","邮箱格式不正确",2),
     		array("email",'isEmailExist','邮箱已经使用',0,'callback'),
     		array("sex","require","性别不能为空"),
-//     		array("phone","require","手机号必须填写"),
-//     		array("phone","isPhone","手机号不正确",0,"callback"),
-//     		array("identifyNum","require","身份证号必须填写"),
-//     		array("identifyNum","isIdentifyNum","身份证号不正确",0,"callback"),
             );  
       
     //自动填充  

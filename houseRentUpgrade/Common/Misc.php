@@ -23,6 +23,13 @@ function currentUserName()
 	return 	$userName;
 }
 
+//当前用户所在城市
+function currentUserCity()
+{
+	$city = $_SESSION['city'];
+	return 	$city;
+}
+
 function currentUserCompany()
 {
 	if(!isLogin())

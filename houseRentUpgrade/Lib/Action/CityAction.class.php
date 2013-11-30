@@ -27,14 +27,35 @@ class CityAction extends Action
 		}
 		
 		$cityModel = new CityModel();
-		$cityObj = $cityModel->where("name='{$city}'")->find();
-		if($cityObj){
+		
+		$cityObj = $cityModel->findByName($city);
+		if(isset($cityObj)){
 			$cityId = $cityObj["id"];
 			$districtModel = new DistrictModel();
 			$data["list"] = $districtModel->where("cityId={$cityId}")->select();
 			$data["success"] = true;
+		}else{
+			$data["msg"] = "对不起，操作错误！";
 		}
 
 		$this->ajaxReturn($data);
+	}
+	
+	function iniCity(){
+		$cityModel = new CityModel();
+		$cityModel->iniCity();
+		$data = array();
+		$data["success"] = true;
+		$this->ajaxReturn($data);
+		
+	}
+	
+	function iniDistrict(){
+		$districtModel = new DistrictModel();
+		$districtModel->iniDistrict();
+		$data = array();
+		$data["success"] = true;
+		$this->ajaxReturn($data);
+	
 	}
 }

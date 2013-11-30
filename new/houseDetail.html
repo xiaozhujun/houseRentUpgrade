@@ -374,7 +374,9 @@ function houseinfoCallback(data) {
 	}
 	
 	$("#company").html(data.company);
+	$("#company").attr("href","circleIndex.html?circle="+data.company);
 	$("#college").html(data.college);
+	$("#college").attr("href","circleIndex.html?circle="+data.college);
 	if(data.houseinfo.photos.length>0)
 		{
 			var housePhotos = data.houseinfo.photos;
