@@ -89,19 +89,19 @@ class UploadFile {//类定义开始
     private function save($file) {
         $filename = $file['savepath'].$file['savename'];
 		//[cluster] 去掉不覆盖判断
+
         // 如果是图像文件 检测文件格式
         if( in_array(strtolower($file['extension']),array('gif','jpg','jpeg','bmp','png','swf'))) {
             $info   = getimagesize($file['tmp_name']);
             if(false === $info || ('gif' == strtolower($file['extension']) && empty($info['bits']))){
-                
-            	$this->error = '非法图像文件';
+                $this->error = '非法图像文件';
                 return false;                
             }
         }
 		//[cluster] 上传文件
-		echo $this->thumbRemoveOrigin;
-        if(!$this->thumbRemoveOrigin && !file_upload($file['tmp_name'], $this->autoCharset($filename,'utf-8','gbk'))) {
-        	$this->error = '文件上传保存错误！';
+		$uploadResult = file_upload($file['tmp_name'], $this->autoCharset($filename,'utf-8','gbk'));
+        if(!$this->thumbRemoveOrigin && !$uploadResult) {
+            $this->error = '文件上传保存错误！';
             return false;
         }
         if($this->thumb && in_array(strtolower($file['extension']),array('gif','jpg','jpeg','bmp','png'))) {
@@ -166,11 +166,13 @@ class UploadFile {//类定义开始
                 $file['extension']  =   $this->getExt($file['name']);
                 $file['savepath']   =   $savePath;
                 $file['savename']   =   $this->getSaveName($file);
+
                 // 自动检查附件
                 if($this->autoCheck) {
                     if(!$this->check($file))
                         return false;
                 }
+
                 //保存上传文件
                 if(!$this->save($file)) return false;
                 if(function_exists($this->hashType)) {

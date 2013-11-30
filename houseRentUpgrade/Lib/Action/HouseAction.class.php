@@ -535,10 +535,13 @@ class HouseAction extends Action {
 	            if (!$upload->upload()) {
 	            	$data["msg"] = $upload->getErrorMsg();
 	            	$this->ajaxReturn($data);
-	            	return;
 	            } else {
 	                $info = $upload->getUploadFileInfo();
-					$filename = "/Public/upload/".$info[0]['savename'];
+	                if(IS_BAE){
+	                	$filename = "http://".C("BCS_HOST")."/".C("BUCKET")."/upload/".$info[0]['savename'];
+	                }else{
+	                	$filename = "/Public/upload/".$info[0]['savename'];
+	                }
 					
 					$housePhoto = new HousePhotoModel();
 					$housePhotoData = array();

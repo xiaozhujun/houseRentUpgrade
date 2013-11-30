@@ -155,3 +155,9 @@ function createCommunityMessage($userId,$communityName, $message){
 	$communityMessageModel = new CommunityMessageModel();
 	$communityMessageModel->saveMessage($userId,$communityName, $message);
 }
+
+function escapeFilePath($path){
+	if(IS_BAE){
+		
+	}
+}

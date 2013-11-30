@@ -23,8 +23,7 @@ if(function_exists('saeAutoLoader')){
 	function file_upload($src_file,$dest_file){
 		$pdir=dirname($dest_file);
 		if(!is_dir($pdir)) @mkdir($pdir,0777);
-		$result = copy($src_file,$dest_file);
-		return $result;
+		return copy($src_file,$dest_file);
 	}
 	function file_delete($filename){
 		return unlink($filename);

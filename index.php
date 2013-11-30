@@ -15,6 +15,7 @@ define('APP_PATH','./houseRentUpgrade/');
 define('THINK_PATH','./ThinkPHP/');
 define('APP_DEBUG',true);
 define('ENGINE_NAME','cluster');
+define('io_name','bae');
 require './ThinkPHP/ThinkPHP.php';
 /* vim: set ts=4 sw=4 sts=4 tw=100 noet: */
 ?>

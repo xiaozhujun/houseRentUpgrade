@@ -2,9 +2,10 @@
 //BAE下固定mysql配置
 return array(
 		
-
-		'URL_MODEL'=>2,
-		'BUCKET_PREFIX'=>'think-',
+		"BUCKET"=>"zuketuan-public",
+		"BCS_HOST"=>"bcs.duapp.com",
+		'URL_MODEL'=>3,
+		'BUCKET_PREFIX'=>'zuketuan-',
 		'DB_TYPE'=> 'mysql',     // 数据库类型
 		'DB_HOST'=> HTTP_BAE_ENV_ADDR_SQL_IP, // 服务器地址
 		'DB_NAME'=> 'wZPhzsANmcCRTnWQdRqe',        // 数据库名,填写你创建的数据库
@@ -14,7 +15,6 @@ return array(
 		
 		//更改模板替换变量，让普通能在所有平台下显示
 		'TMPL_PARSE_STRING'=>array(
-		  // __PUBLIC__/upload  -->  /Public/upload -->http://appname-public.stor.sinaapp.com/upload
-		'/Public/upload'=>file_domain('think-public').'/upload'
+		'/Public/upload'=>file_domain('zuketuan-public').'/upload'
 		)
 );
