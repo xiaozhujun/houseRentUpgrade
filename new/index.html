@@ -52,12 +52,12 @@
             <h4><a href="#">可入住时间</a></h4>
             <a class="more" href="#">></a>
             <div class="detail">
-                <a href="#">即可入住</a>
-                <a href="#">7天内</a>
-                <a href="#">7~15天</a>
-                <a href="#">15~30天</a>
-                <a href="#">30天~60天</a>
-                <a href="#">60天以上</a>
+                <a href="#" type="period" value="">不限</a>
+                <a href="#" type="period" value="0-7">7天内</a>
+                <a href="#" type="period" value="7-15">7~15天</a>
+                <a href="#" type="period" value="15-30">15~30天</a>
+                <a href="#" type="period" value="30-60">30天~60天</a>
+                <a href="#" type="period" value="60">60天以上</a>
             </div>
         </div>
 
@@ -438,7 +438,7 @@
 	}
 	var data = {};
 	iniSearchParam();
-	getPramsFromUrl(data,key,price,region,room,type);
+	getPramsFromUrl(data);
 	$.post($.URL.house.houselist,data,searchCallback,"json");
 	
 	$("#factor a").click(function(){
@@ -460,8 +460,12 @@
 		{
 			room = $(this).attr("value");
 		}
+		else if(linkType=='period')
+		{
+			period = $(this).attr("value");
+		}
 		var data = {};
-		getPramsFromUrl(data,key,price,region,room,type);
+		getPramsFromUrl(data);
 		$.post($.URL.house.houselist,data,searchCallback,"json");
 	
 		return false;

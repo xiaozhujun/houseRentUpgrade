@@ -3,6 +3,7 @@ var price="";
 var region="";
 var room="";
 var type="";
+var period="";
 
 function iniSearchParam(){
 	key = $.getUrlParam("key");
@@ -12,7 +13,7 @@ function iniSearchParam(){
 	type = $.getUrlParam("type");
 }
 
-function getPramsFromUrl(data,key,price,region,room,type){
+function getPramsFromUrl(data){
 	if(key!="" && key!=null){
 		data['key']=key;
 	}
@@ -27,6 +28,9 @@ function getPramsFromUrl(data,key,price,region,room,type){
 	}
 	if(type!="" && type!=null){
 		data['type']=type;
+	}
+	if(period!="" && period!=null){
+		data['period']=period;
 	}
 	data['city'] = $(".cityLink.cur").html();
 }
@@ -137,7 +141,7 @@ $('#searchBtn').click(function(){
 		var newLocation = "/new/index.html?key="+key;
 		window.location.href = newLocation;
 //		var data = {};
-//		getPramsFromUrl(data,key,price,region,room,type);
+//		getPramsFromUrl(data);
 //		$.post($.URL.house.houselist,data,searchCallback,"json");
 	}
 	else
@@ -212,7 +216,7 @@ function cityDistrictCallback(data){
 				linkType = $(this).attr("type");
 				region = $(this).attr("value");
 				var data = {};
-				getPramsFromUrl(data,key,price,region,room,type);
+				getPramsFromUrl(data);
 				$.post($.URL.house.houselist,data,searchCallback,"json");
 				return false;
 			});

@@ -12,40 +12,41 @@ class HouseInfoModel extends Model{
     	$region=$post["region"];
     	$city = $post["city"];
     	$price=$post["price"];
-    	$houseType=$post["type"];
+    	$rentType=$post["type"];
     	$key=$post["key"];
     	$room=$post["room"];
+    	$period = $post["period"];
     	$wheresql="";
     	
-    	if(!is_null($city)){
+    	if(isset($city)){
     		if($wheresql==""){
     			$wheresql.=" house_info.city='{$city}' ";
     		}else{
     			$wheresql.=" and house_info.city='{$city}' ";
     		}
     	}
-    	if(!is_null($region)){
+    	if(isset($region)){
     		if($wheresql==""){
     			$wheresql.=" house_info.district='{$region}' ";
     		}else{
     			$wheresql.=" and house_info.district='{$region}' ";
     		}
     	}
-       	if(!is_null($price)){
+       	if(isset($price)){
        	    if($wheresql==""){
     			$wheresql.=getPriceInfo($price);
     		}else{
     			$wheresql.=" and ".getPriceInfo($price);
     		}
     	}
-        if(!is_null($houseType)){
+        if(isset($rentType)){
             if($wheresql==""){
-    			$wheresql.=" house_type=".$houseType;
+    			$wheresql.=" house_info.rentType=".$rentType;
     		}else{
-    			$wheresql.=" and house_type=".$houseType;
+    			$wheresql.=" and house_info.rentType=".$rentType;
     		}
     	}
-        if(!is_null($key)){
+        if(isset($key)){
             if($wheresql==""){
     			$wheresql.=getKeyWordInfo($key);
     		}else{
@@ -59,6 +60,24 @@ class HouseInfoModel extends Model{
     			$wheresql.=" and ".getRoomInfo($room);
     		}
     	}
+    	if(isset($period)&&$period!=""){
+    		$times = split("-",$period);
+    		$length = count($times);
+    		if($wheresql==""){
+    			if($length==1){
+    				$wheresql.=" house_info.transferTime >= date_add(NOW(), interval ".$times[0]." day) ";
+    			}else if($length==2){
+    				$wheresql.=" house_info.transferTime >= date_add(NOW(), interval ".$times[0]." day) and house_info.transferTime <= date_add(NOW(), interval "+$times[1]+" day) ";
+    			}
+    		}else{
+    			if($length==1){
+    				$wheresql.=" and house_info.transferTime >= date_add(NOW(), interval ".$times[0]." day) ";
+    			}else if($length==2){
+    				$wheresql.=" and house_info.transferTime >= date_add(NOW(), interval ".$times[0]." day) and house_info.transferTime <= date_add(NOW(), interval ".$times[1]." day) ";
+    			}
+    		}
+    	}
+    	
     	if($wheresql!=""){
     		$wheresql=" and ".$wheresql;
     	}

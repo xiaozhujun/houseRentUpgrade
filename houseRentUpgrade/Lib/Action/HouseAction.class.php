@@ -49,7 +49,6 @@ class HouseAction extends Action {
 	 * 房源列表页面
 	 */
 	function houseList() {
-// 		header ( "Content-Type:application/json; charset=utf-8" );
 		$data = array();
 		$houseinfo = new HouseInfoModel();
 		
