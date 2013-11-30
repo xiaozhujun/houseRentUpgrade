@@ -321,7 +321,7 @@ class UserAction extends Action {
 		
 		$userId = currentUserId();
 		$userData = array();
-		
+		session_start();
 		if(isset($_POST['phone']) && !empty($_POST['phone']))
 		{
 			$userData["phone"] = $_POST['phone'];
@@ -340,11 +340,13 @@ class UserAction extends Action {
 		if(isset($_POST['realName']) && !empty($_POST['realName']))
 		{
 			$userData["realName"] = $_POST['realName'];
+			$_SESSION ['user'] = $_POST['realName'];
 		}
 		
 		if(isset($_POST['city']) && !empty($_POST['city']))
 		{
 			$userData["city"] = $_POST['city'];
+			$_SESSION ['city'] = $_POST['city'];
 		}
 		
 		//更新用户公司
@@ -360,7 +362,8 @@ class UserAction extends Action {
 		$userData["id"] = $userId;
 		$userModel = new UserModel();
 		//$saveResult = $userModel->create($userData);
-		if($userModel->save($userData))
+		$result = $userModel->save($userData);
+		if($result>=0)
 		{
 			$data = array("success"=>true,"msg"=>"更新信息成功！");
 			$this->ajaxReturn($data);

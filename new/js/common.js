@@ -175,7 +175,7 @@ function checkLoginCallback(data)
 }
 
 function changeCity(city){
-	if(city!=null){
+	if(city!=null&&city!=""){
 		var selector = ".cityLink:contains('"+city+"')"
 		$(selector).addClass("cur");
 		$(selector).siblings().removeClass("cur");
