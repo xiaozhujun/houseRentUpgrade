@@ -514,7 +514,7 @@ function renderingPage(data,target){
 			var houseInfo = $("<div class='houseInfo clearfix m10'></div>");
 			var houseDetail = $("<div class='g_houseInfo fl'></div>");
 			var houseDetailInfo = $("<div class='right'></div>");
-			var houseImg = $("<a class='housePic fl' href='houseDetail.html?id="+data.houseList[i].houseId+"'><img src='"+(data.houseList[i].photos.length>0?$.getThumbImg(data.houseList[i].photos[0].photoURL):"images/house_bg.png")+"' alt='' width='105' height='75'><span>"+data.houseList[i].photos.length+" 图</span></a>");
+			var houseImg = $("<a class='housePic fl' target='_blank' href='houseDetail.html?id="+data.houseList[i].houseId+"'><img src='"+(data.houseList[i].photos.length>0?$.getThumbImg(data.houseList[i].photos[0].photoURL):"images/house_bg.png")+"' alt='' width='105' height='75'><span>"+data.houseList[i].photos.length+" 图</span></a>");
 			var houseTitle = $("<p class='top'><a href='houseDetail.html?id="+data.houseList[i].houseId+"'>"+ data.houseList[i].title +"</a></p>");
 			var houseAddress = $("<p class='middle'>"+data.houseList[i].street+data.houseList[i].community+"</p>");
 			var housePrice = $("<p class='bottom'>"+data.houseList[i].price+"元/月</p>");
@@ -533,7 +533,7 @@ function renderingPage(data,target){
 				{
 					for(var j=0;j<data.houseList[i].circles.length;j++)
 					{
-						var circleLink = $("<a href='#'></a>");
+						var circleLink = $("<a target='_blank' href='#'></a>");
 						circleLink.html(data.houseList[i].circles[j].name);
 						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.houseList[i].circles[j].name));
 						link.append(circleLink);
