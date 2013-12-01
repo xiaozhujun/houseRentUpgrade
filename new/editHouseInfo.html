@@ -9,6 +9,7 @@
 	<link href="/css/jquery/jquery-ui-1.10.3.custom.min.css" type="text/css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/popLogin.css">
     <link rel="stylesheet" type="text/css" href="css/hdialog.css">
+    <link rel="stylesheet" type="text/css" href="css/editHouse.css">
 </head>
 <body>
 <div id="topbar" class="topbar"></div>
@@ -39,23 +40,32 @@
                         </label>
                     </td>
                 </tr>
-
-                <tr>
+<tr>
                     <th>
-                        <em class="red">*</em>成交方式
+                        <em class="red">*</em>城市
                     </th>
                     <td>
-                        <label class="mr15" for="free">
-                            <input id="free" type="radio" value="1" name="moneyType">
-                            无偿出租
-                        </label>
-                        <label class="mr15" for="money">
-                            <input id="money" type="radio" value="2" name="moneyType">
-                            有偿出租
-                        </label>
+                        <select id="citySelect">
+				  			<option value="北京">北京</option>
+				  			<option value="上海">上海</option>
+				  			<option value="广州">广州</option>
+				  			<option value="深圳">深圳</option>
+				  			<option value="杭州">杭州</option>
+				  		</select>&nbsp;
+				  		<select id="districtSelect">
+				  			<option value="海淀">海淀</option>
+				  			<option value="朝阳">朝阳</option>
+				  			<option value="东城">东城</option>
+				  			<option value="西城">西城</option>
+				  			<option value="宣武">宣武</option>
+				  			<option value="丰台">丰台</option>
+				  			<option value="房山">房山</option>
+				  			<option value="顺义">顺义</option>
+				  			<option value="昌平">昌平</option>
+				  			<option value="大兴">大兴</option>
+				  		</select>
                     </td>
                 </tr>
-
                 <tr>
                     <th>
                         <em class="red">*</em>小区名称
@@ -136,7 +146,7 @@
                     </td>
                 </tr>
                 
-                 <tr id="imgUploadShowTR" style="display:none;">
+                <tr id="imgUploadShowTR" style="display:none;">
                     <th>
                         <em class="red">*</em>已上传图片
                     </th>
@@ -154,6 +164,7 @@
                         <form id="imgUpladForm" method="post" action="/House/upload">
 							<div class='rowDiv'>
 						  		<div  class='inputDiv'>
+						  			<input type="hidden" id="houseIdHiddenInput" name="houseId">
 						  			<input type="file" name="myfile">
 							        <input type="submit" value="上传照片">
 								</div>
@@ -218,11 +229,7 @@
 
 <script type="text/javascript">
 
-function showUploadImg(data)
-{
-	var newImg = $("<img class='uploadedImg' height=150/>").attr("src",data.fileUrl);
-	$("#imgUploadList").append(newImg).append("&nbsp;");
-}
+var district;
 
 $(document).ready(function(){
 	
@@ -252,7 +259,7 @@ $(document).ready(function(){
 	    },
 		complete: function(xhr) {
 			$("#imgUploadShowTR").show();
-			showUploadImg($.parseJSON(xhr.responseText));
+			showUploadImg($.parseJSON(xhr.responseText).fileUrl);
 		}
 	}); 
 				
@@ -282,6 +289,8 @@ $(document).ready(function(){
 				data.contactPhone = $('#contact_phone').val();
 				data.detailDescription = $('#detail_description').val();
 				data.houseId = houseId;
+				data.city = $("#citySelect").val();
+				data.district = $("#districtSelect").val();
 				$.post($.URL.house.updateHouseInfo,data,saveHouseCallback,"json");
 			}
 
@@ -297,6 +306,7 @@ $(document).ready(function(){
 	
 	var data = {};
 	data.houseId = houseId;
+	$("#houseIdHiddenInput").val(houseId);
 	$.get($.URL.house.info+"?id="+houseId,null,houseinfoCallback,"json");
 
 });
@@ -321,6 +331,101 @@ function houseinfoCallback(data) {
 	
 	$("#detail_description").val(data.houseinfo.detailDescription);
 	
+	$("#citySelect").val(data.houseinfo.city);
+	renderHousePhoto(data);
+	
+	district = data.houseinfo.district;
+	cityChange();
+	
+}
+
+function showUploadImg(photoURL)
+{
+	var li =$('<li></li>');
+	var img = $('<img width="80" height="80" src="'+photoURL+'" alt="">');
+	var outAction =$('<a class="deleteImg" href="#">删除</a>');
+	li.append(img).append(outAction);
+	
+	$("#imgUL").append(li);
+	
+	$(".deleteImg").hide();
+	$("#imgUploadList li").mouseover(function(){
+		$(this.lastChild).show();
+	});
+	$("#imgUploadList li").mouseout(function(){
+		$(this.lastChild).hide();
+	});
+	
+	$(".deleteImg").click(function(){
+		var data = {};
+		data.houseId = houseId;
+		data.img = $($(this).siblings()[0]).attr("src"); 
+		$.post($.URL.house.deleteImg,data,deleteImgCallback,"json");
+	});
+}
+
+function renderHousePhoto(data){
+	if(data.houseinfo.photos!=null){
+		$("#imgUploadList").html("");
+		var ul = $('<ul id="imgUL" class="g_h_img myCircleListUl"></ul>');
+		$("#imgUploadList").append(ul);
+		for(var i=0;i<data.houseinfo.photos.length;i++){
+			showUploadImg(data.houseinfo.photos[i].photoURL);
+		}
+		
+		$("#imgUploadShowTR").show();
+		
+		$(".deleteImg").hide();
+		$("#imgUploadList li").mouseover(function(){
+			$(this.lastChild).show();
+		});
+		$("#imgUploadList li").mouseout(function(){
+			$(this.lastChild).hide();
+		});
+		
+		$(".deleteImg").click(function(){
+			var data = {};
+			data.houseId = houseId;
+			data.img = $($(this).siblings()[0]).attr("src"); 
+			$.post($.URL.house.deleteImg,data,deleteImgCallback,"json");
+		});
+	}
+}
+
+function deleteImgCallback(data){
+	if(data.success){
+		alert("删除成功！");
+		$("#imgUploadList img[src='"+data.img+"']").each(function(){
+			$(this).parent().remove();
+		});
+	}else{
+		alert("操作失败！"+data.msg);
+	}
+}
+
+function cityChange(){
+	var city = $("#citySelect").val();
+	var data = {};
+	data.city = city;
+	$.post($.URL.city.cityDistrict,data,cityChangeCallback,"json");
+	
+}
+
+function cityChangeCallback(data){
+	if(data.success){
+		if(data.list!=null){
+			$("#districtSelect").html("");
+			for(var i=0;i<data.list.length;i++){
+				var option = $('<option></option>');
+				option.html(data.list[i].name);
+				option.attr("value",data.list[i].name);
+				$("#districtSelect").append(option);
+			}
+		}
+		$("#districtSelect").val(district);
+	}else{
+		alert(data.msg);	
+	}
 }
 
 function saveHouseCallback(result){

@@ -187,6 +187,12 @@ function changeCity(city){
 	}else{
 		changeDistrict("北京");
 	}
+	
+	if(typeof searchCallback !="undefined"){
+		var data = {};
+		getPramsFromUrl(data);
+		$.post($.URL.house.houselist,data,searchCallback,"json");	
+	}
 }
 
 function changeDistrict(city){

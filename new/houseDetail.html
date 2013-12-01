@@ -99,19 +99,6 @@
                 <div id="houseDetail" class="mb20 mt20 wordbox">
                     
                 </div>
-
-                <div class="bigimg_slide">
-                    <a class="btn btnl fl" href="javascript:void(0)"></a>
-                    <a class="btn btnr fr" href="javascript:void(0)"></a>
-
-                    <div class="bigimgcontain picContain">
-                        <ul id="bigImgList" class="clearfix">
-                        </ul>
-                    </div>
-                        
-                </div>
-
-
             </div>
         </div>
         <div class='house_describ mb20' id='allmap'></div>
@@ -388,13 +375,14 @@ function houseinfoCallback(data) {
 				{
 					 li = $("<li></li>");
 					 houseImg = $("<img >");
-					 houseImg.attr("src",housePhotos[i].photoURL);
+					 houseImg.attr("src",$.getThumbImg(housePhotos[i].photoURL));
 					 li.append(houseImg);
 					 $("#imgList").append(li);
-					 $("#bigImgList").append(li.clone());
 				}
 			$("#imgList img").click(function(){
-				$("#bigSlideImg").attr("src",$(this).attr("src"));
+				alert(1);
+				//alert($.getOrignImg($(this).attr("src")));
+				$("#bigSlideImg").attr("src",$.getOrignImg($(this).attr("src")));
 			});
 		}
 	

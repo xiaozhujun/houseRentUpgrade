@@ -5,6 +5,31 @@
 		var r = window.location.search.substr(1).match(reg);
 		if (r!=null) return URL.decode(unescape(r[2])); return null;
 	}
+	
+	$.getThumbImg = function(img){
+		if(img!=null && typeof img !="undefined"){
+			if(img.indexOf("bcs.duapp.com")>-1){
+				var imgNameStartIndex = img.lastIndexOf("/");
+				var thumbImgPath = img.substring(0,imgNameStartIndex)+"/thumb_"+img.substring(imgNameStartIndex+1);
+				return thumbImgPath;
+			}else{
+				return img;
+			}
+			
+		}
+		return "images/house_bg.png";
+	}
+	
+	$.getOrignImg = function(img){
+		if(img.indexOf("bcs.duapp.com")>-1){
+			var thumbIndex = img.lastIndexOf("thumb_");
+			if(thumbIndex>-1){
+				var imgPath = img.substring(0,thumbIndex)+img.substring(thumbIndex+6,img.length);
+				return imgPath;
+			}
+		}
+		return img;
+	}
 })(jQuery);
 
 /** 

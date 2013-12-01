@@ -106,37 +106,6 @@ function sessionPut($key,$value)
 	$_SESSION[$key] = $value;
 }
 
-//添加图片编号到session
-function addPhotos($photoId)
-{
-	$key = "photos";
-	$photos = sessionGet($key);
-	if(is_null($photos))
-	{
-		$photos = "".$photoId;
-	}
-	else 
-	{
-		$photos = $photos.",".$photoId;
-	}
-	sessionPut($key, $photos);
-}
-
-//获得session中的图片列表
-function getPhotos()
-{
-	$key = "photos";
-	$photos = sessionGet($key);
-	return $photos;
-}
-
-//删除session中的图片缓存
-function deletePhotos()
-{
-	$key = "photos";
-	deleteSessionKey($key);
-}
-
 //删除session中的指定键
 function deleteSessionKey($key)
 {

@@ -149,14 +149,9 @@ class HouseAction extends Action {
 		if($houseInfo->create ())
 		{
 			$houseInfo->updateTime=date("Y-m-d H:i:s");
-				
-			$houseId = $houseInfo->save();
-			$housePhotos = getPhotos();
-			deleteSessionKey($key);
-			$housePhoto = new HousePhotoModel();
-			$housePhoto->addPhotoToHouse($houseId, currentUserId(), $housePhotos);
-				
-				
+			$houseId = $_POST["houseId"];
+			$houseInfo->save();
+
 			if($houseId){
 				$data['success']=true;
 			}else{
@@ -266,7 +261,7 @@ class HouseAction extends Action {
 		
 		$houseInfo = M('HouseInfo');
 		$houseInfoObj = $houseInfo->find($houseId);
-		$data['houseinfo']=$houseInfo->field("createTime,title,transferTime,price,street,community,contactPerson,contactPhone,room,parlor,washroom,area,detailDescription,houseId,userId")->find($houseId);
+		$data['houseinfo']=$houseInfo->field("createTime,title,transferTime,price,street,community,contactPerson,contactPhone,room,parlor,washroom,area,detailDescription,houseId,userId,city,district")->find($houseId);
 		
 		$housePhotoModel = new HousePhotoModel();
 		$data['houseinfo']['photos'] = $housePhotoModel->getHousePhotos($data['houseinfo']['houseId']);
@@ -547,9 +542,8 @@ class HouseAction extends Action {
 					$housePhotoData = array();
 					$housePhotoData["userId"] = currentUserId();
 					$housePhotoData["photoURL"] = $filename;
+					$housePhotoData["houseId"] = $_POST["houseId"];
 					$photoId = $housePhoto->add($housePhotoData);
-					addPhotos($photoId);
-					$data["photos"] = getPhotos();
 	            }
 			}
 			$data["success"] =true;
@@ -626,6 +620,45 @@ class HouseAction extends Action {
 				$data['houseList'][$key]["photos"] = $housePhotoModel->getHousePhotos($value["houseId"]);
 				$data['houseList'][$key]["circles"] = array_values($userCommunityModel->userCommunities($value["userId"],0,2));
 			}
+			$data["success"] = true;
+			$this->ajaxReturn($data);
+		}
+		
+		//删除房源的图片
+		function deleteImg(){
+			$data = array();
+			$data['success'] = false;
+			if(!isLogin())
+			{
+				$data["msg"] = "请您登录！";
+				$this->ajaxReturn($data);
+			}
+			
+			$houseId = $_POST["houseId"];
+			if(!isset($houseId)){
+				$data["msg"] = "参数不正确！";
+				$this->ajaxReturn($data);
+			}
+			
+			$img = $_POST["img"];
+			if(!isset($img)){
+				$data["msg"] = "参数不正确！";
+				$this->ajaxReturn($data);
+			}
+			
+			$userId = currentUserId();
+			
+			$houseInfoModel = new HouseInfoModel();
+			$house = $houseInfoModel->where("houseId={$houseId} and userId={$userId}")->find();
+			if(!isset($house)){
+				$data['msg']="对不起，您没有权限!";
+				$this->ajaxReturn($data);
+			}
+			
+			$housePhotoModel = new HousePhotoModel();
+			$data["result"] = $housePhotoModel->where("houseId={$houseId} and photoURL='{$img}'")->delete();
+			$data["img"] = $img;
+			
 			$data["success"] = true;
 			$this->ajaxReturn($data);
 		}

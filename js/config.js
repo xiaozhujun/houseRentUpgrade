@@ -45,6 +45,7 @@
 			"publishHouseList":"/House/publishHouseList",
 			"updateHouseInfo":"/House/updateHouseInfo",
 			"updateHouseStatus":"/House/updateHouseStatus",
+			"deleteImg":"/House/deleteImg",
 		},
 		"houseApply":{
 			"applyHouse":"/HouseApply/applyHouse",
