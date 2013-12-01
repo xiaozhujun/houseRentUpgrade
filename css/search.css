@@ -1,0 +1,152 @@
+a { 
+	color:black; 
+	text-decoration:none; 
+}
+
+#choise
+{
+	width:100%;
+	float:left;
+	margin-top:10px;
+}
+
+#keysearch
+{
+	width:100%;
+	flaot:left;
+	margin-top:20px;
+}
+
+#region a
+{
+	padding:0px 10px;
+}
+
+#region a:HOVER
+{
+	background-color: #ccc;
+}
+
+#price a
+{
+	padding:0px 10px;
+}
+
+#price a:HOVER
+{
+	background-color: #ccc;
+}
+
+#room a
+{
+	padding:0px 10px;
+}
+
+#room a:HOVER
+{
+	background-color: #ccc;
+}
+
+#type a
+{
+	padding:0px 10px;
+}
+
+#type a:HOVER
+{
+	background-color: #ccc;
+}
+
+.selected
+{
+	background-color: #ccc;
+}
+
+#result
+{
+	width:100%;
+	float:left;
+	
+	margin-top:10px;
+	border:solid 1px #ccc;
+}
+.houseItem
+{
+	width:100%;
+	float:left;
+	border-bottom:solid 1px #ccc;
+	margin-bottom:-1px;
+	cursor:pointer;	
+}
+
+.houseItem:HOVER
+{
+	background-color: #eee;
+}
+
+.houseItemColumn
+{
+	width:100%;
+	float:left;
+	text-align:left;
+	padding-left:10px;
+	
+	padding-top:5px;
+	padding-bottom:5px;	
+}
+
+.houseItemColumn img
+{
+	width:105px;
+	height:75px;
+}
+
+#houseListContainer
+{
+	width:100%;
+	float:left;
+}
+
+dt
+{ 
+	float: left;
+	width: 6%; 
+	margin: 0px; 
+	padding: 0px; 
+	font-size:18px;
+	font-weight:bold;
+}
+
+dd 
+{ 
+	float: left; 
+	clear: none; 
+	width: 94%; 
+	margin: 0px; 
+	padding: 0px;
+
+	font-size:14px;
+	
+}
+
+dd a
+{
+	margin-left:2px;
+}
+
+dl
+{ 
+	width: 100%;
+	float:left; 
+	font-size: 9pt; 
+	line-height: 2em; 
+	position:relative; 
+	margin: 0px; 
+	margin-top:5px;
+	padding: 0px;  
+}
+
+#searchBtn
+{
+	margin-left:10px;
+}

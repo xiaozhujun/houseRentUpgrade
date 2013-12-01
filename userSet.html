@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/userSet.css">
+</head>
+<body>
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+    
+    <div class="g_userInfo p10">
+        <a class="userPic fl" href="#">
+            <img src="images/person_bg.png" alt="" width="120" height="120">
+        </a>
+        <div class="right">
+            <h5><em id="realNameContainer"></em><a href="#">编辑个人资料</a></h5>
+            <ul>
+                <li id="interestContainer">
+                    <strong>兴趣爱好:</strong>
+                </li>
+                <li id="educationContainer">
+                    <strong>教育背景:</strong>
+                </li>
+                <li id="jobContainer">
+                    <strong >工作经历:</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt10 mb10">
+        
+        <ul class="g_leftlan fl">
+            <li>
+                <h5>我的房屋信息</h5>
+                <p onclick="window.location='collectHouseInfo.html'">我收藏的房源</p>
+                <p onclick="window.location='publishHouseInfo.html'">我发布的房源</p>
+            </li>
+            <li>
+                <h5>我的关系</h5>
+                <p onclick="window.location='myCircle.html'">圈子</p>
+                <p onclick="window.location='myFriend.html'">好友</p>              
+            </li>
+            <li>
+                <h5>系统</h5>
+                <p onclick="window.location='systemInform.html'">通知</p>
+                <p class="cur" onclick="window.location='userSet.html'">个人设置</p>
+                <p onclick="window.location='changePassword.html'">密码设置</p>
+            </li>
+        </ul>
+
+        <div class="fr userSetInfo w770 p10">
+            <form action="#">
+                <div class="pic">
+                    <div class="pictip">
+                        <img src="images/person_bg.png" alt="" width="160" height="160">
+                    </div>
+                    <div class="picword tc">
+                        <a href="#">修改头像</a>
+                    </div>
+                </div>
+                <table class="tbUserInfo" border="0">
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            用户名
+                        </th>
+                        <td>
+                            <input id="realNameInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            性 别
+                        </th>
+                        <td>
+                            <label class="mr15" for="sex">
+                                <input id="sexInput1" type="radio" name="sex" value="男">
+                                男
+                            </label>
+                        <label class="mr15" for="money">
+                                <input id="sexInput2" type="radio" name="sex" value="女">
+                                女
+                        </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            所在城市
+                        </th>
+                        <td>
+                            <select name="" id="citySelect">
+                                <option value="北京">北京</option>
+                                <option value="上海">上海</option>
+                                <option value="广州">广州</option>
+                                <option value="深圳">深圳</option>
+                                <option value="杭州">杭州</option>
+                            </select>
+                         </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            所在公司
+                        </th>
+                        <td>
+                            <input id="companyInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            毕业学校
+                        </th>
+                        <td>
+                            <input id="collegeInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            手机号
+                        </th>
+                        <td>
+                            <input id="phoneInput" class="txt" type="text" style="width:300px;" value="" maxlength="30">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            个人简介
+                        </th>
+                        <td>
+                            <textarea id="descriptionInput" class="w500 h150"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <em class="red">*</em>
+                            爱好
+                        </th>
+                        <td id="tagContainer">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <input id="tagInput" class="txt w150" type="text" value="" maxlength="30">
+                            <span id="addTabBtn" class="add">添加</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td>
+                            <span class="save mt20">
+                                <a id="saveBtn" href="#" id="issue">保存</a>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            
+        </div>
+
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.get($.URL.user.info,null,userInfoCallback,"json");
+	
+	$("#addTabBtn").click(function(){
+		var tagName = $("#tagInput").val();
+		var tagData = {};
+		tagData.tagName = tagName;
+		$.post($.URL.userTag.addTag,tagData,addTagCallback,"json");
+	});
+	
+	$("#saveBtn").click(function(){
+		var user = {};
+		user.realName = $("#realNameInput").val();
+		user.sex = $("input[name='sex']:checked").val();
+		user.city = $("#citySelect").val();
+		user.company = $("#companyInput").val();
+		user.college = $("#collegeInput").val();
+		user.phone = $("#phoneInput").val();
+		user.description = $("#descriptionInput").val();
+		$.post($.URL.user.update,user,updateCallback,"json");
+	});
+});
+
+function updateCallback(data){
+	if(data.success){
+		alert("保存成功");
+	}
+	else{
+		alert("保存失败！"+data.msg);
+	}
+}
+
+function addTagCallback(data){
+	if(data.success){
+		addTagSpan(data.tagName)
+	}
+	else{
+		alert(data.msg);
+	}
+}
+
+function addTagSpan(tagName){
+	var tagSpan = $('<span class="enjoin"></span>');
+	var tagName=$('<em></em>').html(tagName);
+	var tagDeleteLink = $('<a class="tagRemoveLink" href="#" title="删除">X</a>');
+	tagSpan.append(tagName).append(tagDeleteLink);
+	$("#tagContainer").append(tagSpan);
+	tagDeleteLink.click(function(event){
+		var tagName = $(this).parent().children(":first").html();
+		var tagData = {};
+		tagData.tagName = tagName;
+		$.post($.URL.userTag.deleteTag,tagData,deleteTagCallback,"json");
+	});
+}
+
+function deleteTagCallback(data){
+	if(data.success){
+		$("#tagContainer").children().each(function(){
+			if($(this).children(":first").html()==data.tagName){
+				$(this).remove();
+			}
+		});
+	}
+	else{
+		alert(data.msg);
+	}
+}
+
+function userInfoCallback(data){
+	$("#realNameInput").val(data.info.realName);
+	$("input[name='sex'][value='"+data.info.sex+"']").attr("checked","checked");
+	$("#citySelect").val(data.info.city);
+	$("#companyInput").val(data.company);
+	$("#collegeInput").val(data.college);
+	$("#phoneInput").val(data.info.phone);
+	$("#descriptionInput").val(data.info.description);
+	
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			addTagSpan(data.tags[i].tagName);
+		}
+	}
+	
+	setUserInfo(data);
+}
+
+function setUserInfo(data){
+	var tags = "";
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			tags+=data.tags[i].tagName + "&nbsp;&nbsp;";
+		}
+	}
+	
+	$("#interestContainer").append(tags);
+	$("#jobContainer").append(data.company)
+	$("#educationContainer").append(data.college);
+	$("#realNameContainer").append(data.info.realName);
+}
+</script>
+</body>
+</html>

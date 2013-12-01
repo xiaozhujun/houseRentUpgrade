@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>租客团-首页</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/search.css">
+    <link rel="stylesheet" type="text/css" href="css/houseInfo.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
+</head>
+<body>
+
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+   
+    <div id="factor" class="w238 fl mb20">
+        <div class="g_factor m10">
+            <h4><a href="#">区域</a></h4>
+            <a class="more" href="#">></a>
+            <div id="region" class="detail">
+            </div>
+        </div>
+        <div class="g_factor m10">
+            <h4><a href="#">租金</a></h4>
+            <a class="more" href="#">></a>
+            <div id="price" class="detail">
+            </div>
+        </div>
+        
+        <div class="g_factor m10">
+            <h4><a href="#">房型</a></h4>
+            <a class="more" href="#">></a>
+            <div id="room" class="detail">
+            </div>
+        </div>
+
+        <div class="g_factor m10">
+            <h4><a href="#">出租方式</a></h4>
+            <a class="more" href="#">></a>
+            <div id="type" class="detail">
+            </div>
+        </div>
+
+        <div class="g_factor m10">
+            <h4><a href="#">可入住时间</a></h4>
+            <a class="more" href="#">></a>
+            <div class="detail">
+                <a href="#" type="period" value="">不限</a>
+                <a href="#" type="period" value="0-7">7天内</a>
+                <a href="#" type="period" value="7-15">7~15天</a>
+                <a href="#" type="period" value="15-30">15~30天</a>
+                <a href="#" type="period" value="30-60">30天~60天</a>
+                <a href="#" type="period" value="60">60天以上</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w740 fr">
+        <div class="mb10 clearfix">
+            <div id="slide" class="fl">
+                
+                <div class="pic">
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img width="540" height="120" alt="" src="images/slide1.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img width="540" height="120" alt="" src="images/slide2.png">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <img width="540" height="120" alt="" src="images/slide3.png">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <ul class="btns">
+                    <li class="cur">
+                        1
+                    </li>
+                    <li class="">
+                        2
+                    </li>
+                    <li class="">
+                        3
+                    </li>
+                </ul>
+
+            </div>
+
+            <ul id="topic" class="fr">
+                <li class="topic1">
+                    <a target="_blank" href="circleList.html">加入租房圈</a>
+                </li>
+                <li class="topic2">
+                    <a target="_blank" href="myFriend.html?tab=findFriend">查找好友</a>
+                </li>
+                <li class="topic3">
+                    <a target="_blank" href="#">订阅信息</a>
+                </li>
+                <li class="topic4">
+                    <a target="_blank" href="#">分享本站</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="mb20">
+            <div id="houseNavBar">
+           		<span class="cur fl">最新房源</span>
+                <span class="fl">中意小区</span>
+                <span class="fl">校友房源</span>
+                <span class="fl">公司房源</span>
+                <span class="fl">好友房源</span>
+            </div>
+            <div id="houseInfo">
+            	<div class='homes' id='searchResult'></div>
+                <div class="homes" id="villegeHouseList"></div>
+                <div class="homes" id="collegeHouseList"></div>  
+                <div class="homes" id="companyHouseList"></div>  
+                <div class="homes" id="friendHouseList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="/js/config.js"></script>
+	<script type="text/javascript" src="js/common.js"></script>
+	<script type="text/javascript" src="js/slide.js"></script>
+	<script type="text/javascript" src="/js/urlUtil.js"></script>
+	<script type="text/javascript" src="/js/resouce.js"></script>
+	<script type="text/javascript" src="/js/house.js"></script>
+	<script type="text/javascript" src="js/hdialog.js"></script>
+	
+<script type="text/javascript">
+
+	function showTabByIndex(index)
+	{
+		var $this = $("#houseNavBar .fl").eq(index);
+		$this.siblings().removeClass("cur");
+	    $this.addClass("cur");
+	    $("#houseInfo .homes").hide();
+	    $("#houseInfo .homes").eq(index).show();
+	}
+	
+	function searchHouseWithUser(index)
+	{
+		
+		if(!isLogin  && index!=0)
+			{
+				var msg = "亲，你还没有<a class='message' href='login.html'>登录</a>哦";
+				$("#houseInfo .homes").eq(index).html(msg);
+			}
+		else if(index==1)
+			{
+				if($("#houseInfo .homes").eq(index).html()==""){
+					if(targetCommunity==null || targetCommunity==""){
+						showTargetCommunityEditor("#villegeHouseList");
+						return;
+					}
+					$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
+				}
+				
+			}
+		else if(index==2)
+			{
+				if($("#houseInfo .homes").eq(index).html()==""){
+					if(userCollege==null || userCollege==""){
+						showCollegeEditor("#collegeHouseList");
+						return;
+					}
+					$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
+				}
+			}
+		else if(index==3)
+			{
+				if($("#houseInfo .homes").eq(index).html()==""){
+					if(userCompany==null || userCompany==""){
+						showCompanyEditor("#companyHouseList");
+						return;
+					}
+					$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
+				}
+			}
+		else if(index==4)
+			{
+				if($("#houseInfo .homes").eq(index).html()=="")
+				$.get($.URL.house.friendHouseList,null,searchFriendWithUserCallback,"json");
+			}
+	}
+	
+	function searchCommunityWithUserCallback(data)
+	{
+		var targetContainer = "#villegeHouseList";
+		var settingIcon = $('<div style="float:right"><img id="targetCommunityEditor" alt="设置理想区域、小区" src="images/setting.png" class="settingIcon"></div>');
+		$(targetContainer).html("");
+		$(targetContainer).append(settingIcon);
+		
+		renderingPage(data,targetContainer);
+		showTabByIndex(1);
+		
+		$("#targetCommunityEditor").click(function(){
+			showTargetCommunityEditor(targetContainer);
+		});
+	}
+	
+	function showTargetCommunityEditor(targetContainer){
+		var targetCommunityInputContainer = $("<div class='homesBody'></div>")
+		var targetCommunityInput = $("<input id='targetCommunityInput' class='issueIpt keyinput' placeHolder='亲，请填写您的理想区域、小区名称'>");
+		targetCommunityInput.val(targetCommunity);
+		var targetCommunitySaveBtn = $("<a id='targetCommunitySaveBtn' class='issueBtn' href='#'>保存</a>")
+		targetCommunityInputContainer.append(targetCommunityInput);
+		targetCommunityInputContainer.append(targetCommunitySaveBtn);
+		$(targetContainer).html(targetCommunityInputContainer);
+		$("#targetCommunitySaveBtn").click(function(){
+			var communityName = $("#targetCommunityInput").val();
+			if(communityName!="")
+				{
+					var communityData = {};
+					communityData.name = communityName;
+					$.post($.URL.targetHouse.addTargetCommunity,communityData,addTargetCommunityCallback,"json");
+				}
+			else
+				{
+					alert("目标区域、小区名称不能为空！");
+				}
+			
+		});
+	}
+	
+	function addTargetCommunityCallback(data)
+	{
+		if(data.success)
+			{
+				targetCommunity = data.community;
+				$.get($.URL.house.villegeHouseList,null,searchCommunityWithUserCallback,"json");
+			}
+		else
+			{
+				alert(data.msg);
+			}
+	}
+	
+	function searchCollegeWithUserCallback(data)
+	{
+		var targetContainer = "#collegeHouseList";
+		var settingIcon = $('<div style="float:right"><img id="collegeEditor" alt="设置母校" src="images/setting.png" class="settingIcon"></div>');
+		$(targetContainer).html("");
+		$(targetContainer).append(settingIcon);
+		if(data.success)
+			{
+				renderingPage(data,targetContainer);
+				showTabByIndex(2);
+			}
+		else
+			{
+				alert(data.msg);
+			}
+	
+		$("#collegeEditor").click(function(){
+			showCollegeEditor(targetContainer);
+		});
+	}
+	
+	function showCollegeEditor(targetContainer)
+	{
+		var collegeInputContainer = $("<div class='homesBody'></div>")
+		var collegeInput = $("<input id='collegeInput' class='issueIpt keyinput' placeHolder='亲，请填写您的母校'>");
+		collegeInput.val(userCollege);
+		var collegeSaveBtn = $("<a id='collegeSaveBtn' class='issueBtn' href='#'>保存</a>")
+		collegeInputContainer.append(collegeInput);
+		collegeInputContainer.append(collegeSaveBtn);
+		$(targetContainer).html(collegeInputContainer);
+		$("#collegeSaveBtn").click(function(){
+			var collegeName = $("#collegeInput").val();
+			if(collegeName!="")
+				{
+					var collegeData = {};
+					collegeData.name = collegeName;
+					$.post($.URL.community.addCollege,collegeData,addCollegeCallback,"json");
+				}
+			else
+				{
+					alert("母校名称不能为空！");
+				}
+			
+		});
+	}
+	
+	function searchCompanyWithUserCallback(data)
+	{
+		var targetContainer = "#companyHouseList";
+		var settingIcon = $('<div style="float:right"><img id="companyEditor" alt="设置公司" src="images/setting.png" class="settingIcon"></div>');
+		$(targetContainer).html("");
+		$(targetContainer).append(settingIcon);
+		if(data.success)
+			{
+				renderingPage(data,targetContainer);
+				showTabByIndex(3);
+			}
+		else
+			{
+				alert(data.msg);
+			}
+		$("#companyEditor").click(function(){
+			showCompanyEditor(targetContainer);
+		});
+		
+	}
+	
+	function showCompanyEditor(targetContainer)
+	{
+		var companyInputContainer = $("<div class='homesBody'></div>")
+		var companyInput = $("<input id='companyInput' class='issueIpt keyinput' placeHolder='亲，请填写您所在公司'>");
+		companyInput.val(userCompany);
+		var companySaveBtn = $("<a id='companySaveBtn' class='issueBtn' href='#'>保存</a>")
+		companyInputContainer.append(companyInput);
+		companyInputContainer.append(companySaveBtn);
+		$(targetContainer).html(companyInputContainer);
+		$("#companySaveBtn").click(function(){
+			var companyName = $("#companyInput").val();
+			if(companyName!="")
+				{
+					var companyData = {};
+					companyData.name = companyName;
+					$.post($.URL.community.addCompany,companyData,addCompanyCallback,"json");
+				}
+			else
+				{
+					alert("公司名称不能为空！");
+				}
+			
+		});
+	}
+	
+	function addCompanyCallback(data)
+	{
+		if(data.success)
+			{
+				userCompany = data.community;
+				$.get($.URL.house.companyHouseList,null,searchCompanyWithUserCallback,"json");
+			}
+		else
+			{
+				alert(data.msg);
+			}
+	}
+	
+	function addCollegeCallback(data)
+	{
+		if(data.success)
+			{
+				userCollege = data.community;
+				$.get($.URL.house.collegeHouseList,null,searchCollegeWithUserCallback,"json");
+			}
+		else
+			{
+				alert(data.msg);
+			}
+	}
+	
+	function searchFriendWithUserCallback(data)
+	{
+		var targetContainer = "#friendHouseList";
+		renderingPage(data,targetContainer);
+		showTabByIndex(4);
+	}
+	
+	$(function(){
+		showTabByIndex(0);
+	    //$("#houseInfo .homes").eq(0).show();
+	
+	    $("#houseNavBar span").mouseover(function(){
+	        var $this = $(this), index = $this.index();
+	        searchHouseWithUser(index);
+	        $this.siblings().removeClass("cur");
+	        $this.addClass("cur");
+	        $("#houseInfo .homes").hide();
+	        $("#houseInfo .homes").eq(index).show();
+	        
+	    });
+	    
+	for(var i=0;i<region_array.length;i++){
+	    var newNode = document.createElement("a");
+	    newNode.href=getretionlink(key,price,region,room,type,region_array[i][0],1);
+	    newNode.type='region';
+	    newNode.value = region_array[i][0];
+	    newNode.class="region_"+region_array[i][0];
+	    newNode.innerHTML=region_array[i][1];
+	    $("#region").append(newNode);
+	}
+	for(var i=0;i<price_array.length;i++){
+	    var newNode = document.createElement("a");
+	    newNode.href=getretionlink(key,price,region,room,type,price_array[i][0],2);
+	    newNode.type='price';
+	    newNode.value = price_array[i][0];
+	    newNode.class="price_"+price_array[i][0];
+	    newNode.innerHTML=price_array[i][1];
+	    $("#price").append(newNode);
+	}
+	for(var i=0;i<room_array.length;i++){
+	    var newNode = document.createElement("a");
+	    newNode.href=getretionlink(key,price,region,room,type,room_array[i][0],3);
+	    newNode.type='room';
+	    newNode.value = room_array[i][0];
+	    newNode.class="room_"+room_array[i][0];
+	    newNode.innerHTML=room_array[i][1];
+	    $("#room").append(newNode);
+	}
+	for(var i=0;i<type_array.length;i++){
+	    var newNode = document.createElement("a");
+	    newNode.href=getretionlink(key,price,region,room,type,type_array[i][0],4);
+	    newNode.type='type';
+	    newNode.value = type_array[i][0];
+	    newNode.class="type_"+type_array[i][0];
+	    newNode.innerHTML=type_array[i][1];
+	    $("#type").append(newNode);
+	    
+	}
+	var data = {};
+	iniSearchParam();
+	getPramsFromUrl(data);
+	$.post($.URL.house.houselist,data,searchCallback,"json");
+	
+	$("#factor a").click(function(){
+		$(this).addClass('selected').siblings().removeClass('selected');
+		linkType = $(this).attr("type");
+		if(linkType=='region')
+		{
+			region = $(this).attr("value");
+		}
+		else if(linkType=='type')
+		{
+			type = $(this).attr("value");
+		}
+		else if(linkType=='price')
+		{
+			price = $(this).attr("value");
+		}
+		else if(linkType=='room')
+		{
+			room = $(this).attr("value");
+		}
+		else if(linkType=='period')
+		{
+			period = $(this).attr("value");
+		}
+		var data = {};
+		getPramsFromUrl(data);
+		$.post($.URL.house.houselist,data,searchCallback,"json");
+	
+		return false;
+	});
+	
+	});
+	
+	//回调函数
+	function searchCallback(result)
+	{
+		showTabByIndex(0);
+		
+		if(result.current_count==0){
+			$('#searchResult').html("亲，没有检索到相匹配的房源哦！");
+		}else{
+			$('#searchResult').html("");
+			renderingPage(result,"#searchResult");
+		}
+	}
+	
+function getLeftDays(days){
+	var result ="";
+	if(days>=365){
+		result += parseInt(days/365) + "年";
+		days=days%365;
+	} 
+	if(days>=30){
+		result += parseInt(days/30) + "月";
+		days=days%30;
+	}
+	if(days>=7){
+		result += parseInt(days/7) +"周";
+		days = days%7;
+	}
+	if(days!=0){
+		result += days + "天";
+	}
+	return result;
+}	
+	
+function renderingPage(data,target){
+	if(data.houseList.length==0){
+		$(target).append('<div class="houseInfo clearfix m10">没有找到匹配的房子！</div>');
+	}else {
+		for(var i=0;i<data.houseList.length;i++){
+			var houseInfo = $("<div class='houseInfo clearfix m10'></div>");
+			var houseDetail = $("<div class='g_houseInfo fl'></div>");
+			var houseDetailInfo = $("<div class='right'></div>");
+			var houseImg = $("<a class='housePic fl' href='houseDetail.html?id="+data.houseList[i].houseId+"'><img src='"+(data.houseList[i].photos.length>0?$.getThumbImg(data.houseList[i].photos[0].photoURL):"images/house_bg.png")+"' alt='' width='105' height='75'><span>"+data.houseList[i].photos.length+" 图</span></a>");
+			var houseTitle = $("<p class='top'><a href='houseDetail.html?id="+data.houseList[i].houseId+"'>"+ data.houseList[i].title +"</a></p>");
+			var houseAddress = $("<p class='middle'>"+data.houseList[i].street+data.houseList[i].community+"</p>");
+			var housePrice = $("<p class='bottom'>"+data.houseList[i].price+"元/月</p>");
+			houseDetailInfo.append(houseTitle).append(houseAddress).append(housePrice);
+			houseDetail.append(houseImg).append(houseDetailInfo);
+			var personInfo = $("<div class='g_person fr'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.houseList[i].realName+"</a></strong>");
+			var transferTime = $("<p><em>"+ getLeftDays(data.houseList[i].leftDays) +"</em>后出租</p>");
+			var personBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(typeof(data.houseList[i].circles)!="undefined"  && data.houseList[i].circles!=null)
+				{
+					for(var j=0;j<data.houseList[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.houseList[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.houseList[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(transferTime);
+			personTop.append(personImg).append(personTopRight);
+			personBottom.append(community).append(link);
+			personInfo.append(personTop).append(personBottom);
+			houseInfo.append(houseDetail).append(personInfo);
+			$(target).append(houseInfo);
+		}
+	}
+	
+}
+function getretionlink(key,price,region,room,type,value,category){
+	var link=$.URL.house.houselist;
+	if(category==1){
+		link+="?region="+value;
+		if(key!=""){
+			link+="&key="+key;
+		}
+		if(price!=""){
+			link+="&price="+price;
+		}
+		if(room!=""){
+			link+="&room="+room;
+		}
+		if(type!=""){
+			link+="&type="+type;
+		}
+	}
+	if(category==2){
+		link+="?price="+value;
+		if(key!=""){
+			link+="&key="+key;
+		}
+		if(region!=""){
+			link+="&region="+region;
+		}
+		if(room!=""){
+			link+="&room="+room;
+		}
+		if(type!=""){
+			link+="&type="+type;
+		}
+	}
+	if(category==3){
+		link+="?room="+value;
+		if(key!=""){
+			link+="&key="+key;
+		}
+		
+		if(region!=""){
+			link+="&region="+region;
+		}
+		if(price!=""){
+			link+="&price="+price;
+		}
+		if(type!=""){
+			link+="&type="+type;
+		}
+	}
+	if(category==4){
+		link+="?type="+value;
+		if(key!=""){
+			link+="&key="+key;
+		}
+		
+		if(region!=""){
+			link+="&region="+region;
+		}
+		if(price!=""){
+			link+="&price="+price;
+		}
+		if(room!=""){
+			link+="&room="+room;
+		}
+	}
+	if(category==5){
+		link+="?key="+value;
+		if(type!=""){
+			link+="&type="+type;
+		}
+		
+		if(region!=""){
+			link+="&region="+region;
+		}
+		if(price!=""){
+			link+="&price="+price;
+		}
+		if(room!=""){
+			link+="&room="+room;
+		}
+	}
+	//alert(link);
+	return link;
+}
+
+</script>
+</body>
+</html>

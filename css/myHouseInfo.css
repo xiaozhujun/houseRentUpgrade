@@ -1,0 +1,27 @@
+.g_userInfo{
+    background: #fafafa;
+}
+
+.tbHouseInfo{
+    background: #eee;
+}
+.tbHouseInfo tr{
+    background: #fff;
+}
+.tbHouseInfo .houseInfo{
+    padding-bottom: 0;
+    border:0;
+}
+.tbHouseInfo .house{
+    width:680px;
+}
+.tbHouseInfo .act{
+    width:110px;
+    text-align: center;
+}
+.tbHouseInfo .act a{
+    color:#666;
+}
+.tbHouseInfo thead tr{
+    line-height: 37px;
+}

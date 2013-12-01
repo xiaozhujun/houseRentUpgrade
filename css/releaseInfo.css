@@ -1,0 +1,103 @@
+.releaseMain{
+	width:990px;
+	margin:20px auto;
+}
+.releaseMain h1{
+	background: none repeat scroll 0 0 #eee;
+    color: #333333;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 30px;
+    text-align: center;
+}
+.releaseMain .releaseTable{
+	color:#666;
+	line-height: 30px;
+	font-size: 14px;
+	width:100%;
+}
+.releaseMain .releaseTable th,
+.releaseMain .releaseTable td{
+	line-height: 30px;
+	padding:6px 0;
+	vertical-align: middle;
+}
+.releaseMain .releaseTable th{
+	font-weight: 300;
+	padding-right: 15px;
+	text-align: right;
+	vertical-align: top;
+	width:110px;
+}
+.releaseMain .releaseTable th em{
+	margin-right: 5px;
+
+}
+.releaseMain .releaseTable select{
+	font-size: 14px;
+    height: 26px;
+    padding: 4px 0;
+    vertical-align: middle;
+    border:1px solid #CCC;
+}
+.releaseMain .releaseTable input{
+	color:#666;
+	vertical-align: baseline;
+}
+.releaseMain .releaseTable textarea{
+	border:1px solid #ccc;
+	padding:6px 8px;
+	resize:none;
+}
+.releaseMain .releaseTable .txt{
+	padding:4px 5px;
+	font-size: 14px;
+	border:1px solid #ccc;
+	vertical-align: middle;
+}
+.releaseMain .releaseTable .fabubtn1{
+	background: url(../images/btn.png) no-repeat scroll 0 0 transparent;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font: 22px/32px "微软雅黑",sans-serif;
+    height: 32px;
+    overflow: hidden;
+    text-align: left;
+    width: 160px;
+}
+.releaseMain .releaseTable .fabubtn1 .fabu1{
+	background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font: 18px/32px "微软雅黑",sans-serif;
+    height: 30px;
+    overflow: hidden;
+    text-align: center;
+    width: 160px;
+}
+
+.progress {
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+    padding: 1px;
+    position: relative;
+    width: 400px;
+}
+
+.bar {
+    background-color: #B4F5B4;
+    border-radius: 3px 3px 3px 3px;
+    height: 20px;
+    width: 0;
+}
+
+
+.percent {
+    display: inline-block;
+    left: 48%;
+    position: absolute;
+    top: 0;
+}

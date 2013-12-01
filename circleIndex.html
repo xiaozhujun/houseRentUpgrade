@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圈子主页</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/circleIndex.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
+</head>
+<body>
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+    <div class="w740 fl" id="circleInfo">
+
+        <!-- 圈子介绍 -->
+        <div class="circleBrief mb10">
+            <div class="circleBriefTop m10">
+                <span class="num_t">
+                    <a href="javascript:void(0)">
+                        <img src="images/house_bg.png" alt="" width="42" height="42">
+                    </a>
+                    <strong id="circleName"></strong>
+                </span>
+                <span class="num">
+                	<a href="#">
+	                    <strong>房源：</strong>
+	                    <em id="houseCount"></em>
+                    </a>
+                </span>
+<!--                 <span class="num"> -->
+<!--                     <strong>话题：</strong> -->
+<!--                     <em>12</em> -->
+<!--                 </span> -->
+                <span class="num">
+                	<a id="circleMemberLink" href="circleMember.html">
+	                    <strong>成员：</strong>
+	                    <em id="userCount"></em>
+                    </a>
+                </span>     
+            </div>
+            <div id="circleDescription" class="circleBriefBottom m10">
+            	<div id="circleDescriptionEditor" class="circleBriefBottom m10">还没有圈子描述哦！</div>
+                
+            </div>
+        </div>
+
+        <!-- 房源详情 -->
+        <div id="circleHouseInfo">
+
+        </div>
+
+            
+
+    </div>
+
+
+
+    <div class="w238 fr" >
+        <!-- 加入圈子 -->
+        <div id="circleJoin" class="mb10 ">
+            <div class="join_t m10 clearfix">
+                <a href="" class="img">
+                    <img src="images/topic1.png" alt="" width="24" height="24">
+                </a>
+                <div class="right fl">
+                    <h3><a id="enterBtn" href="#">加入圈子</a></h3>
+                    <h5>第一时间获取本圈信息</h5>
+                </div>
+            </div>
+            <div class="join_b m10">
+                <h3 class="mb15">圈主：</h3>
+                <ul id="masterList" class="at">
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 活跃用户 -->
+        <div id="circleActiveUsers">
+            <div class="m10">
+                <h3 class="topic mb15">圈内事件：</h3>
+                <ul id="communityMessageList" class="g_ac">
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/config.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/community.js"></script>
+<script type="text/javascript" src="/js/urlUtil.js"></script>
+<script type="text/javascript" src="js/hdialog.js"></script>
+<script type="text/javascript">
+var circleName="圈子名称";
+$(function(){
+	circleName = $.getUrlParam("circle");
+	var circleData = {};
+	circleData.circleName = circleName;
+	$("#circleName").html(circleName);
+	$("#circleMemberLink").attr("href","circleMember.html?circle="+circleName);
+	$.get($.URL.house.circleHouseList,circleData,getCircleHouseListCallback,"json");
+	
+	$.post($.URL.community.communityMessages,circleData,communityMessagesCallback,"json");
+	
+	$("#enterBtn").click(function(){
+		var data = {};
+		data.circle = circleName;
+		$.post($.URL.community.enterCommunity,data,enterCommunityCallback,"json");
+	});
+	
+	
+	
+});
+
+function communityMessagesCallback(data){
+	if(data.success){
+		$("#communityMessageList").html("");
+		if(data.list!=null && data.list.length>0){
+			for(var i=0;i<data.list.length;i++){
+				var li = $('<li class="mb10"></li>');
+				li.html(data.list[i].message);
+				$("#communityMessageList").append(li);
+			}
+		}else{
+			var li = $('<li class="mb10"></li>');
+			li.html("圈子还没有最新消息哦！");
+			$("#communityMessageList").append(li);
+		}
+	}else{
+		alert(data.msg);
+	}
+}
+
+function enterCommunityCallback(data){
+	if(data.success){
+		alert("恭喜您，成功加入"+circleName);
+	}else{
+		alert(data.msg);
+	}
+}
+
+function getCircleHouseListCallback(data)
+{
+	var targetContainer = "#circleHouseInfo";
+	renderingPage(data,targetContainer);
+}
+
+function renderingPage(data,target){
+	if(data.houseList.length==0){
+		$(target).html("没有找到匹配的房子！");
+	}else {
+		$(target).html("");
+		$("#houseCount").html(data.count);
+		$("#userCount").html(data.userCount);
+		if(typeof(data.description)!="undefined"  && data.description!=null){
+			$("#circleDescriptionEditor").html(data.description);
+		}
+		else{
+			$("#circleDescriptionEditor").html("还没有圈子描述哦！");
+		}
+		
+		openDescriptionEdit(data.canEdit);
+		
+		renderMaster(data.circleMaster);
+		for(var i=0;i<data.houseList.length;i++){
+			var houseInfo = $("<div class='houseInfo clearfix m10'></div>");
+			var houseDetail = $("<div class='g_houseInfo fl'></div>");
+			var houseDetailInfo = $("<div class='right'></div>");
+			var houseImg = $("<a class='housePic fl' href='houseDetail.html?id="+data.houseList[i].houseId+"'><img src='"+(data.houseList[i].photos.length>0?data.houseList[i].photos[0].photoURL:"images/house_bg.png")+"' alt='' width='105' height='75'><span>"+data.houseList[i].photos.length+" 图</span></a>");
+			var houseTitle = $("<p class='top'><a href='houseDetail.html?id="+data.houseList[i].houseId+"'>"+ data.houseList[i].title +"</a></p>");
+			var houseAddress = $("<p class='middle'>"+data.houseList[i].street+data.houseList[i].community+"</p>");
+			var housePrice = $("<p class='bottom'>"+data.houseList[i].price+"元/月</p>");
+			houseDetailInfo.append(houseTitle).append(houseAddress).append(housePrice);
+			houseDetail.append(houseImg).append(houseDetailInfo);
+			var personInfo = $("<div class='g_person fr'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.houseList[i].realName+"</a></strong>");
+			var transferTime = $("<p><em>"+ getLeftDays(data.houseList[i].leftDays) +"</em>后出租</p>");
+			var personBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(typeof(data.houseList[i].circles)!="undefined")
+				{
+					for(var j=0;j<data.houseList[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.houseList[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.houseList[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(transferTime);
+			personTop.append(personImg).append(personTopRight);
+			personBottom.append(community).append(link);
+			personInfo.append(personTop).append(personBottom);
+			houseInfo.append(houseDetail).append(personInfo);
+			$(target).append(houseInfo);
+		}
+	}
+	
+}
+
+function getLeftDays(days){
+	var result ="";
+	if(days>=365){
+		result += parseInt(days/365) + "年";
+		days=days%365;
+	} 
+	if(days>=30){
+		result += parseInt(days/30) + "月";
+		days=days%30;
+	}
+	if(days>=7){
+		result += parseInt(days/7) +"周";
+		days = days%7;
+	}
+	if(days!=0){
+		result += days + "天";
+	}
+	return result;
+}	
+</script>
+</body>
+</html>

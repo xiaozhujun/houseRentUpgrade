@@ -1,0 +1,97 @@
+#factor{
+    border:1px solid #ddd;
+}
+
+.circleL{
+    border:1px solid #ddd;
+}
+.circleL .top{
+    height:30px;
+    background: #fafafa;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+}
+.circleL .top .sum{
+    margin-left: 5px;
+    line-height: 30px;
+}
+.circleL .top .sum em{
+    color:red;
+}
+.circleL .top .sel input{
+    position: absolute;
+    left: 150px;
+    top: 3px;
+    height:18px;
+    line-height: 18px;
+    width: 150px;
+}
+#communitySearchBtn{
+    position: absolute;
+    left: 308px;
+    top: 3px;
+    height:23px;
+    line-height: 23px;
+    width: 50px;
+    text-align: center;
+    display: inline-block;
+    background: #f2882c;
+    color:#fff;
+}
+
+#communityCreateBtn{
+    position: absolute;
+    left: 368px;
+    top: 3px;
+    height:23px;
+    line-height: 23px;
+    width: 50px;
+    text-align: center;
+    display: inline-block;
+    background: #f2882c;
+    color:#fff;
+}
+
+.circleL .top .sort{
+    position: absolute;
+    left: 560px;
+    top: 6px;
+}
+.circleL .top select{
+    position: absolute;
+    left: 590px;
+    top: 3px;
+    width:143px;
+    height:24px;
+    line-height: 24px;
+} 
+
+
+.circleReco{
+    padding:0 0 5px;
+    background: #eee;
+}
+.circleReco h3{
+    line-height: 30px;
+    padding-left: 20px;
+    font-weight:bold;
+}
+.circleReco ul{
+    padding-left: 10px;
+}
+
+.circleLall h3{
+    line-height: 30px;
+    font-weight:bold;
+    padding-top:10px;
+}
+.circleLall table tr{
+    height: 60px;
+}
+
+
+li.communitLi{
+	cursor: pointer;
+}
+
+

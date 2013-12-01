@@ -46,7 +46,6 @@ class UserMessageModel extends Model{
 			$this->add();
 		}
 		else{
-			echo "false";
 			return false;
 		}
 		return true;

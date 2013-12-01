@@ -1,0 +1,41 @@
+.g_h_img{
+    overflow: hidden;
+    zoom:1;
+}
+.g_h_img li{
+    float: left;
+    width: 100px;
+    position: relative;
+}
+.g_h_img li img {
+    margin-left: 9px;
+}
+.g_h_img li h5 {
+    font: 12px/12px "ËÎÌו";
+    margin-top: 6px;
+    text-align: center;
+}
+.g_h_img li p {
+    font: 12px/12px "ËÎÌו";
+    margin-top: 6px;
+    text-align: center;
+}
+.g_h_img li p em{
+    color:#f00;
+}
+.g_h_img .deleteImg{
+    position:absolute;
+    right:11px;
+    bottom:0px;
+    width:35px;
+    text-align: center;
+    background: #000;
+    opacity: .5;
+    color:#fff;
+    display:none;
+    cursor:pointer;
+}
+
+.g_h_img .deleteImg:hover{
+	display:block;
+}

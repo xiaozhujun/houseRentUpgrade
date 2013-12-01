@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圈子成员</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/circleMember.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
+</head>
+<body>
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+    <div class="w740 fl" id="circleInfo">
+
+        <!-- 圈子介绍 -->
+        <div class="circleBrief mb10">
+            <div class="circleBriefTop m10">
+                <span class="num_t">
+                    <a  href="javascript:void(0)">
+                        <img src="images/house_bg.png" alt="" width="42" height="42">
+                    </a>
+                    <strong id="circleName"></strong>
+                </span>
+                <span class="num">
+                	<a id="circleIndexLink"  href="circleIndex.html">
+	                    <strong>房源：</strong>
+                    	<em id="houseCount"></em>
+                    </a>
+                </span>
+<!--                 <span class="num"> -->
+<!--                     <strong>话题：</strong> -->
+<!--                     <em>12</em> -->
+<!--                 </span> -->
+                <span class="num">
+                    <strong>成员：</strong>
+                    <em id="userCount"></em>
+                </span>     
+            </div>
+            <div id="circleDescription" class="circleBriefBottom m10">
+            	<div id="circleDescriptionEditor" class="circleBriefBottom m10">还没有圈子描述哦！</div>
+			</div>
+        </div>
+
+        <div class="mt10 mb10" id="circleM">
+            <!-- 圈子成员 -->
+            <div class="m10" id="circleMb">
+                <h3 class="title">圈子成员（<em id="memberCount"></em>）</h3>
+                <ul id="circleUserInfo" class="g_cb">
+                    
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="w238 fr" >
+        <!-- 加入圈子 -->
+        <div id="circleJoin" class="mb10 ">
+            <div class="join_t m10 clearfix">
+                <a href="" class="img">
+                    <img src="images/topic1.png" alt="" width="24" height="24">
+                </a>
+                <div class="right fl">
+                    <h3><a id="enterBtn" href="#">加入圈子</a></h3>
+                    <h5>第一时间获取本圈信息</h5>
+                </div>
+            </div>
+            <div class="join_b m10">
+                <h3 class="mb15">圈主：</h3>
+                <ul id="masterList" class="at">
+                   
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/config.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/community.js"></script>
+<script src="/js/urlUtil.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/hdialog.js"></script>
+<script type="text/javascript">
+var circleName;
+$(function(){
+	circleName = $.getUrlParam("circle");
+	$("#circleName").html(circleName);
+	$("#circleIndexLink").attr("href","circleIndex.html?circle="+circleName);
+	
+	var circleData = {};
+	circleData.circleName = circleName;
+	$.post($.URL.community.communityMember,circleData,communityMemberCallback,"json");
+	
+	$("#enterBtn").click(function(){
+		var data = {};
+		data.circle = circleName;
+		$.post($.URL.community.enterCommunity,data,enterCommunityCallback,"json");
+	});
+	
+});
+
+function enterCommunityCallback(data){
+	if(data.success){
+		alert("恭喜您，成功加入"+circleName);
+	}else{
+		alert(data.msg);
+	}
+}
+
+//获得圈子用户信息回调
+function communityMemberCallback(data)
+{
+	var targetContainer = "#circleUserInfo";
+	renderingPage(data,targetContainer);
+}
+
+function renderingPage(data,target){
+	if(data.communityUsers.length==0){
+		$(target).html("圈子还没有成员哦！");
+	}else {
+		$(target).html("");
+		$("#houseCount").html(data.houseCount);
+		$("#userCount").html(data.userCount);
+		if(typeof(data.description)!="undefined"  && data.description!=null){
+			$("#circleDescriptionEditor").html(data.description);
+		}
+		else{
+			$("#circleDescriptionEditor").html("还没有圈子描述哦！");
+		}
+		
+		openDescriptionEdit(data.canEdit);
+		
+		renderMaster(data.circleMaster);
+		
+		renderCircleMemberList(data);
+		/* for(var i=0;i<data.communityUsers.length;i++){
+			var communityUserLi = $('<li></li>');
+			var userImg = $('<img src="images/person_bg.png" alt="" width="42" height="42">');
+			var userName = $('<h5></h5>');
+			userName.html(data.communityUsers[i].userName);
+			communityUserLi.append(userImg).append(userName);
+			$(target).append(communityUserLi);
+		} */
+	}
+	
+}
+
+function renderCircleMemberList(data){
+	$("#circleUserInfo").html("");
+	if(data.communityUsers!=null){
+		$("#memberCount").html(data.communityUsers.length);
+		for(var i=0;i<data.communityUsers.length;i++){
+			var li = $('<li></li>');
+			
+			var personInfo = $("<div class='g_person fl'></div>");
+			var personTop = $("<div class='top'></div>");
+			var personImg = $("<a class='personPic fl' href='#'><img src='images/person_bg.png' alt='' width='42' height='42'></a>");
+			var personTopRight = $("<div class='right'></div>");
+			var personName = $(" <strong><a href='#'>"+data.communityUsers[i].userName+"</a></strong>");
+			var friendAddP = $('<p class="atw"></p>');
+			var friendAddBtn = $('<a href="#" userId='+data.communityUsers[i].userId+' userName='+data.communityUsers[i].userName+' class="memberFriendAddBtn">加为好友</a>');
+			friendAddP.append(friendAddBtn);
+			var interest = $("<p></p>");
+			if(data.communityUsers[i].tags!=null){
+				for(var x=0;x<data.communityUsers[i].tags.length;x++){
+					interest.append(data.communityUsers[i].tags[x].tagName+"&nbsp;");
+				}
+			}
+			var circleBottom = $("<div class='bottom'></div>");
+			var community = $("<span class='fl'>租客圈：</span>");
+			var link =$("<div class='link'></div>");
+			if(data.communityUsers[i].circles!=null)
+				{
+					for(var j=0;j<data.communityUsers[i].circles.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.communityUsers[i].circles[j].name);
+						circleLink.attr("href","circleIndex.html?circle="+URL.encode(data.communityUsers[i].circles[j].name));
+						link.append(circleLink);
+					}
+				}
+			
+			var interestBottom = $("<div class='bottom'></div>");
+			var interestSpan = $("<span class='fl'>兴趣：</span>");
+			var interestLink =$("<div class='link'></div>");
+			if(data.communityUsers[i].tags!=null)
+				{
+					for(var j=0;j<data.communityUsers[i].tags.length;j++)
+					{
+						var circleLink = $("<a href='#'></a>");
+						circleLink.html(data.communityUsers[i].tags[j].tagName);
+						interestLink.append(circleLink);
+					}
+				}
+			
+			personTopRight.append(personName).append(friendAddP);
+			personTop.append(personImg).append(personTopRight);
+			circleBottom.append(community).append(link);
+			interestBottom.append(interestSpan).append(interestLink);
+			personInfo.append(personTop).append(circleBottom).append(interestBottom);
+			
+			li.append(personInfo);
+			$("#circleUserInfo").append(li);
+		}
+		
+		$(".memberFriendAddBtn").click(function(){
+			circleMasterId =$(this).attr("userId");
+			circleMasterName = $(this).attr("userName");
+			showPopAddFriend();
+		});
+	}else{
+		$("#friendListUL").html("这个圈子还没有成员加入哦！");
+	}
+}
+</script>
+</body>
+</html>

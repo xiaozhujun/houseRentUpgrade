@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的圈子</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/myCircle.css">
+</head>
+<body>
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+    
+    <div class="g_userInfo p10">
+        <a class="userPic fl" href="#">
+            <img src="images/person_bg.png" alt="" width="120" height="120">
+        </a>
+        <div class="right">
+            <h5><em id="realNameContainer"></em><a href="userSet.html">编辑个人资料</a></h5>
+            <ul>
+                <li id="interestContainer">
+                    <strong>兴趣爱好:</strong>
+                </li>
+                <li id="educationContainer">
+                    <strong>教育背景:</strong>
+                </li>
+                <li id="jobContainer">
+                    <strong>工作经历:</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt10 mb10">
+        
+        <ul class="g_leftlan fl">
+            <li>
+                <h5>我的房屋信息</h5>
+                <p onclick="window.location='collectHouseInfo.html'">我收藏的房源</p>
+                <p onclick="window.location='publishHouseInfo.html'">我发布的房源</p>
+            </li>
+            <li>
+                <h5>我的关系</h5>
+                <p class="cur" onclick="window.location='myCircle.html'">圈子</p>
+                <p onclick="window.location='myFriend.html'">好友</p>              
+            </li>
+            <li>
+                <h5>系统</h5>
+                <p onclick="window.location='systemInform.html'">通知</p>
+                <p onclick="window.location='userSet.html'">个人设置</p>
+                <p onclick="window.location='changePassword.html'">密码设置</p>
+            </li>
+        </ul>
+
+        <div class="fr w795 ml10 myCircleList">
+            <h3 class="title">我的圈子</h3>
+
+            <ul class="navList mt10">
+                <li id="joinTab" class="cur">
+                    我参加的圈子 <em id="joinCommunityCount"></em>
+                </li>
+                <li id="manageTab">
+                    我管理的圈子 <em id="manageCommunityCount"></em>
+                </li>
+            </ul>
+            
+            <div id="joinCommunityDiv" class="listWrap">  
+            </div>
+            
+            <div id="manageCommunityDiv" class="listWrap">  
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
+<script src="/js/urlUtil.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#manageCommunityDiv").hide();
+	
+	$.get($.URL.user.info,null,userInfoCallback,"json");
+	
+	$.get($.URL.community.userJoinManageCommunity,null,getUserJoinManageCommunityCallback,"json");
+	
+	$("#joinTab").click(function(){
+		$("#joinCommunityDiv").show();
+		$("#joinTab").addClass("cur");
+		$("#manageCommunityDiv").hide();
+		$("#manageTab").removeClass("cur");
+	});
+	
+	$("#manageTab").click(function(){
+		$("#joinCommunityDiv").hide();
+		$("#joinTab").removeClass("cur");
+		$("#manageCommunityDiv").show();
+		$("#manageTab").addClass("cur");
+	});
+});
+
+function userInfoCallback(data){
+	var tags = "";
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			tags+=data.tags[i].tagName + "&nbsp;&nbsp;";
+		}
+	}
+	
+	$("#interestContainer").append(tags);
+	$("#jobContainer").append(data.company)
+	$("#educationContainer").append(data.college);
+	$("#realNameContainer").append(data.info.realName);
+}
+
+function getUserJoinManageCommunityCallback(data){
+	$("#joinCommunityCount").html("("+data.joinCommunityCount+")");
+	$("#manageCommunityCount").html("("+data.manageCommunityCount+")");
+	
+	renderJoinCommunity(data.joinCommunityList);
+	$("#joinCommunityDiv").show();
+	$("#joinTab").addClass("cur");
+	$("#manageCommunityDiv").hide();
+	$("#manageTab").removeClass("cur");
+	renderManageCommunity(data.manageCommunityList);
+}
+
+function renderJoinCommunity(joinCommunityList){
+	$("#joinCommunityDiv").html("");
+	for(var i=0;i<joinCommunityList.length;){
+		var ul = $('<ul class="g_qzi myCircleListUl"></ul>');
+		for(var j=0;j<7;j++){
+			var li =$('<li></li>');
+			var img = $('<a href="circleIndex.html?circle='+joinCommunityList[i].name+'"><img width="80" height="80" src="images/person_bg.png" alt=""></a>');
+			var communityName = $('<h5></h5>');
+			communityName.html(joinCommunityList[i].name);
+			var outAction =$('<a class="out" josinCircle="'+joinCommunityList[i].name+'" href="#">退出</a>');
+			li.append(img).append(communityName).append(outAction);
+			ul.append(li);
+			i++;
+			if(i==joinCommunityList.length){
+				break;
+			}
+		}
+		$("#joinCommunityDiv").append(ul);
+	}
+	
+	$(".out").hide();
+	$("#joinCommunityDiv li").mouseover(function(){
+		$(this.lastChild).show();
+	});
+	$("#joinCommunityDiv li").mouseout(function(){
+		$(this.lastChild).hide();
+	});
+	
+	$(".out").click(function(){
+		var circle = $(this).attr("josinCircle");
+		var data = {};
+		data.circle = circle;
+		$.post($.URL.community.exitCommunity,data,exitCommunityCallback,"json");
+	});
+}
+
+function exitCommunityCallback(data){
+	if(data.success){
+		var selector = "[josinCircle='"+data.circle+"']";
+		$(selector).each(function(i){
+			$(this).parent().remove();
+		});
+		alert("退出圈子成功！");
+	}else{
+		alert("对不起，退出操作失败！");
+	}
+}
+
+function renderManageCommunity(manageCommunityList){
+	$("#manageCommunityDiv").html("");
+	for(var i=0;i<manageCommunityList.length;){
+		var ul = $('<ul class="g_qzi myCircleListUl"></ul>');
+		for(var j=0;j<7;j++){
+			var li =$('<li></li>');
+			var img = $('<a href="circleIndex.html?circle='+manageCommunityList[i].name+'"><img width="80" height="80" src="images/person_bg.png" alt=""></a>');
+			var communityName = $('<h5></h5>');
+			communityName.html(manageCommunityList[i].name);
+// 			var outAction =$('<a class="out" href="#">退出</a>');
+			li.append(img).append(communityName);
+			ul.append(li);
+			i++;
+			if(i==manageCommunityList.length){
+				break;
+			}
+		}
+		$("#manageCommunityDiv").append(ul);
+	}
+}
+
+</script>
+</body>
+</html>

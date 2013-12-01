@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>租客团-房源详情</title>
+	<link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/houseDetail.css">
+    <link rel="stylesheet" type="text/css" href="css/houseInfo.css">
+    <link rel="stylesheet" type="text/css" href="css/popLogin.css">
+    <link rel="stylesheet" type="text/css" href="css/hdialog.css">
+</head>
+<body>
+<div id="topbar" class="topbar"></div>
+
+<div id="headerNoSearch" class="header mb10"></div>
+
+<div class="w990 bc clearfix mb10">
+    <div class="fl w740 mb20" id="houseDetailInfo">
+        <div class="detail">
+            <div class="bigtitle">
+            <h3 id="title">房源标题</h3>
+            </div>
+            <div class="clearfix mb20">
+                <div class="fl w240 gallery">
+                    <div class="bimg_slide">
+                        <span>
+                            <img id="bigSlideImg" src="images/house1.png" alt="" width="607" height=432>
+                        </span>
+                    </div>
+
+                    <div class="simg_slide">
+                        <a class="btn btnl fl" href="javascript:void(0)"></a>
+                        <a class="btn btnr fr" href="javascript:void(0)"></a>
+
+                        <div class="imgcontain picContain">
+                            <ul id="imgList">
+                               
+                            </ul>
+                        </div>
+                            
+                    </div>
+
+                </div>
+                <ul class="fr w450 sumary">
+                    <li>
+                        <div class="su_tit">租金价格：</div>
+                        <div class="su_con">
+                            <span id="price" class="bigpri"></span>
+                            元/月
+                            <span id="rentType" class=""></span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="su_tit">房屋户型：</div>
+                        <div id="roomInfo" class="su_con"></div>
+                    </li>
+                    <li>
+                        <div class="su_tit">地址：</div>
+                        <div id="community" class="su_con"></div>
+                    </li>
+                     <li>
+                        <div class="su_tit">发布时间：</div>
+                        <div id="publishTime" class="su_con"></div>
+                    </li>
+                     <li>
+                        <div class="su_tit">出租时间：</div>
+                        <div id="transferTime" class="su_con"></div>
+                    </li>
+                    <li>
+                        <div class="su_tit">联系人：</div>
+                        <div class="su_con"><span id="contactPerson" class="su_con"></span></div>
+                    </li>
+                    <li>
+                        <div class="su_tit">联系方式：</div>
+                        <div class="su_con"><span id="contactPhone" class="tel"></span></div>
+                    </li>
+                    <li>
+                        <span class="stow">
+                            <a id="collectBtn" href="#">收 藏</a>
+                        </span>
+                    </li>    
+                </ul>
+            </div>
+
+            <div class="house_describ">
+                <div class="top mb10">
+                    <a href="#">房源描述</a>
+                </div>
+                <div class="peizhi">
+                    <strong>房屋配置：</strong>
+                    <span> 衣柜 </span>
+                    <span> 洗衣机 </span>
+                    <span> 空调 </span>
+                    <span> 热水器 </span>
+                    <span> 宽带 </span>
+                    <span> 暖气</span>
+                </div>
+                <div id="houseDetail" class="mb20 mt20 wordbox">
+                    
+                </div>
+            </div>
+        </div>
+        <div class='house_describ mb20' id='allmap'></div>
+			<div id="commentContainer">
+				<div id='comentTitle'>房源评价：</div>
+				<div id='commentList'></div>
+				<div class='comemntInput'>
+					<textarea name="area1" rows="15" id='commentInput'>请输入您的评价！</textarea>
+					<div class='comentRow'>
+						<div class='comemntInput sumary'>
+							<span id="commentBtn" class="stow"><a href="#">评论</a></span>
+						</div>					
+					</div>
+				</div>		
+		</div>
+    </div>
+    <div class="fr w238 mb20 colMenu">
+        <h3 class="m10">租客信息</h3>
+        <div class="g_j m10">   
+            <a class="pic fl" href="#">
+                <img src="images/person_bg.png" alt="" width="80" height="80">
+            </a>
+            <div class="right">
+                <strong><a id="publisher" class="name" href="#"></a></strong>
+                <p id="circles" class="ring">
+                    <a id="company" href="circleIndex.html"></a>
+                    <a id="college" href="circleIndex.html"></a>
+                </p>
+                <a id="addFriendBtn" class="add" href="#">
+                    + 加为好友
+                </a>
+            </div>
+        </div>
+        
+        <div class="borderbar"></div>
+        
+        <div class="clearfix pl10 pr10">
+            <h3 class="fl">房主租客圈</h3>
+            <a class="fr" href="#">换一批</a>
+        </div>
+        <ul id="userCircleList" class="g_r m10">
+        </ul>
+
+        <div class="borderbar"></div>
+
+        <div class="clearfix pl10 pr10">
+            <h3 class="fl">相关房源推荐</h3>
+            <a class="fr" href="#">换一批</a>
+        </div>
+        <ul id="streetHouseList" class="g_rh">
+        </ul>
+    </div>
+</div>
+<!-- <div></div> -->
+<div id="footer" class="footer">尾部</div>
+
+<!--start dialog-->
+<div id="dialog_bg"></div><div id="dialog"></div>
+<!--end dialog-->
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/js/config.js"></script>
+<script type="text/javascript" src="/js/urlUtil.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/houseDetail.js"></script>
+<script type="text/javascript" src="js/nicEdit.js"></script>
+<script src="/js/jquery-dateFormat.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/hdialog.js"></script>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=0414726b722ea5ad257d0b96a3c6117a"></script>
+
+<script type="text/javascript">
+var houseId;
+var houseUserName;
+var houseUserId;
+
+var  popAddFriendStr = 
+	 '<div id="popLogin">' + 
+	    '    <div class="login_main">' + 
+	    '        <div class="content_head">' + 
+	    '            <h1>添加好友</h1>' + 
+	    '        </div>' + 
+	    '        <form action="">' + 
+	    '            <div id="popUserNameDiv" class="popFriendName mb5">' + 
+	    '            </div>' + 
+	    '            <div class="password mb5">' + 
+	    '                <textarea id="friendApplyInput" style="width:100%;" rows=10>请输入您的申请信息！</textarea>' + 
+	    '            </div>' + 
+	    '            <div id="popAddFriendBtn" class="enterbtn mb10">发送申请</div>' + 
+	    '            <div id="popAddFriendMessage" class="error"></div>' + 
+	    '        </form>' + 
+	    '    </div>' + 
+	    '</div> '
+	    ;
+
+function showPopAddFriend()
+{
+	if(!isLogin)
+	{
+		showPopLogin();
+		return false;
+	}
+	
+	 DIALOG.init("dialog");
+	    DIALOG.open({
+	        title:100000,
+	        w:326,
+	        h:345,
+	        fun:function(element){ 
+	            element.html(popAddFriendStr);
+	            $("#popUserNameDiv").html("与"+houseUserName+"成为好友吧！");
+	            iePlaceHolder();
+	        }
+	    });	
+	    
+	    $("#popAddFriendBtn").click(function(){
+	    	var data = {};
+			data.authInfo = $('#friendApplyInput').val();
+			data.toUser = houseUserId;
+			$.post($.URL.friend.applyFriend,data,addFriendCallback,"json");
+	    });
+}
+
+function addFriendCallback(data)
+{
+	if(data.success)
+	{
+		alert("恭喜您，操作成功！");
+		DIALOG.close();
+	}
+	else
+	{
+		$('#popAddFriendMessage').html(data.msg);
+	}
+	
+} 
+
+$(document).ready(function(){
+	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+	houseId = $.getUrlParam("id");
+	$.ajax(
+		      {
+		        type:"GET",
+		        url: $.URL.house.info+"?id="+houseId,
+		        dataType:"json",
+		        success:function(data){
+		        houseinfoCallback(data);
+		        }
+		        ,error:function(){
+		         alert("error");
+		        }
+		      }    );
+	
+	$("#commentBtn").click(function(){
+		if(!isLogin)
+			{
+				showPopLogin();
+				return false;
+			}
+		
+		var nicE = new nicEditors.findEditor('commentInput');
+		var comment = nicE.getContent();
+		
+		if(comment=="请输入您的评价！"||comment=="")
+		{
+			alert("请输入评论内容！");
+			return;
+		}
+	
+		var data = {};
+		data.houseId = houseId;
+		data.comment = comment;
+		
+		$.post($.URL.houseComment.comment,data,commentCallback,'json');
+	});
+	
+	$("#addFriendBtn").click(function(){
+		showPopAddFriend();
+	});
+	
+	$.get($.URL.houseComment.commentList + "?houseId=" + houseId, null,
+			commentListCallback, 'json');
+	
+	$(".friendApply").click(function(){
+		return validateLogin();
+	});
+	
+	$("#collectBtn").click(function(){
+		if(!isLogin)
+		{
+			showPopLogin();
+			return false;
+		}
+		var collectData = {};
+		collectData.houseId = houseId;
+		$.post($.URL.houseCollect.collect,collectData,collectCallback,"json");
+	});
+	
+});
+
+function streetHouseCallback(data){
+	for(var i=0;i<data.houseList.length;i++){
+		var streetHouseLi = $('<li></li>');
+		var streetHouseLink = $('<a class="pic" href=""></a>');
+		var streetHouseImg = $('<img src="images/house_bg.png" width="180" height="120" alt="">');
+		var streetTitleLink = $('<a href="#"></a>');
+		streetTitleLink.html(data.houseList[i].title);
+		streetHouseLink.append(streetHouseImg);
+		streetHouseLi.append(streetHouseLink);
+		streetHouseLi.append(streetTitleLink);
+		$("#streetHouseList").append(streetHouseLi);
+	}
+}
+
+function collectCallback(data){
+	if(data.success){
+		alert("收藏成功！");
+	}
+	else{
+		alert("收藏失败！"+data.msg);
+	}
+}
+
+function houseinfoCallback(data) {
+	
+	$("#title").html(data.houseinfo.title);
+	$("#publishTime").html($.format.date(data.houseinfo.createTime,"yyyy-MM-dd"));
+	$("#transferTime").html($.format.date(data.houseinfo.transferTime,"yyyy-MM-dd"));
+	$("#price").html(data.houseinfo.price);
+	//$("#rentType").html(data.houseinfo.rentType);
+	$("#community").html(data.houseinfo.street+data.houseinfo.community);
+	$("#contactPerson").html(data.houseinfo.contactPerson);
+	$("#contactPhone").html(data.houseinfo.contactPhone);
+	$("#roomInfo").html(data.houseinfo.room+"室"+data.houseinfo.parlor+"厅"+data.houseinfo.washroom+"卫"+"&nbsp;&nbsp;&nbsp;&nbsp;"+data.houseinfo.area+"㎡");
+	$("#houseDetail").html(data.houseinfo.detailDescription);
+	
+	$("#publisher").html(data.houseuser.realName);
+	houseUserName = data.houseuser.realName;
+	houseUserId = data.houseuser.id;
+	
+	var streetData = {};
+	streetData.street = data.houseinfo.street;
+	$.post($.URL.house.streetHouseList,streetData,streetHouseCallback,"json");
+	
+	if(typeof(data.circles)!="undefined")
+	{
+		$("#userCircleList").html("");
+		for(var j=0;j<data.circles.length;j++)
+		{
+			var circleLi = $('<li></li>');
+			var circleImg = $('<a class="pic" href="#"><img src="images/person_bg.png" alt="" width="42" height="42"></a>');
+			var circleNameLink = $('<a class="name" href="#"></a>');
+			var circleNameStrong = $('<strong></strong>');
+			var circleActionLink = $('<a href="circleIndex.html?circle='+data.circles[j].name+'" class="add friendApply" href="#">进入圈子</a>');
+			circleNameLink.html(data.circles[j].name);
+			circleNameStrong.html(circleNameLink);
+			circleLi.append(circleImg).append(circleNameStrong).append(circleActionLink);
+			$("#userCircleList").append(circleLi);
+		}
+	}
+	
+	$("#company").html(data.company);
+	$("#company").attr("href","circleIndex.html?circle="+data.company);
+	$("#college").html(data.college);
+	$("#college").attr("href","circleIndex.html?circle="+data.college);
+	if(data.houseinfo.photos.length>0)
+		{
+			var housePhotos = data.houseinfo.photos;
+			$("#bigSlideImg").attr("src",housePhotos[0].photoURL);
+			var houseImg;
+			var li;
+			$("#imgList").html("");
+			for(var i=0;i<housePhotos.length;i++)
+				{
+					 li = $("<li></li>");
+					 houseImg = $("<img >");
+					 houseImg.attr("src",$.getThumbImg(housePhotos[i].photoURL));
+					 li.append(houseImg);
+					 $("#imgList").append(li);
+				}
+			$("#imgList img").click(function(){
+				alert(1);
+				//alert($.getOrignImg($(this).attr("src")));
+				$("#bigSlideImg").attr("src",$.getOrignImg($(this).attr("src")));
+			});
+		}
+	
+	showHouseLocation(data.houseinfo.street+data.houseinfo.community);
+}
+
+function showHouseLocation(location)
+{
+	
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint(location, function(point){
+		/* myGeo.getPoint(data.houseinfo.street,data.houseinfo.community, function(point){ */
+	  if (point) {
+	    map.centerAndZoom(point, 16);
+	    map.addOverlay(new BMap.Marker(point));
+	  }
+	}, "北京市");
+}
+	
+//评论回调
+function commentCallback(result) {
+	if (result.success) {
+		$("#commentInput").val('请输入您的评价！');
+		$.get($.URL.houseComment.commentList + "?houseId=" + houseId, null,
+				commentListCallback, 'json');
+	} else {
+		alert(result.msg);
+	}
+}
+
+//评论列表回调
+function commentListCallback(result)
+{
+	
+	$("#commentList").html("");
+	$.each(result.commentList,function(index,item){
+		var commentRow = $("<div class='commentRow'></div>");
+		var commentTitle = $("<div class='commentTitle'></div>")
+		var commentUser = $("<div class='commentUser'>"+item.realName+" 评论说：</div>");
+		var commentTime = $("<div class='commetTime'>评论时间："+item.createTime+"</div>")
+		var commentContent = $("<div class='commentContent'>"+item.comment+"</div>");
+		
+		commentTitle.append(commentUser).append(commentTime);
+		commentRow.append(commentTitle).append(commentContent);
+		$("#commentList").append(commentRow);
+	});
+}
+
+</script>
+</body>
+</html>

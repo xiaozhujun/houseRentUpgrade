@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/systemInform.css">
+</head>
+<body>
+    
+<div id="topbar" class="topbar"></div>
+
+<div id="header" class="header"></div>
+
+<div class="bc w990 clearfix mt10 mb10">
+    
+    <div class="g_userInfo p10">
+        <a class="userPic fl" href="#">
+            <img src="images/person_bg.png" alt="" width="120" height="120">
+        </a>
+        <div class="right">
+             <h5><em id="realNameContainer"></em><a href="userSet.html">编辑个人资料</a></h5>
+            <ul>
+                <li id="interestContainer">
+                    <strong>兴趣爱好:</strong>
+                </li>
+                <li id="educationContainer">
+                    <strong>教育背景:</strong>
+                </li>
+                <li id="jobContainer">
+                    <strong>工作经历:</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt10 mb10">
+        
+        <ul class="g_leftlan fl">
+            <li>
+                <h5>我的房屋信息</h5>
+                <p onclick="window.location='collectHouseInfo.html'">我收藏的房源</p>
+                <p onclick="window.location='publishHouseInfo.html'">我发布的房源</p>
+            </li>
+            <li>
+                <h5>我的关系</h5>
+                <p onclick="window.location='myCircle.html'">圈子</p>
+                <p onclick="window.location='myFriend.html'">好友</p>              
+            </li>
+            <li>
+                <h5>系统</h5>
+                <p class="cur" onclick="window.location='systemInform.html'">通知</p>
+                <p onclick="window.location='userSet.html'">个人设置</p>
+                <p onclick="window.location='changePassword.html'">密码设置</p>
+            </li>
+        </ul>
+
+        <div class="fr">
+            <ul id="messageList" class="g_houseAct w780">
+<!--                 <li> -->
+<!--                     <h5>您发布的《XXX房源标题XXX》还有三天即将到期，请尽快处理。</h5> -->
+<!--                     <span>2013/9/8 17:00</span> -->
+<!--                     <a class="g_greenBtn" href="#">点击查看</a> -->
+<!--                 </li> -->
+                
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div id="footer" class="footer">尾部</div>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script src="/js/config.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	$.get($.URL.user.info,null,userInfoCallback,"json");
+	$.get($.URL.message.userMessages,null,userMessageCallback,"json");
+	
+	
+	$("#setPwdBtn").click(function(){
+		var user = {};
+		user.realName = $("#realNameInput").val();
+		user.sex = $("input[name='sex']:checked").val();
+		user.city = $("#citySelect").val();
+		user.company = $("#companyInput").val();
+		user.college = $("#collegeInput").val();
+		user.phone = $("#phoneInput").val();
+		user.description = $("#descriptionInput").val();
+		$.post($.URL.user.update,user,updateCallback,"json");
+	});
+});
+
+function userInfoCallback(data){
+	var tags = "";
+	if(data.tags!=null){
+		for(var i=0;i<data.tags.length;i++){
+			tags+=data.tags[i].tagName + "&nbsp;&nbsp;";
+		}
+	}
+	
+	$("#interestContainer").append(tags);
+	$("#jobContainer").append(data.company)
+	$("#educationContainer").append(data.college);
+	$("#realNameContainer").append(data.info.realName);
+}
+
+function userMessageCallback(data){
+	var messageList = $("#messageList");
+	messageList.html("");
+	if(data.messageCount>0){
+		
+		for(var i=0;i<data.messages.length;i++){
+			var li = $('<li></li>');
+			var message = $('<h5></h5>');
+			var time = $('<span></span>');
+			message.html(data.messages[i].message);
+			time.html(data.messages[i].createTime);
+			li.append(message).append(time);
+			messageList.append(li);
+		}
+	}else{
+		var li = $('<li></li>');
+		var message = $('<h5></h5>');
+		var time = $('<span></span>');
+		message.html("您没有新消息哦！");
+		li.append(message).append(time);
+		messageList.append(li);
+	}
+}
+
+</script>
+</body>
+</html>

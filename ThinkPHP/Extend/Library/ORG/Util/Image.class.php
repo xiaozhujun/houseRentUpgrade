@@ -550,7 +550,8 @@ class Image {
     }
 
     static function output($im, $type='png', $filename='') {
-        header("Content-type: image/" . $type);
+    	ob_end_clean();
+        header("Content-type: image/".$type);
         $ImageFun = 'image' . $type;
         if (empty($filename)) {
             $ImageFun($im);

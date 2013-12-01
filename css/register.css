@@ -1,177 +1,99 @@
-@CHARSET "utf-8";
-#loginIndexContainer
-{
-	width:100%;
-	float:left;
-	border:solid 1px #ccc;
+#register{
+	border:1px solid #ddd;
+	width: 990px;
+	margin:20px auto;
 }
-
-#registerMainBodyDiv
-{
-	width:100%;
-	float:left;
-	margin-bottom:20px;
+#register .login_main{
+	float: left;
+	padding: 0 0 60px 50px;
+    width: 286px;
 }
-	
-
-.mainTopDiv
-{
-	width:100%;
-	float:left;
-	
-	margin-top:20px;
-}
-
-.valueDiv
-{
-	width:60%;
-	float:left;
+#register .login_main .content_head{
 	color: #333333;
-    font-family: Arial;
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
-    text-decoration: none;
+    overflow: hidden;
+    padding: 30px 0;
+}
+#register .login_main .content_head h1{
+	font: 32px/32px '微软雅黑';
+}
+#register .in_sty input{
+	border: 0 none;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 3px 3px #E3E3E3 inset;
+    font: 14px/35px "新宋体";
+    height: 35px;
+    padding: 0 6px;
+    width: 270px;
+    border:1px solid #E3E3E3;
+}
+#register .check input{
+    width:100px;
+}
+#register .iskeep{
+	color: #333333;
+    font: 12px/18px "新宋体";
+    height: 19px;
+}
+#register .iskeep input{
+    float: left;
+}
+#register .registerbtn{
+    border-radius: 5px;
+    background: #25A774;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    height: 34px;
+    line-height: 30px;
+    text-align: center;
+    width: 282px;
+}
+#register .outfun{
+	font: 12px/18px "新宋体";
+}
+#register .outfun .doubt{
+	color:#999;
+}
+#register .outfun .apply{
+	color:#2685E8;
+}
+#register .outfun .forget{
+	color:#666;
+	float: right;
+}
+#register .error{
+	color:red;
 }
 
-.valueLeftDiv
-{
-	width:50%;
-	float:left;
-	
-	font-size:18px;
-	font-weight:bold;
-	padding-left:20px;
+
+
+#register .register_sidebar{
+	float: right;
+    width: 450px;
+    margin-top: 100px;
+}
+#register .loginbtn{
+    border-radius: 5px;
+    background: #25A774;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 14px;
+    height: 34px;
+    line-height: 30px;
+    text-align: center;
+    width: 102px;
 }
 
-.valueRightDiv
-{
-	width:280px;
-	
-	float:right;
-	border-style:solid;
-	border-color:#ccc;
-	border-width:1px;
-	margin-right:20px;
-	
-	font-size:18px;
-	padding-left:20px;
-	padding-bottom:20px;
-}
-
-.valueTitleDiv
-{
+#register .sex{
+	float: left;
 	width:100%;
-	float:left;
 }
 
-.valueRowDiv
-{
-	width:100%;
-	float:left;
-	
-	margin-top:15px;
-	padding-left:20px;
-}
-
-.achievementRowDiv
-{
-	width:100%;
-	float:left;
-	margin-top:25px;
-}
-
-.registerDiv
-{
-	float:left;
-	width:400px;
-	
-	color: #000000;
-    font-family: 'Arial';
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
-    text-align: left;
-    text-decoration: none;
-	
-	border:solid 1px #ccc;
-	padding:30px;
-	
-}
-
-.registerTitle
-{
-	width:100%;
-	float:left;
-	
-	font-size:18px;
-}
-
-.registerRow
-{
-	width:100%;
-	float:left;
-	margin-top:5px;
-}
-
-.registerInput
-{
-	width:330px;
-	height:25px;
-	
-    font-family: 'Arial';
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
-    text-align: left;
-    text-decoration: none;
-}
-
-#regitserBtn
-{
-	width:330px;
-	padding-top:10px;
-	padding-bottom:10px;
-	color: #000000;
-    font-family: 'Arial';
-    font-size: 15px;
-	text-align:center;
-	border:solid 1px #999;
-	cursor:pointer;
-	
-	border-radius:5px;
-	-webkit-border-radius: 5px;
-    -moz-border-radius:5px;
-}
-
-#regitserBtn:HOVER
-{
-	background-color:#ccc;
-}
-
-#verifyInput
-{
-	width:100px;
-	height:25px;
-	float:left;
-	
-    font-family: 'Arial';
-    font-size: 13px;
-    font-style: normal;
-    font-weight: normal;
-    text-align: left;
-    text-decoration: none;
+#register .sex .sexInput{
+	width:50px;
 }
 
 #verify
 {
-	height:30px;
-	float:left; 	
-	margin-left:5px;
-	cursor:pointer;
-}
-
-#msgDiv
-{
-	color:red;
+	height:35px;
 }
