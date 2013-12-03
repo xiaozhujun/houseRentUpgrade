@@ -380,8 +380,6 @@ function houseinfoCallback(data) {
 					 $("#imgList").append(li);
 				}
 			$("#imgList img").click(function(){
-				alert(1);
-				//alert($.getOrignImg($(this).attr("src")));
 				$("#bigSlideImg").attr("src",$.getOrignImg($(this).attr("src")));
 			});
 		}

@@ -96,7 +96,7 @@ class HouseAction extends Action {
 		if($houseInfo->create ())
 		{
 			$houseInfo->userId=$userId;
-			$houseInfo->createTime=intNow();
+			$houseInfo->createTime=date("Y-m-d H:i:s");
 			$houseInfo->viewCount=0;
 			
 			$houseId = $houseInfo->add();

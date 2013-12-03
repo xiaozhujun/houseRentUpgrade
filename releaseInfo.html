@@ -289,7 +289,7 @@ $(document).ready(function(){
 				data.detailDescription = $('#detail_description').val();
 				data.city = $("#citySelect").val();
 				data.district = $("#districtSelect").val();
-				$.post($.URL.house.publishhouse,data,callback,"json");
+				$.post($.URL.house.publishhouse,data,publishHouseCallback,"json");
 			}
 
 		});
@@ -328,16 +328,15 @@ function cityChangeCallback(data){
 	}
 }
 
-function callback(result){
-	if(result.code==0){
+function publishHouseCallback(data){
+	if(data.success){
 		alert("房源发布成功！");
-	}else if(result.code==-1){
-		alert("请先登陆！");
-		location="/login.html";
+		location="houseDetail.html?id="+data.houseId;
 	}else{
-		alert("房源发布失败！");
+		alert("对不起，操作失败！");
 	}
 }
+
 function checkdigital(param){
 if(/\d/.test(param.value)){
 	return;
