@@ -47,6 +47,31 @@ function currentUserCompany()
 	return null;
 }
 
+//添加图片编号到session
+function addPhotos($photoId)
+{
+	$key = "photos";
+	$photos = sessionGet($key);
+	if(is_null($photos))
+	{
+		$photos = "".$photoId;
+	}
+	else
+	{
+		$photos = $photos.",".$photoId;
+	}
+	sessionPut($key, $photos);
+}
+
+//获得session中的图片列表
+function getPhotos()
+{
+	$key = "photos";
+	$photos = sessionGet($key);
+	deleteSessionKey($key);
+	return $photos;
+}
+
 function currentUserCollege()
 {
 	if(!isLogin())

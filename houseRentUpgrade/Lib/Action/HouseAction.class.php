@@ -85,9 +85,9 @@ class HouseAction extends Action {
 	 */
 	function publishHouseAction(){
 		$data = array();
+		$data["success"] = false;
 		if(!isLogin())
 		{
-			$data['code']=-1;
 			$data['msg']="请您先登录!";
 			$this->ajaxReturn($data);
 		}
@@ -107,16 +107,14 @@ class HouseAction extends Action {
 			
 			
 			if($houseId){
-				$data['code']=0;
-				$data['msg']="";
+				$data['success']=true;
+				$data['houseId']=$houseId;
 			}else{
-				$data['code']=1;
-				$data['msg']="publish fail!";
+				$data['msg']="发布失败!";
 			}	
 		}
 		else
 		{
-			$data['code']=1;
 			$data['msg']=$user->getError();
 		}
 		
@@ -164,7 +162,8 @@ class HouseAction extends Action {
 			$data['success']=false;
 			$data['msg']="对不起，操作失败!";
 		}
-	
+		//删除session中可能缓存的图片信息
+		getPhotos();
 		$this->ajaxReturn($data);
 	
 	}
@@ -544,6 +543,7 @@ class HouseAction extends Action {
 					$housePhotoData["photoURL"] = $filename;
 					$housePhotoData["houseId"] = $_POST["houseId"];
 					$photoId = $housePhoto->add($housePhotoData);
+					addPhotos($photoId);
 	            }
 			}
 			$data["success"] =true;

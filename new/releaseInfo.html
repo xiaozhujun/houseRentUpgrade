@@ -289,7 +289,7 @@ $(document).ready(function(){
 				data.detailDescription = $('#detail_description').val();
 				data.city = $("#citySelect").val();
 				data.district = $("#districtSelect").val();
-				$.post($.URL.house.publishhouse,data,callback,"json");
+				$.post($.URL.house.publishhouse,data,publishHouseCallback,"json");
 			}
 
 		});
@@ -328,66 +328,67 @@ function cityChangeCallback(data){
 	}
 }
 
-function callback(result){
-	if(result.code==0){
+function publishHouseCallback(result){
+	if(result.success){
 		alert("房源发布成功！");
+		location="houseDetail.html?id="+data.houseId;
 	}else if(result.code==-1){
 		alert("请先登陆！");
 		location="/login.html";
 	}else{
-		alert("房源发布失败！");
+		alert("对不起，操作失败！");
 	}
 }
 function checkdigital(param){
-if(/\d/.test(param.value)){
-	return;
-}else{
-	alert("请输入数字！");
-	param.value='';
-}
+	if(/\d/.test(param.value)){
+		return;
+	}else{
+		alert("请输入数字！");
+		param.value='';
+	}
 }
 function checkform(){
-if($('#title').val()==""){
-	alert("请输入标题！");
-	$("#title").focus();
-	return false;
-}
-if($('#room').val()==""&&$('#parlor').val()==""&&$('#washroom').val()==""){
-	alert("请正确输入房屋类型！");
-	$('#room').focus();
-	return false;
-}
-if($('#price').val==""){
-	alert("请输入价格！");
-	$('#price').focus();
-	return false;
-}
-if($('#area').val==""){
-	alert("请输入房屋面积！");
-	$('#area').focus();
-	return false;
-}
-if($('#address_info').val==""){
-	alert("请输入详细地址！");
-	$('#address_info').focus();
-	return false;
-}
-if($('#contact_person').val==""){
-	alert("请输入联系人！");
-	$('#contact_person').focus();
-	return false;
-}
-if($('#contact_phone').val==""){
-	alert("请输入联系人电话！");
-	$('#contact_phone').focus();
-	return false;
-}
-if($('#contact_email').val==""){
-	alert("请输入联系人邮箱！");
-	$('#contact_email').focus();
-	return false;
-}
-return true;
+	if($('#title').val()==""){
+		alert("请输入标题！");
+		$("#title").focus();
+		return false;
+	}
+	if($('#room').val()==""&&$('#parlor').val()==""&&$('#washroom').val()==""){
+		alert("请正确输入房屋类型！");
+		$('#room').focus();
+		return false;
+	}
+	if($('#price').val==""){
+		alert("请输入价格！");
+		$('#price').focus();
+		return false;
+	}
+	if($('#area').val==""){
+		alert("请输入房屋面积！");
+		$('#area').focus();
+		return false;
+	}
+	if($('#address_info').val==""){
+		alert("请输入详细地址！");
+		$('#address_info').focus();
+		return false;
+	}
+	if($('#contact_person').val==""){
+		alert("请输入联系人！");
+		$('#contact_person').focus();
+		return false;
+	}
+	if($('#contact_phone').val==""){
+		alert("请输入联系人电话！");
+		$('#contact_phone').focus();
+		return false;
+	}
+	if($('#contact_email').val==""){
+		alert("请输入联系人邮箱！");
+		$('#contact_email').focus();
+		return false;
+	}
+	return true;
 }
 </script>
 </body>
