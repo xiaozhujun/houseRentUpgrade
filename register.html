@@ -72,7 +72,7 @@
 	});
 	
 	function reloadVerifyCode(){  
-        document.getElementById("verify").src=$.URL.user.verify +'/' +Math.random();  
+        document.getElementById("verify").src=$.URL.user.verify +'?random=' +Math.random();  
 	}
 	
 	//注册回调函数
